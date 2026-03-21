@@ -7,32 +7,76 @@
       "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.authservice\\dtos\\authresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\dtos\\authresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.authservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.authservice\\services\\jwtservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\services\\jwtservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.authservice\\contracts\\events\\userregisteredevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\contracts\\events\\userregisteredevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.authservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.authservice\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\controllers\\hotelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\controllers\\hotelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.authservice\\data\\authdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\data\\authdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.authservice\\services\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\services\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\services\\hotelservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\services\\hotelservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.authservice\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\services\\interfaces\\ihotelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\services\\interfaces\\ihotelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\services\\hotelqueryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\services\\hotelqueryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\data\\hoteldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\data\\hoteldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\models\\hotel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\models\\hotel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\models\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\models\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\exceptions\\hotelnotfoundexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\exceptions\\hotelnotfoundexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\exceptions\\roomnotfoundexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\exceptions\\roomnotfoundexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\dtos\\createroomdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\dtos\\createroomdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\dtos\\createhoteldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\dtos\\createhoteldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\services\\interfaces\\ihotelqueryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\services\\interfaces\\ihotelqueryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\dtos\\hotelresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\dtos\\hotelresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.hotelservice\\dtos\\hotelqueryparams.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE6AE61C-B297-4019-8EDC-E5A38C6DE05D}|Hospitium.HotelService\\Hospitium.HotelService.csproj|solutionrelative:hospitium.hotelservice\\dtos\\hotelqueryparams.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,32 +86,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "JwtService.cs",
-              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Services\\JwtService.cs",
-              "RelativeDocumentMoniker": "Hospitium.AuthService\\Services\\JwtService.cs",
-              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Services\\JwtService.cs",
-              "RelativeToolTip": "Hospitium.AuthService\\Services\\JwtService.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAYwDIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T10:45:50.1Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "IAuthService.cs",
-              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Services\\IAuthService.cs",
-              "RelativeDocumentMoniker": "Hospitium.AuthService\\Services\\IAuthService.cs",
-              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Services\\IAuthService.cs",
-              "RelativeToolTip": "Hospitium.AuthService\\Services\\IAuthService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T10:45:46.913Z"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -76,70 +96,234 @@
               "RelativeDocumentMoniker": "Hospitium.AuthService\\Services\\AuthService.cs",
               "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Services\\AuthService.cs",
               "RelativeToolTip": "Hospitium.AuthService\\Services\\AuthService.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAQwCUAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAkwBYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T10:45:39.512Z",
+              "WhenOpened": "2026-03-21T22:05:50.469Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\appsettings.json",
+              "RelativeDocumentMoniker": "Hospitium.AuthService\\appsettings.json",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\appsettings.json",
+              "RelativeToolTip": "Hospitium.AuthService\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-21T22:05:32.935Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Program.cs",
+              "RelativeDocumentMoniker": "Hospitium.AuthService\\Program.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Program.cs",
+              "RelativeToolTip": "Hospitium.AuthService\\Program.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAAAgAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T21:46:26.515Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\appsettings.json",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\appsettings.json",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\appsettings.json",
+              "RelativeToolTip": "Hospitium.HotelService\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-21T21:46:02.042Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "User.cs",
-              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Hospitium.AuthService\\Models\\User.cs",
-              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Models\\User.cs",
-              "RelativeToolTip": "Hospitium.AuthService\\Models\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAyAAAAAAAAAA==",
+              "Title": "HotelController.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Controllers\\HotelController.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\Controllers\\HotelController.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Controllers\\HotelController.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\Controllers\\HotelController.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAYwCwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T10:45:28.451Z"
+              "WhenOpened": "2026-03-21T20:39:41.046Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AuthResponseDto.cs",
-              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\DTOs\\AuthResponseDto.cs",
-              "RelativeDocumentMoniker": "Hospitium.AuthService\\DTOs\\AuthResponseDto.cs",
-              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\DTOs\\AuthResponseDto.cs",
-              "RelativeToolTip": "Hospitium.AuthService\\DTOs\\AuthResponseDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "HotelServices.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Services\\HotelServices.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\Services\\HotelServices.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Services\\HotelServices.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\Services\\HotelServices.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAuwD0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T10:45:18.815Z"
+              "WhenOpened": "2026-03-21T20:38:09.944Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AuthDbContext.cs",
-              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Data\\AuthDbContext.cs",
-              "RelativeDocumentMoniker": "Hospitium.AuthService\\Data\\AuthDbContext.cs",
-              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Data\\AuthDbContext.cs",
-              "RelativeToolTip": "Hospitium.AuthService\\Data\\AuthDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "HotelQueryService.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Services\\HotelQueryService.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\Services\\HotelQueryService.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Services\\HotelQueryService.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\Services\\HotelQueryService.cs",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAgwAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T10:45:11.828Z"
+              "WhenOpened": "2026-03-21T20:30:21.744Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Program.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\Program.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Program.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\Program.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAAAD4AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T20:22:51.039Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "RoomNotFoundException.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Exceptions\\RoomNotFoundException.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\Exceptions\\RoomNotFoundException.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Exceptions\\RoomNotFoundException.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\Exceptions\\RoomNotFoundException.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T20:21:39.139Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "HotelNotFoundException.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Exceptions\\HotelNotFoundException.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\Exceptions\\HotelNotFoundException.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Exceptions\\HotelNotFoundException.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\Exceptions\\HotelNotFoundException.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T20:21:23.101Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "HotelDbContext.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Data\\HotelDbContext.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\Data\\HotelDbContext.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Data\\HotelDbContext.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\Data\\HotelDbContext.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAzwAsAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T20:18:45.017Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "CreateRoomDto.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\DTOs\\CreateRoomDto.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\DTOs\\CreateRoomDto.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\DTOs\\CreateRoomDto.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\DTOs\\CreateRoomDto.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAwBUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T20:17:06.649Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "CreateHotelDto.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\DTOs\\CreateHotelDto.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\DTOs\\CreateHotelDto.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\DTOs\\CreateHotelDto.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\DTOs\\CreateHotelDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T20:16:35.454Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "IHotelQueryService.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Services\\Interfaces\\IHotelQueryService.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\Services\\Interfaces\\IHotelQueryService.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Services\\Interfaces\\IHotelQueryService.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\Services\\Interfaces\\IHotelQueryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T20:16:06.719Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "Hospitium.AuthService\\Controllers\\AuthController.cs",
-              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "Hospitium.AuthService\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "IHotelService.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Services\\Interfaces\\IHotelService.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\Services\\Interfaces\\IHotelService.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Services\\Interfaces\\IHotelService.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\Services\\Interfaces\\IHotelService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T10:45:02.437Z"
+              "WhenOpened": "2026-03-21T20:15:34.126Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "UserRegisteredEvent.cs",
-              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Contracts\\Events\\UserRegisteredEvent.cs",
-              "RelativeDocumentMoniker": "Hospitium.AuthService\\Contracts\\Events\\UserRegisteredEvent.cs",
-              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Contracts\\Events\\UserRegisteredEvent.cs",
-              "RelativeToolTip": "Hospitium.AuthService\\Contracts\\Events\\UserRegisteredEvent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 17,
+              "Title": "HotelResponseDto.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\DTOs\\HotelResponseDto.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\DTOs\\HotelResponseDto.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\DTOs\\HotelResponseDto.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\DTOs\\HotelResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T10:44:44.608Z"
+              "WhenOpened": "2026-03-21T20:13:48.074Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "HotelQueryParams.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\DTOs\\HotelQueryParams.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\DTOs\\HotelQueryParams.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\DTOs\\HotelQueryParams.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\DTOs\\HotelQueryParams.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAxwAkAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T20:12:14.568Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Room.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Models\\Room.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\Models\\Room.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Models\\Room.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\Models\\Room.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T20:10:47.866Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Hotel.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Models\\Hotel.cs",
+              "RelativeDocumentMoniker": "Hospitium.HotelService\\Models\\Hotel.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Models\\Hotel.cs",
+              "RelativeToolTip": "Hospitium.HotelService\\Models\\Hotel.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAADwvwYAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T20:10:24.848Z"
             }
           ]
         }

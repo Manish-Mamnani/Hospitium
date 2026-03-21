@@ -2,6 +2,7 @@ using System.Text;
 using Hospitium.AuthService.Data;
 using Hospitium.AuthService.Middleware;
 using Hospitium.AuthService.Services;
+using Hospitium.AuthService.Services.Interfaces;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -75,27 +76,21 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddMassTransit(x =>
-{
-    x.UsingRabbitMq((context, cfg) =>
-    {
-        cfg.Host(builder.Configuration["RabbitMQ:Host"], host =>
-        {
-            host.Username(builder.Configuration["RabbitMQ:Username"]!);
-            host.Password(builder.Configuration["RabbitMQ:Password"]!);
-        });
+//builder.Services.AddMassTransit(x =>
+//{
+//    x.UsingRabbitMq((context, cfg) =>
+//    {
+//        cfg.Host(builder.Configuration["RabbitMQ:Host"], host =>
+//        {
+//            host.Username(builder.Configuration["RabbitMQ:Username"]!);
+//            host.Password(builder.Configuration["RabbitMQ:Password"]!);
+//        });
 
-        cfg.ConfigureEndpoints(context);
-    });
-});
+//        cfg.ConfigureEndpoints(context);
+//    });
+//});
 
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-    dbContext.Database.EnsureCreated();
-}
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

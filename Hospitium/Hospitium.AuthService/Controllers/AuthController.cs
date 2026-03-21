@@ -1,5 +1,5 @@
 using Hospitium.AuthService.DTOs;
-using Hospitium.AuthService.Services;
+using Hospitium.AuthService.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hospitium.AuthService.Controllers

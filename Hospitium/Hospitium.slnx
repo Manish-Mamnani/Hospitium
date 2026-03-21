@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="Hospitium.AuthService/Hospitium.AuthService.csproj" />
+  <Project Path="Hospitium.HotelService/Hospitium.HotelService.csproj" Id="ee6ae61c-b297-4019-8edc-e5a38c6de05d" />
 </Solution>

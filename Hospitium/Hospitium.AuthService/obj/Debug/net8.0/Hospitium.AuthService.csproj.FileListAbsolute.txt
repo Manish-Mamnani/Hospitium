@@ -143,3 +143,5 @@ D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.AuthService\obj\Debug\net8
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.AuthService\obj\Debug\net8.0\Hospitium.AuthService.pdb
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.AuthService\obj\Debug\net8.0\Hospitium.AuthService.genruntimeconfig.cache
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.AuthService\obj\Debug\net8.0\ref\Hospitium.AuthService.dll
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.AuthService\obj\Debug\net8.0\Hospitium.AuthService.sourcelink.json
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.AuthService\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

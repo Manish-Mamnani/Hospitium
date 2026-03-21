@@ -3,6 +3,7 @@ using Hospitium.AuthService.Data;
 using Hospitium.AuthService.DTOs;
 using Hospitium.AuthService.Exceptions;
 using Hospitium.AuthService.Models;
+using Hospitium.AuthService.Services.Interfaces;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,13 +13,13 @@ namespace Hospitium.AuthService.Services
     {
         private readonly AuthDbContext _context;
         private readonly JwtService _jwtService;
-        private readonly IPublishEndpoint _publishEndpoint;
+        //private readonly IPublishEndpoint _publishEndpoint;
 
-        public AuthService(AuthDbContext context, JwtService jwtService, IPublishEndpoint publishEndpoint)
+        public AuthService(AuthDbContext context, JwtService jwtService)
         {
             _context = context;
             _jwtService = jwtService;
-            _publishEndpoint = publishEndpoint;
+            //_publishEndpoint = publishEndpoint;
         }
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
@@ -42,12 +43,12 @@ namespace Hospitium.AuthService.Services
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            await _publishEndpoint.Publish(new UserRegisteredEvent
-            {
-                UserId = user.UserId,
-                Name = user.FullName,
-                Email = user.Email
-            });
+            //await _publishEndpoint.Publish(new UserRegisteredEvent
+            //{
+            //    UserId = user.UserId,
+            //    Name = user.FullName,
+            //    Email = user.Email
+            //});
 
             return CreateAuthResponse(user, "User registered successfully");
         }
