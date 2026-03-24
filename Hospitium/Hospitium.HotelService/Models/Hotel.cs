@@ -17,6 +17,10 @@ namespace Hospitium.HotelService.Models
 
         public int TotalReviews { get; set; }
 
+        public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
+
+        public int CreatedByUserId { get; set; }
+
         public List<Room> Rooms { get; set; } = new();
     }
 }

@@ -76,20 +76,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-//builder.Services.AddMassTransit(x =>
-//{
-//    x.UsingRabbitMq((context, cfg) =>
-//    {
-//        cfg.Host(builder.Configuration["RabbitMQ:Host"], host =>
-//        {
-//            host.Username(builder.Configuration["RabbitMQ:Username"]!);
-//            host.Password(builder.Configuration["RabbitMQ:Password"]!);
-//        });
-
-//        cfg.ConfigureEndpoints(context);
-//    });
-//});
-
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();

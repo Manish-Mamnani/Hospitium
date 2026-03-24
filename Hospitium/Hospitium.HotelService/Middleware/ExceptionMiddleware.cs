@@ -31,6 +31,8 @@ namespace Hospitium.HotelService.Middleware
             {
                 HotelNotFoundException => HttpStatusCode.NotFound,
                 RoomNotFoundException => HttpStatusCode.NotFound,
+                InvalidHotelOperationException => HttpStatusCode.BadRequest,
+                InvalidRatingException => HttpStatusCode.BadRequest,
                 _ => HttpStatusCode.InternalServerError
             };
 

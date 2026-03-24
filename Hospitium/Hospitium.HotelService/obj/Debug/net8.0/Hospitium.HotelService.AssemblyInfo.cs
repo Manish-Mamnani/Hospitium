@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hospitium.HotelService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+62c3dcf0d6048b2f62148fbe10eb49b1181ea4eb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c81f65e5ed408eb985c5fe23278a885d5182e49")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hospitium.HotelService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hospitium.HotelService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

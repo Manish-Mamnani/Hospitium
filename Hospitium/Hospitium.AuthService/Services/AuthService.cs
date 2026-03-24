@@ -13,13 +13,11 @@ namespace Hospitium.AuthService.Services
     {
         private readonly AuthDbContext _context;
         private readonly JwtService _jwtService;
-        //private readonly IPublishEndpoint _publishEndpoint;
 
         public AuthService(AuthDbContext context, JwtService jwtService)
         {
             _context = context;
             _jwtService = jwtService;
-            //_publishEndpoint = publishEndpoint;
         }
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
@@ -42,13 +40,6 @@ namespace Hospitium.AuthService.Services
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-
-            //await _publishEndpoint.Publish(new UserRegisteredEvent
-            //{
-            //    UserId = user.UserId,
-            //    Name = user.FullName,
-            //    Email = user.Email
-            //});
 
             return CreateAuthResponse(user, "User registered successfully");
         }

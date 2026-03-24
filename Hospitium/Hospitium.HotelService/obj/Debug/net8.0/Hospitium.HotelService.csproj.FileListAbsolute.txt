@@ -133,10 +133,13 @@ D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\obj\Debug\net
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\obj\Debug\net8.0\staticwebassets.development.json
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\obj\Debug\net8.0\swae.build.ex.cache
-D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\obj\Debug\net8.0\Hospitiu.85D14DBA.Up2Date
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\obj\Debug\net8.0\Hospitium.HotelService.dll
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\obj\Debug\net8.0\refint\Hospitium.HotelService.dll
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\obj\Debug\net8.0\Hospitium.HotelService.pdb
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\obj\Debug\net8.0\Hospitium.HotelService.genruntimeconfig.cache
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\obj\Debug\net8.0\ref\Hospitium.HotelService.dll
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\MassTransit.dll
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\MassTransit.Abstractions.dll
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\MassTransit.RabbitMqTransport.dll
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\RabbitMQ.Client.dll

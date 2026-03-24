@@ -1,0 +1,6 @@
+@Hospitium.Gateway_HostAddress = http://localhost:5130
+
+GET {{Hospitium.Gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

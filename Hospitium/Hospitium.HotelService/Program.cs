@@ -2,7 +2,9 @@
 using Hospitium.HotelService.Data;
 using Hospitium.HotelService.Middleware;
 using Hospitium.HotelService.Services;
+using Hospitium.HotelService.Consumers;
 using Hospitium.HotelService.Services.Interfaces;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -20,11 +22,33 @@ namespace Hospitium.HotelService
 
             builder.Services.AddControllers();
 
+            builder.Services.AddMassTransit(x =>
+            {
+                x.AddConsumer<BookingCreatedConsumer>();
+                x.AddConsumer<BookingCancelledConsumer>();
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host("localhost", "/", h => { });
+
+                    // 🔥 EXPLICIT QUEUE (IMPORTANT FIX)
+                    cfg.ReceiveEndpoint("booking-created-queue", e =>
+                    {
+                        e.ConfigureConsumer<BookingCreatedConsumer>(context);
+                    });
+
+                    cfg.ReceiveEndpoint("booking-cancelled-queue", e =>
+                    {
+                        e.ConfigureConsumer<BookingCancelledConsumer>(context);
+                    });
+                });
+            });
+
             builder.Services.AddDbContext<HotelDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<IHotelQueryService, HotelQueryService>();
-            builder.Services.AddScoped<IHotelService, HotelServices>();
+            builder.Services.AddScoped<IHotelService, Services.HotelService>();
 
 
             builder.Services.AddAuthentication(options =>

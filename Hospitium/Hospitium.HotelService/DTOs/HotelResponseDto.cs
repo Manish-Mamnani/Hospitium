@@ -10,6 +10,8 @@
 
         public double Rating { get; set; }
 
+        public string Status { get; set; } = string.Empty;
+
         public decimal MinPrice { get; set; }
     }
 }

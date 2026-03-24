@@ -20,6 +20,9 @@ namespace Hospitium.HotelService.Services
                 .Include(h => h.Rooms)
                 .AsQueryable();
 
+            //Only approved hotels
+            query = query.Where(h => h.Status == "Approved");
+
             // Search
             if (!string.IsNullOrWhiteSpace(queryParams.Search))
             {
@@ -66,6 +69,7 @@ namespace Hospitium.HotelService.Services
                 HotelId = h.HotelId,
                 Name = h.Name,
                 City = h.City,
+                Status = h.Status,
                 Rating = h.AverageRating,
                 MinPrice = h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : 0
             }).ToListAsync();
