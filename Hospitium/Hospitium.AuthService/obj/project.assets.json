@@ -1697,6 +1697,16 @@
             "rid": "win"
           }
         }
+      },
+      "Hospitium.Contracts/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Hospitium.Contracts.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Hospitium.Contracts.dll": {}
+        }
       }
     }
   },
@@ -4626,11 +4636,17 @@
         "system.windows.extensions.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "Hospitium.Contracts/1.0.0": {
+      "type": "project",
+      "path": "../Hospitium.Contracts/Hospitium.Contracts.csproj",
+      "msbuildProject": "../Hospitium.Contracts/Hospitium.Contracts.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "BCrypt.Net-Next >= 4.1.0",
+      "Hospitium.Contracts >= 1.0.0",
       "MassTransit >= 8.0.10",
       "MassTransit.RabbitMQ >= 8.0.10",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.0",
@@ -4672,7 +4688,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.Contracts\\Hospitium.Contracts.csproj": {
+              "projectPath": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.Contracts\\Hospitium.Contracts.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

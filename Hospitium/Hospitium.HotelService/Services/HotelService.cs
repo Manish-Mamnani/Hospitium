@@ -78,6 +78,68 @@ namespace Hospitium.HotelService.Services
             };
         }
 
+        public async Task<HotelResponseDto> ApproveHotelAsync(int hotelId)
+        {
+            var hotel = await _context.Hotels
+                .Include(h => h.Rooms)
+                .FirstOrDefaultAsync(h => h.HotelId == hotelId);
+
+            if (hotel == null)
+                throw new HotelNotFoundException(hotelId);
+
+            if (hotel.Status == "Approved")
+                throw new InvalidHotelOperationException("Hotel is already approved.");
+
+            hotel.Status = "Approved";
+
+            await _context.SaveChangesAsync();
+
+            var minPrice = hotel.Rooms.Any()
+                ? hotel.Rooms.Min(r => r.Price)
+                : 0;
+
+            return new HotelResponseDto
+            {
+                HotelId = hotel.HotelId,
+                Name = hotel.Name,
+                City = hotel.City,
+                Status = hotel.Status,
+                Rating = hotel.AverageRating,
+                MinPrice = minPrice
+            };
+        }
+
+        public async Task<HotelResponseDto> RejectHotelAsync(int hotelId)
+        {
+            var hotel = await _context.Hotels
+                .Include(h => h.Rooms)
+                .FirstOrDefaultAsync(h => h.HotelId == hotelId);
+
+            if (hotel == null)
+                throw new HotelNotFoundException(hotelId);
+
+            if (hotel.Status == "Rejected")
+                throw new InvalidHotelOperationException("Hotel is already rejected.");
+
+            hotel.Status = "Rejected";
+
+            await _context.SaveChangesAsync();
+
+            var minPrice = hotel.Rooms.Any()
+                ? hotel.Rooms.Min(r => r.Price)
+                : 0;
+
+            return new HotelResponseDto
+            {
+                HotelId = hotel.HotelId,
+                Name = hotel.Name,
+                City = hotel.City,
+                Status = hotel.Status,
+                Rating = hotel.AverageRating,
+                MinPrice = minPrice
+            };
+        }
+
         public async Task<RoomResponseDto> GetRoomByIdAsync(int roomId)
         {
             var room = await _context.Rooms.FindAsync(roomId);

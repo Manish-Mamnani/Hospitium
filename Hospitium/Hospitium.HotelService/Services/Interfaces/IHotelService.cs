@@ -7,6 +7,8 @@ namespace Hospitium.HotelService.Services.Interfaces
     {
         Task<HotelResponseDto> CreateHotelAsync(int userId, CreateHotelDto dto);
         Task<HotelResponseDto> UpdateHotelAsync(int id, CreateHotelDto dto);
+        Task<HotelResponseDto> ApproveHotelAsync(int hotelId);
+        Task<HotelResponseDto> RejectHotelAsync(int hotelId);
         Task DeleteHotelAsync(int id);
         Task<HotelResponseDto> GetHotelByIdAsync(int id);
         Task<List<HotelResponseDto>> GetApprovedHotelsAsync();

@@ -179,6 +179,22 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/hotels/{id}/approve",
+      "UpstreamPathTemplate": "/hotels/{id}/approve",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/hotels/{id}/reject",
+      "UpstreamPathTemplate": "/hotels/{id}/reject",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/hotels/{id}",
       "UpstreamPathTemplate": "/hotels/{id}",
       "UpstreamHttpMethod": [ "PUT", "DELETE" ],

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hospitium.Gateway")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c81f65e5ed408eb985c5fe23278a885d5182e49")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0794ee0c1ccd7afea20b9a159bb415d017f401f1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hospitium.Gateway")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hospitium.Gateway")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

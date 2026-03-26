@@ -1,9 +1,9 @@
-using Hospitium.AuthService.Contracts.Events;
 using Hospitium.AuthService.Data;
 using Hospitium.AuthService.DTOs;
 using Hospitium.AuthService.Exceptions;
 using Hospitium.AuthService.Models;
 using Hospitium.AuthService.Services.Interfaces;
+using Hospitium.Contracts.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,11 +13,13 @@ namespace Hospitium.AuthService.Services
     {
         private readonly AuthDbContext _context;
         private readonly JwtService _jwtService;
+        private readonly IPublishEndpoint _publish;
 
-        public AuthService(AuthDbContext context, JwtService jwtService)
+        public AuthService(AuthDbContext context, JwtService jwtService, IPublishEndpoint publish)
         {
             _context = context;
             _jwtService = jwtService;
+            _publish = publish;
         }
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
@@ -38,8 +40,16 @@ namespace Hospitium.AuthService.Services
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
             };
 
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
+            await _publish.Publish(new UserRegisteredEvent
+            {
+                UserId = user.UserId,
+                Email = user.Email,
+                Name = user.FullName
+            });
 
             return CreateAuthResponse(user, "User registered successfully");
         }
@@ -60,6 +70,13 @@ namespace Hospitium.AuthService.Services
             {
                 throw new InvalidCredentialsException("Invalid credentials");
             }
+
+            await _publish.Publish(new UserLoggedInEvent
+            {
+                UserId = user.UserId,
+                Email = user.Email,
+                LoginTime = DateTime.UtcNow
+            });
 
             return CreateAuthResponse(user, "Login successful");
         }

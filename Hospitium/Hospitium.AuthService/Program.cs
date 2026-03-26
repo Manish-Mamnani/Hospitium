@@ -50,6 +50,14 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<AuthDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/", h => { });
+    });
+});
+
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 

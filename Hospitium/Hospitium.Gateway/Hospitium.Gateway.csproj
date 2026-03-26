@@ -16,4 +16,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hospitium.Contracts\Hospitium.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -26,4 +26,8 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hospitium.Contracts\Hospitium.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -43,6 +43,22 @@ namespace Hospitium.HotelService.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpPut("{id}/approve")]
+        public async Task<IActionResult> ApproveHotel(int id)
+        {
+            var result = await _hotelService.ApproveHotelAsync(id);
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}/reject")]
+        public async Task<IActionResult> RejectHotel(int id)
+        {
+            var result = await _hotelService.RejectHotelAsync(id);
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpGet("approved")]
         public async Task<IActionResult> GetApprovedHotels()
         {
