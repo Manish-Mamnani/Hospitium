@@ -9,7 +9,7 @@ namespace Hospitium.Gateway
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -61,12 +61,12 @@ namespace Hospitium.Gateway
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseOcelot();
+            await app.UseOcelot();
 
             app.MapControllers();
 

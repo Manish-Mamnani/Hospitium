@@ -13,17 +13,16 @@ namespace Hospitium.NotificationService.Consumers
             _email = email;
         }
 
-        public Task Consume(ConsumeContext<UserRegisteredEvent> context)
+        public async Task Consume(ConsumeContext<UserRegisteredEvent> context)
         {
             var user = context.Message;
 
-            _email.SendEmail(
+            await _email.SendEmailAsync(
                 user.Email,
                 "Welcome to Hospitium 🎉",
                 $"Hi {user.Name}, your account has been created."
             );
 
-            return Task.CompletedTask;
         }
     }
 }

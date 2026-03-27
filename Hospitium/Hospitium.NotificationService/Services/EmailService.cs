@@ -1,16 +1,41 @@
-﻿namespace Hospitium.NotificationService.Services
+﻿using System.Net;
+using System.Net.Mail;
+
+namespace Hospitium.NotificationService.Services
 {
     public class EmailService
     {
-        public void SendEmail(string to, string subject, string body)
+        private readonly IConfiguration _config;
+
+        public EmailService(IConfiguration config)
         {
-            Console.WriteLine($"""
-                ==========================
-                Email To: {to}
-                Subject: {subject}
-                Body: {body}
-                ==========================
-                """);
+            _config = config;
+        }
+
+        public async Task SendEmailAsync(string to, string subject, string body)
+        {
+            var host = _config["Smtp:Host"];
+            var port = int.Parse(_config["Smtp:Port"]!);
+            var fromEmail = _config["Smtp:Email"];
+            var password = _config["Smtp:Password"];
+
+            var smtpClient = new SmtpClient(host, port)
+            {
+                Credentials = new NetworkCredential(fromEmail, password),
+                EnableSsl = true
+            };
+
+            var mail = new MailMessage(fromEmail, to, subject, body);
+
+            try
+            {
+                await smtpClient.SendMailAsync(mail);
+                Console.WriteLine("✅ Email sent successfully");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Email failed: {ex.Message}");
+            }
         }
     }
 }

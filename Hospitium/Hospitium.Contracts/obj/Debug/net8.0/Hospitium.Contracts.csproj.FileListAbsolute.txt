@@ -1,0 +1,12 @@
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\bin\Debug\net8.0\Hospitium.Contracts.deps.json
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\bin\Debug\net8.0\Hospitium.Contracts.dll
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\bin\Debug\net8.0\Hospitium.Contracts.pdb
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\obj\Debug\net8.0\Hospitium.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\obj\Debug\net8.0\Hospitium.Contracts.AssemblyInfoInputs.cache
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\obj\Debug\net8.0\Hospitium.Contracts.AssemblyInfo.cs
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\obj\Debug\net8.0\Hospitium.Contracts.csproj.CoreCompileInputs.cache
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\obj\Debug\net8.0\Hospitium.Contracts.sourcelink.json
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\obj\Debug\net8.0\Hospitium.Contracts.dll
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\obj\Debug\net8.0\refint\Hospitium.Contracts.dll
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\obj\Debug\net8.0\Hospitium.Contracts.pdb
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\obj\Debug\net8.0\ref\Hospitium.Contracts.dll

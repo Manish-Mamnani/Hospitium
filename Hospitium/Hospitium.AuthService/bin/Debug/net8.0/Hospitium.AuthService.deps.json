@@ -9,11 +9,12 @@
       "Hospitium.AuthService/1.0.0": {
         "dependencies": {
           "BCrypt.Net-Next": "4.1.0",
+          "Hospitium.Contracts": "1.0.0",
           "MassTransit": "8.0.10",
           "MassTransit.RabbitMQ": "8.0.10",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.0",
+          "Microsoft.EntityFrameworkCore.Design": "8.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.0",
-          "Microsoft.EntityFrameworkCore.Tools": "8.0.0",
           "Swashbuckle.AspNetCore": "6.6.2"
         },
         "runtime": {
@@ -436,11 +437,6 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Tools/8.0.0": {
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore.Design": "8.0.0"
-        }
-      },
       "Microsoft.Extensions.DependencyModel/8.0.0": {
         "runtime": {
           "lib/net8.0/Microsoft.Extensions.DependencyModel.dll": {
@@ -814,6 +810,14 @@
             "fileVersion": "6.0.21.52210"
           }
         }
+      },
+      "Hospitium.Contracts/1.0.0": {
+        "runtime": {
+          "Hospitium.Contracts.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -962,13 +966,6 @@
       "sha512": "sha512-GeOmafQn64HyQtYcI/Omv/D/YVHd1zEkWbP3zNQu4oC+usE9K0qOp0R8KgWWFEf8BU4tXuYbok40W0SjfbaK/A==",
       "path": "microsoft.entityframeworkcore.sqlserver/8.0.0",
       "hashPath": "microsoft.entityframeworkcore.sqlserver.8.0.0.nupkg.sha512"
-    },
-    "Microsoft.EntityFrameworkCore.Tools/8.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-zRdaXiiB1gEA0b+AJTd2+drh78gkEA4HyZ1vqNZrKq4xwW8WwavSiQsoeb1UsIMZkocLMBbhQYWClkZzuTKEgQ==",
-      "path": "microsoft.entityframeworkcore.tools/8.0.0",
-      "hashPath": "microsoft.entityframeworkcore.tools.8.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.DependencyModel/8.0.0": {
       "type": "package",
@@ -1200,6 +1197,11 @@
       "sha512": "sha512-IXoJOXIqc39AIe+CIR7koBtRGMiCt/LPM3lI+PELtDIy9XdyeSrwXFdWV9dzJ2Awl0paLWUaknLxFQ5HpHZUog==",
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
+    },
+    "Hospitium.Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

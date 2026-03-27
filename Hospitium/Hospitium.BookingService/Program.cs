@@ -80,7 +80,7 @@ namespace Hospitium.BookingService
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseMiddleware<ExceptionMiddleware>();
 

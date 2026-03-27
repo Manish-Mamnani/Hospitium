@@ -91,7 +91,7 @@ namespace Hospitium.HotelService
 
             app.UseMiddleware<ExceptionMiddleware>();
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();

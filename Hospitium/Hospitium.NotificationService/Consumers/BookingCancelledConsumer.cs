@@ -13,17 +13,16 @@ namespace Hospitium.NotificationService.Consumers
             _email = email;
         }
 
-        public Task Consume(ConsumeContext<BookingCancelledEvent> context)
+        public async Task Consume(ConsumeContext<BookingCancelledEvent> context)
         {
             var booking = context.Message;
 
-            _email.SendEmail(
+            await _email.SendEmailAsync(
                 booking.UserEmail,
                 "Booking Cancelled",
                 $"Your booking #{booking.BookingId} was cancelled at {booking.CancelledAt}."
             );
 
-            return Task.CompletedTask;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Hospitium.Contracts;
+﻿using Hospitium.Contracts.Events;
 using Hospitium.BookingService.Data;
 using Hospitium.BookingService.DTOs;
 using Hospitium.BookingService.Exceptions;
@@ -14,16 +14,16 @@ namespace Hospitium.BookingService.Services
     {
         private readonly BookingDbContext _context;
         private readonly IHotelClient _hotelClient;
-        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IPublishEndpoint _publish;
 
         public BookingService(BookingDbContext context,IHotelClient hotelClient,IPublishEndpoint publishEndpoint)
         {
             _context = context;
             _hotelClient = hotelClient;
-            _publishEndpoint = publishEndpoint;
+            _publish = publishEndpoint;
         }
 
-        public async Task<BookingResponseDto> CreateBookingAsync(int userId, CreateBookingDto dto)
+        public async Task<BookingResponseDto> CreateBookingAsync(int userId, string email, CreateBookingDto dto)
         {
             // 🔴 Validate Dates
             if (dto.FromDate >= dto.ToDate)
@@ -52,7 +52,8 @@ namespace Hospitium.BookingService.Services
                 RoomId = dto.RoomId,
                 FromDate = dto.FromDate,
                 ToDate = dto.ToDate,
-                Status = "Confirmed"
+                Status = "Confirmed",
+                UserEmail = email
             };
 
             _context.Bookings.Add(booking);
@@ -60,9 +61,11 @@ namespace Hospitium.BookingService.Services
 
 
             // 📢 Publish event
-            await _publishEndpoint.Publish(new BookingCreatedEvent
+            await _publish.Publish(new BookingCreatedEvent
             {
-                RoomId = booking.RoomId
+                BookingId = booking.BookingId,
+                RoomId = booking.RoomId,
+                UserEmail = booking.UserEmail
             });
 
             return new BookingResponseDto
@@ -136,7 +139,7 @@ namespace Hospitium.BookingService.Services
             }).ToList();
         }
 
-        public async Task<BookingResponseDto> CancelBookingAsync(int bookingId, int userId, string role)
+        public async Task<BookingResponseDto> CancelBookingAsync(int bookingId, int userId, string email, string role)
         {
             var booking = await _context.Bookings.FindAsync(bookingId);
 
@@ -155,9 +158,12 @@ namespace Hospitium.BookingService.Services
             await _context.SaveChangesAsync();
 
             // 📢 Publish cancellation event
-            await _publishEndpoint.Publish(new BookingCancelledEvent
+            await _publish.Publish(new BookingCancelledEvent
             {
-                RoomId = booking.RoomId
+                BookingId = booking.BookingId,
+                RoomId = booking.RoomId,
+                UserEmail = booking.UserEmail,
+                CancelledAt = DateTime.UtcNow
             });
 
             return new BookingResponseDto

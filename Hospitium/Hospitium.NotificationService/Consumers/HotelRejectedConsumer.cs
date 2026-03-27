@@ -11,16 +11,15 @@ public class HotelRejectedConsumer : IConsumer<HotelRejectedEvent>
         _email = email;
     }
 
-    public Task Consume(ConsumeContext<HotelRejectedEvent> context)
+    public async Task Consume(ConsumeContext<HotelRejectedEvent> context)
     {
         var hotel = context.Message;
 
-        _email.SendEmail(
+        await _email.SendEmailAsync(
             hotel.ManagerEmail,
             "Hotel Rejected",
             $"Your hotel {hotel.HotelName} was rejected."
         );
 
-        return Task.CompletedTask;
     }
 }

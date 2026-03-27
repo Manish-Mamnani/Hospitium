@@ -182,6 +182,12 @@
       "DownstreamPathTemplate": "/api/hotels/{id}/approve",
       "UpstreamPathTemplate": "/hotels/{id}/approve",
       "UpstreamHttpMethod": [ "PUT" ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
@@ -190,6 +196,12 @@
       "DownstreamPathTemplate": "/api/hotels/{id}/reject",
       "UpstreamPathTemplate": "/hotels/{id}/reject",
       "UpstreamHttpMethod": [ "PUT" ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }

@@ -23,13 +23,14 @@ namespace Hospitium.BookingService.Controllers
         {
             // 🧠 Extract UserId from JWT
             var userIdClaim = User.FindFirst("UserId");
+            var email = User.FindFirst("Email")!.Value;
 
             if (userIdClaim == null)
                 return Unauthorized();
 
             var userId = int.Parse(userIdClaim.Value);
 
-            var result = await _service.CreateBookingAsync(userId, dto);
+            var result = await _service.CreateBookingAsync(userId, email, dto);
 
             return Ok(result);
         }
@@ -60,8 +61,9 @@ namespace Hospitium.BookingService.Controllers
         {
             var userId = int.Parse(User.FindFirst("UserId")!.Value);
             var role = User.FindFirst("Role")!.Value;
+            var email = User.FindFirst("Email")!.Value;
 
-            var result = await _service.CancelBookingAsync(bookingId, userId, role);
+            var result = await _service.CancelBookingAsync(bookingId, userId, email, role);
 
             return Ok(result);
         }

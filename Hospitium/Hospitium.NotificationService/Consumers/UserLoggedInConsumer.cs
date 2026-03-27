@@ -11,16 +11,15 @@ public class UserLoggedInConsumer : IConsumer<UserLoggedInEvent>
         _email = email;
     }
 
-    public Task Consume(ConsumeContext<UserLoggedInEvent> context)
+    public async Task Consume(ConsumeContext<UserLoggedInEvent> context)
     {
         var user = context.Message;
 
-        _email.SendEmail(
+        await _email.SendEmailAsync(
             user.Email,
             "Login Alert",
             $"Login detected at {user.LoginTime}"
         );
 
-        return Task.CompletedTask;
     }
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hospitium.NotificationService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0794ee0c1ccd7afea20b9a159bb415d017f401f1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7e88395a7a0e0250bf5846e39a8b6e48a1586b1e")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hospitium.NotificationService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hospitium.NotificationService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

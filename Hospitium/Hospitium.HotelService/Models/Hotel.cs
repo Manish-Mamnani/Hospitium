@@ -21,6 +21,8 @@ namespace Hospitium.HotelService.Models
 
         public int CreatedByUserId { get; set; }
 
+        public string ManagerEmail { get; set; } = string.Empty;
+
         public List<Room> Rooms { get; set; } = new();
     }
 }

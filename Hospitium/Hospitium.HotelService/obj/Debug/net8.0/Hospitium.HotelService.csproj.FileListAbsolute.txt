@@ -143,3 +143,5 @@ D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\MassTransit.Abstractions.dll
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\MassTransit.RabbitMqTransport.dll
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\RabbitMQ.Client.dll
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\Hospitium.Contracts.dll
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\Hospitium.Contracts.pdb

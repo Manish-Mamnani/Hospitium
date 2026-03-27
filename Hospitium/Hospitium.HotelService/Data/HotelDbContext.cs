@@ -17,6 +17,10 @@ namespace Hospitium.HotelService.Data
                 .HasOne(r => r.Hotel)
                 .WithMany(h => h.Rooms)
                 .HasForeignKey(r => r.HotelId);
+
+            modelBuilder.Entity<Room>()
+                .Property(r => r.Price)
+                .HasPrecision(18, 2);
         }
     }
 }

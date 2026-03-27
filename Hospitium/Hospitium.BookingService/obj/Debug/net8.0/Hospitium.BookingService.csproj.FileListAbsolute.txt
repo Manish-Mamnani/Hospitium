@@ -143,4 +143,5 @@ D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.BookingService\bin\Debug\n
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.BookingService\bin\Debug\net8.0\MassTransit.Abstractions.dll
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.BookingService\bin\Debug\net8.0\MassTransit.RabbitMqTransport.dll
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.BookingService\bin\Debug\net8.0\RabbitMQ.Client.dll
-D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.BookingService\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.BookingService\bin\Debug\net8.0\Hospitium.Contracts.dll
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.BookingService\bin\Debug\net8.0\Hospitium.Contracts.pdb

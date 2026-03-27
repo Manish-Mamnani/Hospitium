@@ -11,16 +11,15 @@ public class HotelApprovedConsumer : IConsumer<HotelApprovedEvent>
         _email = email;
     }
 
-    public Task Consume(ConsumeContext<HotelApprovedEvent> context)
+    public async Task Consume(ConsumeContext<HotelApprovedEvent> context)
     {
         var hotel = context.Message;
 
-        _email.SendEmail(
+        await _email.SendEmailAsync(
             hotel.ManagerEmail,
             "Hotel Approved 🎉",
             $"Your hotel {hotel.HotelName} is approved."
         );
 
-        return Task.CompletedTask;
     }
 }

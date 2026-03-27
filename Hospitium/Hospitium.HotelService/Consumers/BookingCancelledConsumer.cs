@@ -1,4 +1,4 @@
-﻿using Hospitium.Contracts;
+﻿using Hospitium.Contracts.Events;
 using Hospitium.HotelService.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;

@@ -1,8 +1,10 @@
-﻿using Hospitium.HotelService.Data;
+﻿using Hospitium.Contracts.Events;
+using Hospitium.HotelService.Data;
 using Hospitium.HotelService.DTOs;
 using Hospitium.HotelService.Exceptions;
 using Hospitium.HotelService.Models;
 using Hospitium.HotelService.Services.Interfaces;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hospitium.HotelService.Services
@@ -10,13 +12,15 @@ namespace Hospitium.HotelService.Services
     public class HotelService : IHotelService
     {
         private readonly HotelDbContext _context;
+        private readonly IPublishEndpoint _publish;
 
-        public HotelService(HotelDbContext context)
+        public HotelService(HotelDbContext context, IPublishEndpoint publish)
         {
             _context = context;
+            _publish = publish;
         }
 
-        public async Task<HotelResponseDto> CreateHotelAsync(int userId, CreateHotelDto dto)
+        public async Task<HotelResponseDto> CreateHotelAsync(int userId, string email, CreateHotelDto dto)
         {
             var hotel = new Hotel
             {
@@ -26,7 +30,8 @@ namespace Hospitium.HotelService.Services
                 AverageRating = 0,
                 TotalReviews = 0,
                 Status = "Pending",
-                CreatedByUserId = userId
+                CreatedByUserId = userId,
+                ManagerEmail = email
             };
 
             _context.Hotels.Add(hotel);
@@ -94,6 +99,14 @@ namespace Hospitium.HotelService.Services
 
             await _context.SaveChangesAsync();
 
+            // ✅ PUBLISH EVENT WITH REAL EMAIL
+            await _publish.Publish(new HotelApprovedEvent
+            {
+                HotelId = hotel.HotelId,
+                HotelName = hotel.Name,
+                ManagerEmail = hotel.ManagerEmail
+            });
+
             var minPrice = hotel.Rooms.Any()
                 ? hotel.Rooms.Min(r => r.Price)
                 : 0;
@@ -124,6 +137,14 @@ namespace Hospitium.HotelService.Services
             hotel.Status = "Rejected";
 
             await _context.SaveChangesAsync();
+
+            // ✅ PUBLISH EVENT WITH REAL EMAIL
+            await _publish.Publish(new HotelRejectedEvent
+            {
+                HotelId = hotel.HotelId,
+                HotelName = hotel.Name,
+                ManagerEmail = hotel.ManagerEmail
+            });
 
             var minPrice = hotel.Rooms.Any()
                 ? hotel.Rooms.Min(r => r.Price)

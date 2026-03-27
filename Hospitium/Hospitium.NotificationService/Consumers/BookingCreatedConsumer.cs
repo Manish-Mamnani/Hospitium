@@ -11,16 +11,15 @@ public class BookingCreatedConsumer : IConsumer<BookingCreatedEvent>
         _email = email;
     }
 
-    public Task Consume(ConsumeContext<BookingCreatedEvent> context)
+    public async Task Consume(ConsumeContext<BookingCreatedEvent> context)
     {
         var booking = context.Message;
 
-        _email.SendEmail(
+        await _email.SendEmailAsync(
             booking.UserEmail,
             "Booking Confirmed",
             $"Your booking #{booking.BookingId} is confirmed."
         );
 
-        return Task.CompletedTask;
     }
 }

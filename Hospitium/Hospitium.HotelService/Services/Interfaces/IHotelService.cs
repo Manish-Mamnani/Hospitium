@@ -5,7 +5,7 @@ namespace Hospitium.HotelService.Services.Interfaces
 {
     public interface IHotelService
     {
-        Task<HotelResponseDto> CreateHotelAsync(int userId, CreateHotelDto dto);
+        Task<HotelResponseDto> CreateHotelAsync(int userId, string email, CreateHotelDto dto);
         Task<HotelResponseDto> UpdateHotelAsync(int id, CreateHotelDto dto);
         Task<HotelResponseDto> ApproveHotelAsync(int hotelId);
         Task<HotelResponseDto> RejectHotelAsync(int hotelId);

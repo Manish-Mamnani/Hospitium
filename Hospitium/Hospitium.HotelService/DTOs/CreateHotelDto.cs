@@ -14,5 +14,6 @@ namespace Hospitium.HotelService.DTOs
 
         [MaxLength(500)]
         public string Description { get; set; } = string.Empty;
+
     }
 }

@@ -28,7 +28,8 @@ namespace Hospitium.HotelService.Controllers
         public async Task<IActionResult> CreateHotel(CreateHotelDto dto)
         {
             var userId = int.Parse(User.FindFirst("UserId")!.Value);
-            var result = await _hotelService.CreateHotelAsync(userId, dto);
+            var email = User.FindFirst("Email")!.Value;
+            var result = await _hotelService.CreateHotelAsync(userId, email,dto);
             return Ok(result);
         }
 
