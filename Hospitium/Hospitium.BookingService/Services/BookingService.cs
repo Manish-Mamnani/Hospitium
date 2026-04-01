@@ -1,11 +1,13 @@
-﻿using Hospitium.Contracts.Events;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using Hospitium.BookingService.Data;
 using Hospitium.BookingService.DTOs;
 using Hospitium.BookingService.Exceptions;
 using Hospitium.BookingService.HttpClients;
 using Hospitium.BookingService.Interfaces;
 using Hospitium.BookingService.Models;
-using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hospitium.BookingService.Services
@@ -14,17 +16,21 @@ namespace Hospitium.BookingService.Services
     {
         private readonly BookingDbContext _context;
         private readonly IHotelClient _hotelClient;
-        private readonly IPublishEndpoint _publish;
 
-        public BookingService(BookingDbContext context,IHotelClient hotelClient,IPublishEndpoint publishEndpoint)
+        public BookingService(BookingDbContext context, IHotelClient hotelClient)
         {
             _context = context;
             _hotelClient = hotelClient;
-            _publish = publishEndpoint;
         }
 
         public async Task<BookingResponseDto> CreateBookingAsync(int userId, string email, CreateBookingDto dto)
         {
+            // 🟡 Check availability and get room details via Hotel Service
+            var room = await _hotelClient.GetRoomDetailsAsync(dto.RoomId);
+            
+            if (room == null || room.AvailableCount < dto.NumberOfRooms)
+                throw new RoomNotAvailableException(dto.RoomId);
+
             // 🔴 Validate Dates
             if (dto.FromDate >= dto.ToDate)
                 throw new InvalidBookingDatesException();
@@ -39,19 +45,19 @@ namespace Hospitium.BookingService.Services
             if (isOverlapping)
                 throw new BookingConflictException();
 
-            // 🟡 Check availability via Hotel Service
-            var isAvailable = await _hotelClient.IsRoomAvailable(dto.RoomId);
-
-            if (!isAvailable)
-                throw new RoomNotAvailableException(dto.RoomId);
-
-            // 🟢 Create booking
+            var days = (dto.ToDate - dto.FromDate).Days;
+            if (days < 1) days = 1;
+            
             var booking = new Booking
             {
                 UserId = userId,
                 RoomId = dto.RoomId,
+                HotelName = room.HotelName,
+                RoomType = room.Type,
                 FromDate = dto.FromDate,
                 ToDate = dto.ToDate,
+                NumberOfRooms = dto.NumberOfRooms,
+                TotalPrice = room.Price * dto.NumberOfRooms * days,
                 Status = "Confirmed",
                 UserEmail = email
             };
@@ -59,141 +65,139 @@ namespace Hospitium.BookingService.Services
             _context.Bookings.Add(booking);
             await _context.SaveChangesAsync();
 
-
-            // 📢 Publish event
-            await _publish.Publish(new BookingCreatedEvent
-            {
-                BookingId = booking.BookingId,
-                RoomId = booking.RoomId,
-                UserEmail = booking.UserEmail
-            });
-
-            return new BookingResponseDto
-            {
-                BookingId = booking.BookingId,
-                RoomId = booking.RoomId,
-                FromDate = booking.FromDate,
-                ToDate = booking.ToDate,
-                Status = booking.Status
-            };
+            return await MapToResponse(booking);
         }
 
         public async Task<List<BookingResponseDto>> GetUserBookingsAsync(int userId, string? type)
         {
             var query = _context.Bookings.Where(b => b.UserId == userId);
 
-            var now = DateTime.Now;
-
-            if (!string.IsNullOrWhiteSpace(type))
+            if (!string.IsNullOrEmpty(type))
             {
-                if (type.ToLower() == "active")
-                {
-                    query = query.Where(b =>
-                        b.Status != "Cancelled" &&
-                        b.ToDate >= now);
-                }
-                else if (type.ToLower() == "history")
-                {
-                    query = query.Where(b =>
-                        b.Status == "Cancelled" ||
-                        b.ToDate < now);
-                }
+                if (type == "active")
+                    query = query.Where(b => b.Status == "Confirmed");
+                else if (type == "past")
+                    query = query.Where(b => b.Status == "Cancelled" || b.Status == "Completed");
             }
 
-            var bookings = await query
-                .OrderByDescending(b => b.CreatedAt)
-                .ToListAsync();
+            var bookings = await query.OrderByDescending(b => b.FromDate).ToListAsync();
 
-            return bookings.Select(b => new BookingResponseDto
+            var dtos = new List<BookingResponseDto>();
+            foreach (var b in bookings)
             {
-                BookingId = b.BookingId,
-                RoomId = b.RoomId,
-                FromDate = b.FromDate,
-                ToDate = b.ToDate,
-                Status = b.Status
-            }).ToList();
+                dtos.Add(await MapToResponse(b));
+            }
+            return dtos;
         }
 
         public async Task<List<BookingResponseDto>> GetAllBookingsAsync(DateTime? date)
         {
             var query = _context.Bookings.AsQueryable();
 
-            // 📅 Filter by specific date (if provided)
             if (date.HasValue)
             {
-                query = query.Where(b =>
-                    date.Value >= b.FromDate && date.Value <= b.ToDate);
+                query = query.Where(b => b.FromDate.Date == date.Value.Date);
             }
 
-            var bookings = await query
-                .OrderByDescending(b => b.CreatedAt)
+            var bookings = await query.OrderByDescending(b => b.BookingId).ToListAsync();
+
+            var responseTasks = bookings.Select(b => MapToResponse(b));
+            var responseList = await Task.WhenAll(responseTasks);
+            return responseList.ToList();
+        }
+
+        public async Task<List<BookingResponseDto>> GetManagerBookingsAsync()
+        {
+            var roomIds = await _hotelClient.GetManagerRoomIdsAsync();
+
+            if (roomIds == null || !roomIds.Any())
+                return new List<BookingResponseDto>();
+
+            var bookings = await _context.Bookings
+                .Where(b => roomIds.Contains(b.RoomId))
+                .OrderByDescending(b => b.BookingId)
                 .ToListAsync();
 
-            return bookings.Select(b => new BookingResponseDto
-            {
-                BookingId = b.BookingId,
-                RoomId = b.RoomId,
-                FromDate = b.FromDate,
-                ToDate = b.ToDate,
-                Status = b.Status
-            }).ToList();
+            var responseTasks = bookings.Select(b => MapToResponse(b));
+            var responseList = await Task.WhenAll(responseTasks);
+            return responseList.ToList();
         }
 
-        public async Task<BookingResponseDto> CancelBookingAsync(int bookingId, int userId, string email, string role)
+        public async Task<BookingResponseDto> CancelBookingAsync(int id, int userId, string email, string role)
         {
-            var booking = await _context.Bookings.FindAsync(bookingId);
+            var booking = await _context.Bookings.FindAsync(id);
 
             if (booking == null)
-                throw new BookingNotFoundException(bookingId);
+                throw new BookingNotFoundException(id);
 
-            if (booking.UserId != userId && role != "Admin")
-                throw new UnauthorizedBookingAccessException();
-            // ⚠️ Already cancelled
+            if (role != "Admin" && booking.UserId != userId)
+                throw new UnauthorizedAccessException("You can only cancel your own bookings.");
+
             if (booking.Status == "Cancelled")
-                throw new BookingAlreadyCancelledException(bookingId);
+                throw new BookingAlreadyCancelledException(id);
 
-            // 🔄 Update status
             booking.Status = "Cancelled";
-
             await _context.SaveChangesAsync();
 
-            // 📢 Publish cancellation event
-            await _publish.Publish(new BookingCancelledEvent
-            {
-                BookingId = booking.BookingId,
-                RoomId = booking.RoomId,
-                UserEmail = booking.UserEmail,
-                CancelledAt = DateTime.UtcNow
-            });
-
-            return new BookingResponseDto
-            {
-                BookingId = booking.BookingId,
-                RoomId = booking.RoomId,
-                FromDate = booking.FromDate,
-                ToDate = booking.ToDate,
-                Status = booking.Status
-            };
+            return await MapToResponse(booking);
         }
 
-        public async Task<BookingResponseDto> GetBookingByIdAsync(int bookingId, int userId, string role)
+        public async Task<BookingResponseDto> GetBookingByIdAsync(int id, int userId, string role)
         {
-            var booking = await _context.Bookings.FindAsync(bookingId);
+            var booking = await _context.Bookings.FindAsync(id);
 
             if (booking == null)
-                throw new BookingNotFoundException(bookingId);
+                throw new BookingNotFoundException(id);
 
-            if (booking.UserId != userId && role != "Admin")
-                throw new UnauthorizedBookingAccessException();
+            if (role != "Admin" && booking.UserId != userId)
+                throw new UnauthorizedAccessException("You can only view your own bookings.");
 
-            return new BookingResponseDto
+            return await MapToResponse(booking);
+        }
+
+        private async Task<BookingResponseDto> MapToResponse(Booking b)
+        {
+            var dto = new BookingResponseDto
             {
-                BookingId = booking.BookingId,
-                RoomId = booking.RoomId,
-                FromDate = booking.FromDate,
-                ToDate = booking.ToDate,
-                Status = booking.Status
+                BookingId = b.BookingId,
+                UserId = b.UserId,
+                UserEmail = b.UserEmail,
+                RoomId = b.RoomId,
+                HotelName = b.HotelName,
+                RoomType = b.RoomType,
+                FromDate = b.FromDate,
+                ToDate = b.ToDate,
+                NumberOfRooms = b.NumberOfRooms,
+                TotalPrice = b.TotalPrice,
+                Status = b.Status
             };
+
+            // Fallback for legacy bookings where denormalized fields are empty
+            if (string.IsNullOrEmpty(dto.HotelName))
+            {
+                try
+                {
+                    var room = await _hotelClient.GetRoomDetailsAsync(b.RoomId);
+                    if (room != null)
+                    {
+                        dto.HotelName = room.HotelName;
+                        dto.RoomType = room.Type;
+                    }
+                    else
+                    {
+                        dto.HotelName = "Unknown Hotel";
+                        dto.RoomType = "Unknown Room";
+                    }
+                }
+                catch
+                {
+                    // Fail gracefully for legacy data fetching
+                    dto.HotelName = "Unknown Hotel (Fetch Failed)";
+                    dto.RoomType = "Unknown Room";
+                }
+            }
+
+            return dto;
         }
     }
 }

@@ -19,7 +19,12 @@ namespace Hospitium.BookingService
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                });
 
             builder.Services.AddMassTransit(x =>
             {
@@ -35,10 +40,13 @@ namespace Hospitium.BookingService
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-            builder.Services.AddScoped<IHotelClient, HotelClient>();
+            builder.Services.AddHttpClient<IHotelClient, HotelClient>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5002");
+            });
+
+            builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<IBookingService, Services.BookingService>();
-
-
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

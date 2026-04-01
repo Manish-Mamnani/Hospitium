@@ -1,4 +1,4 @@
-﻿namespace Hospitium.HotelService.DTOs
+namespace Hospitium.HotelService.DTOs
 {
     public class HotelResponseDto
     {
@@ -11,6 +11,10 @@
         public double Rating { get; set; }
 
         public string Status { get; set; } = string.Empty;
+
+        public string ManagerEmail { get; set; } = string.Empty;
+
+        public string Description { get; set; } = string.Empty;
 
         public decimal MinPrice { get; set; }
     }

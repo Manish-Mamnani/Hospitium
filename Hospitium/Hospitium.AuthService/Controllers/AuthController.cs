@@ -28,5 +28,28 @@ namespace Hospitium.AuthService.Controllers
             var result = await _authService.LoginAsync(dto);
             return Ok(result);
         }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto dto)
+        {
+            await _authService.RequestPasswordResetAsync(dto);
+            return Ok(new { message = "If that email is registered, you will receive an OTP shortly." });
+        }
+
+        [HttpPost("verify-otp")]
+        public async Task<IActionResult> VerifyOtp(VerifyOtpDto dto)
+        {
+            var isValid = await _authService.VerifyOtpAsync(dto);
+            if (!isValid)
+                return BadRequest(new { message = "Invalid or expired OTP." });
+            return Ok(new { message = "OTP verified successfully." });
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto dto)
+        {
+            await _authService.ResetPasswordAsync(dto);
+            return Ok(new { message = "Password reset successfully. You can now log in." });
+        }
     }
 }

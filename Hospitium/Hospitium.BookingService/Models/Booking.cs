@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospitium.BookingService.Models
 {
@@ -10,6 +10,8 @@ namespace Hospitium.BookingService.Models
         public int UserId { get; set; }
 
         public int RoomId { get; set; }
+        public string HotelName { get; set; } = string.Empty;
+        public string RoomType { get; set; } = string.Empty;
 
         public DateTime FromDate { get; set; }
 
@@ -17,7 +19,11 @@ namespace Hospitium.BookingService.Models
 
         public string Status { get; set; } = "Confirmed";
 
-        public string UserEmail { get; set; }
+        public string UserEmail { get; set; } = string.Empty;
+
+        public int NumberOfRooms { get; set; } = 1;
+        
+        public decimal TotalPrice { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }

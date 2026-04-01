@@ -1,0 +1,90 @@
+<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+  <div class="mb-10 flex items-center justify-between">
+    <div>
+      <h1 class="text-4xl font-display font-semibold text-brand-900 tracking-tight">Edit Hotel</h1>
+      <p class="text-gray-500 mt-3 text-lg leading-relaxed">Update your property profile or manage its listing.</p>
+    </div>
+    <button (click)="goBack()" class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+      Back to List
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="flex justify-center items-center py-20">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-600"></div>
+  </div>
+
+  <div *ngIf="!isLoading" class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden ring-1 ring-black/5 animate-fade-in group">
+    <div class="p-8 sm:p-12">
+      <form (ngSubmit)="updateHotel()" #hotelForm="ngForm" class="space-y-8">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Name -->
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700 ml-1">Hotel Name</label>
+            <input type="text" name="name" [(ngModel)]="hotel.name" required
+                   class="w-full px-5 py-4 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all text-gray-900 font-medium">
+          </div>
+
+          <!-- City -->
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700 ml-1">City</label>
+            <input type="text" name="city" [(ngModel)]="hotel.city" required
+                   class="w-full px-5 py-4 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all text-gray-900 font-medium tracking-wide">
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="space-y-2">
+          <label class="block text-sm font-semibold text-gray-700 ml-1">Description</label>
+          <textarea name="description" [(ngModel)]="hotel.description" rows="5"
+                    class="w-full px-5 py-4 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all text-gray-900 font-medium resize-none leading-relaxed"></textarea>
+        </div>
+
+        <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-gray-100 mt-12">
+          <!-- Delete Action -->
+          <button type="button" (click)="deleteHotel()" [disabled]="isDeleting || isSaving"
+                  class="px-8 py-4 rounded-2xl text-rose-600 font-semibold hover:bg-rose-50 transition-all disabled:opacity-50 flex items-center gap-3">
+             <svg *ngIf="!isDeleting" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+             <div *ngIf="isDeleting" class="animate-spin rounded-full h-5 w-5 border-b-2 border-rose-600"></div>
+             Delete Hotel
+          </button>
+
+          <!-- Update Action -->
+          <button type="submit" [disabled]="!hotelForm.valid || isSaving || isDeleting"
+                  class="w-full sm:w-auto px-12 py-4 bg-brand-600 shadow-lg shadow-brand-500/20 hover:bg-brand-700 text-white rounded-2xl font-bold transition-all transform hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:transform-none flex items-center justify-center gap-3">
+             <div *ngIf="isSaving" class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+             {{ isSaving ? 'Saving Changes...' : 'Update Property' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Additional Management Info -->
+  <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-amber-50 rounded-3xl p-8 border border-amber-100/50">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-amber-600 shadow-sm">
+           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+        </div>
+        <h4 class="text-amber-800 font-bold text-lg tracking-tight">Warning Zone</h4>
+      </div>
+      <p class="text-sm font-medium text-amber-700/80 leading-relaxed">
+        Deleting a hotel will mark it as "Deleted". New bookings will be disabled, but existing bookings will remain visible in historical reports.
+      </p>
+    </div>
+
+    <div class="bg-indigo-50 rounded-3xl p-8 border border-indigo-100/50">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-indigo-600 shadow-sm">
+           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        </div>
+        <h4 class="text-indigo-800 font-bold text-lg tracking-tight">Status Note</h4>
+      </div>
+      <p class="text-sm font-medium text-indigo-700/80 leading-relaxed">
+        Modifying basic hotel information (Name, City) will take effect immediately for all pending and future bookings.
+      </p>
+    </div>
+  </div>
+</div>

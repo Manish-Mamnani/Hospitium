@@ -1,7 +1,5 @@
 {
   "Routes": [
-
-    // 🔐 AUTH SERVICE (PUBLIC)
     {
       "DownstreamPathTemplate": "/api/auth/{everything}",
       "DownstreamScheme": "http",
@@ -14,11 +12,6 @@
       "UpstreamPathTemplate": "/auth/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
-
-    // ============================
-    // 🏨 HOTEL SERVICE — PUBLIC
-    // ============================
-
     {
       "DownstreamPathTemplate": "/api/hotels",
       "UpstreamPathTemplate": "/hotels",
@@ -55,11 +48,6 @@
         }
       ]
     },
-
-    // ============================
-    // 🏨 HOTEL SERVICE — MANAGER
-    // ============================
-
     {
       "DownstreamPathTemplate": "/api/hotels",
       "UpstreamPathTemplate": "/hotels",
@@ -90,9 +78,6 @@
         "AuthenticationProviderKey": "Bearer"
       }
     },
-
-    // Rooms (Manager)
-
     {
       "DownstreamPathTemplate": "/api/hotels/rooms",
       "UpstreamPathTemplate": "/hotels/rooms",
@@ -111,6 +96,18 @@
     {
       "DownstreamPathTemplate": "/api/hotels/rooms/{roomId}",
       "UpstreamPathTemplate": "/hotels/rooms/{roomId}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/hotels/rooms/{roomId}",
+      "UpstreamPathTemplate": "/hotels/rooms/{roomId}",
       "UpstreamHttpMethod": [ "PUT" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -123,11 +120,6 @@
         "AuthenticationProviderKey": "Bearer"
       }
     },
-
-    // ============================
-    // ⭐ HOTEL RATING
-    // ============================
-
     {
       "DownstreamPathTemplate": "/api/hotels/{id}/rate",
       "UpstreamPathTemplate": "/hotels/{id}/rate",
@@ -143,11 +135,6 @@
         "AuthenticationProviderKey": "Bearer"
       }
     },
-
-    // ============================
-    // 🛠️ ADMIN ROUTES
-    // ============================
-
     {
       "DownstreamPathTemplate": "/api/hotels/approved",
       "UpstreamPathTemplate": "/hotels/approved",
@@ -221,11 +208,21 @@
         "AuthenticationProviderKey": "Bearer"
       }
     },
-
-    // ============================
-    // 📦 BOOKING SERVICE
-    // ============================
-
+    {
+      "DownstreamPathTemplate": "/api/bookings",
+      "UpstreamPathTemplate": "/bookings",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
     {
       "DownstreamPathTemplate": "/api/bookings/{everything}",
       "UpstreamPathTemplate": "/bookings/{everything}",
@@ -241,9 +238,7 @@
         "AuthenticationProviderKey": "Bearer"
       }
     }
-
   ],
-
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5000"
   }

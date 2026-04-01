@@ -1,7 +1,11 @@
-﻿namespace Hospitium.BookingService.HttpClients
+using Hospitium.BookingService.DTOs;
+
+namespace Hospitium.BookingService.HttpClients
 {
     public interface IHotelClient
     {
-        Task<bool> IsRoomAvailable(int roomId);
+        Task<(bool IsAvailable, decimal Price)> CheckRoomAvailabilityAndPrice(int roomId, int requestedRooms);
+        Task<RoomResponseDto?> GetRoomDetailsAsync(int roomId);
+        Task<List<int>> GetManagerRoomIdsAsync();
     }
 }

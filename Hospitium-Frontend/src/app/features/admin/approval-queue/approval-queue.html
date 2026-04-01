@@ -1,0 +1,82 @@
+<div class="flex min-h-[calc(100vh-5rem)] bg-gray-50">
+  <!-- Sidebar -->
+  <div class="w-64 bg-white border-r border-gray-100 hidden md:block border-t border-gray-100 flex-shrink-0">
+    <div class="px-5 py-6">
+      <p class="text-xs font-bold text-gray-400 mb-4 tracking-wider uppercase">Admin Panel</p>
+      <div class="space-y-1">
+        <a routerLink="/admin" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="bg-brand-100 text-brand-700 font-medium" class="flex items-center px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          Dashboard
+        </a>
+        <a routerLink="/admin/approvals" routerLinkActive="bg-brand-100 text-brand-700 font-medium" class="flex items-center px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Approval Queue
+        </a>
+        <a routerLink="/admin/hotels" routerLinkActive="bg-brand-100 text-brand-700 font-medium" class="flex items-center px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          Hotel Management
+        </a>
+        <a routerLink="/admin/global-bookings" routerLinkActive="bg-brand-100 text-brand-700 font-medium" class="flex items-center px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Global Bookings
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 p-8 overflow-y-auto">
+    <div class="max-w-4xl">
+      <h1 class="text-3xl font-display font-semibold text-brand-900 tracking-tight">Approval Queue</h1>
+      <p class="text-gray-500 mt-2 mb-8 text-sm">Review and approve hotel listings</p>
+
+      <!-- Loading -->
+      <div *ngIf="isLoading" class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-brand-600"></div>
+      </div>
+
+      <!-- Hotels -->
+      <div *ngIf="!isLoading" class="space-y-4">
+        <div *ngFor="let hotel of pendingHotels" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col sm:flex-row sm:items-center gap-5 relative overflow-hidden group">
+          
+          <!-- Left Icon Container -->
+          <div class="flex-shrink-0">
+            <div class="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-500 group-hover:scale-105 transition-transform">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+          </div>
+
+          <!-- Center Info -->
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-semibold text-brand-900 truncate">{{ hotel.name }}</h3>
+            <p class="text-sm text-gray-500 mt-1 flex items-center">
+              <span>{{ hotel.city }}</span>
+              <span class="mx-2 text-gray-300">•</span>
+              <span>{{ hotel.description ? hotel.description.split(' ').slice(0, 3).join(' ') + ' rooms' : '15 rooms' }}</span>
+            </p>
+            <div class="text-xs text-gray-400 mt-2">
+              By {{ hotel.managerEmail }} <span class="mx-1">•</span> Submitted just now
+            </div>
+          </div>
+
+          <!-- Right: Buttons -->
+          <div class="flex space-x-3 mt-4 sm:mt-0 pt-4 sm:pt-0 border-t border-gray-50 sm:border-0">
+            <button (click)="approveHotel(hotel.hotelId)" class="flex border border-emerald-600 items-center bg-emerald-600 text-white font-medium px-4 py-2 rounded-xl text-sm hover:bg-emerald-700 transition-colors shadow-sm">
+              <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              Approve
+            </button>
+            <button (click)="rejectHotel(hotel.hotelId)" class="flex border border-rose-100 items-center bg-rose-50 text-rose-600 font-medium px-4 py-2 rounded-xl text-sm hover:bg-rose-100 transition-colors">
+              <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              Reject
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- No pending -->
+      <div *ngIf="!isLoading && pendingHotels.length === 0" class="bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm mt-4">
+        <p class="text-gray-500 text-lg">All caught up! No pending hotel approvals.</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Mail;
 
 namespace Hospitium.NotificationService.Services
@@ -26,6 +26,7 @@ namespace Hospitium.NotificationService.Services
             };
 
             var mail = new MailMessage(fromEmail, to, subject, body);
+            mail.IsBodyHtml = true;
 
             try
             {

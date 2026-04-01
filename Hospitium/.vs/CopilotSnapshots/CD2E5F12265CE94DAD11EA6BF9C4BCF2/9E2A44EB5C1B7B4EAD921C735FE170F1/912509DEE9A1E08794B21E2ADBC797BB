@@ -1,0 +1,1364 @@
+﻿# Hospitium Microservices - Complete Code Documentation
+
+**Project:** Hospitium  
+**Target Framework:** .NET 8  
+**C# Version:** 12.0  
+**Repository:** https://github.com/Manish-Mamnani/Hospitium  
+
+---
+
+## Table of Contents
+
+1. [Hospitium.AuthService](#hospitiumauthservice)
+   - [Program Configuration](#program-configuration)
+   - [Models](#models)
+   - [Data Layer](#data-layer)
+   - [Services](#services)
+   - [DTOs](#dtos)
+   - [Controllers](#controllers)
+   - [Middleware](#middleware)
+   - [Exceptions](#exceptions)
+   - [Configuration](#configuration)
+
+2. [Hospitium.Contracts](#hospitiumcontracts)
+   - [Events](#events)
+
+3. [Hospitium.NotificationService](#hospitiumnotificationservice)
+   - [Program Configuration](#notification-program-configuration)
+   - [Services](#notification-services)
+   - [Consumers](#notification-consumers)
+
+4. [Hospitium.BookingService](#hospitiumbookingservice)
+   - [Program Configuration](#booking-program-configuration)
+   - [Models](#booking-models)
+   - [Services](#booking-services)
+   - [Controllers](#booking-controllers)
+   - [HTTP Clients](#http-clients)
+   - [DTOs](#booking-dtos)
+
+5. [Hospitium.HotelService](#hospitiumhotelservice)
+   - [Program Configuration](#hotel-program-configuration)
+   - [Models](#hotel-models)
+   - [Services](#hotel-services)
+   - [Consumers](#hotel-consumers)
+   - [Controllers](#hotel-controllers)
+
+6. [Hospitium.Gateway](#hospitiumgateway)
+   - [Program Configuration](#gateway-program-configuration)
+
+---
+
+## Hospitium.AuthService
+
+### Program Configuration
+
+**File:** `Hospitium.AuthService\Program.cs`
+
+```csharp
+using System.Text;
+using Hospitium.AuthService.Data;
+using Hospitium.AuthService.Middleware;
+using Hospitium.AuthService.Services;
+using Hospitium.AuthService.Services.Interfaces;
+using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Hospitium Auth API",
+        Version = "v1"
+    });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter JWT token like this: Bearer {your token}"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+builder.Services.AddDbContext<AuthDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/", h => { });
+    });
+});
+
+builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
+
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        NameClaimType = "UserId",
+        RoleClaimType = "Role"
+    };
+});
+
+var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+//app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+```
+
+**Configuration Summary:**
+- Enables Swagger/OpenAPI documentation with JWT Bearer security
+- Configures Entity Framework Core with SQL Server
+- Sets up MassTransit with RabbitMQ for messaging
+- Configures JWT authentication with symmetric key
+- Registers services: JwtService and AuthService
+- Enables exception handling middleware
+- Authentication and authorization middleware activated
+
+---
+
+### Models
+
+#### User Model
+
+**File:** `Hospitium.AuthService\Models\User.cs`
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+
+namespace Hospitium.AuthService.Models
+{
+    public class User
+    {
+        [Key]
+        public int UserId { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string FullName { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(150)]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        public string PasswordHash { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(20)]
+        public string Role { get; set; } = "User";
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    }
+}
+```
+
+**Properties:**
+- `UserId`: Primary key (auto-incrementing integer)
+- `FullName`: User's full name (required, max 100 characters)
+- `Email`: User's email address (required, max 150 characters, unique)
+- `PasswordHash`: Hashed password using BCrypt (required)
+- `Role`: User role (default: "User", max 20 characters)
+- `CreatedAt`: Account creation timestamp (defaults to UTC now)
+
+---
+
+### Data Layer
+
+#### AuthDbContext
+
+**File:** `Hospitium.AuthService\Data\AuthDbContext.cs`
+
+```csharp
+using Microsoft.EntityFrameworkCore;
+using Hospitium.AuthService.Models;
+
+namespace Hospitium.AuthService.Data
+{
+    public class AuthDbContext : DbContext
+    {
+        public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
+        {
+        }
+
+        public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.Email)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.PasswordHash)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.Role)
+                .IsRequired();
+        }
+    }
+}
+```
+
+**Configuration:**
+- Inherits from `DbContext`
+- Manages `DbSet<User>` for database operations
+- Enforces unique constraint on email
+- Ensures Email, PasswordHash, and Role are required fields
+
+---
+
+### Services
+
+#### JwtService
+
+**File:** `Hospitium.AuthService\Services\JwtService.cs`
+
+```csharp
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Hospitium.AuthService.Models;
+using Microsoft.IdentityModel.Tokens;
+
+namespace Hospitium.AuthService.Services
+{
+    public class JwtService
+    {
+        private readonly IConfiguration _configuration;
+
+        public JwtService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public string GenerateToken(User user)
+        {
+            var claims = new[]
+            {
+                new Claim("UserId", user.UserId.ToString()),
+                new Claim("Email", user.Email),
+                new Claim("Role", user.Role),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
+            };
+
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!)
+            );
+
+            var credentials = new SigningCredentials(
+                key,
+                SecurityAlgorithms.HmacSha256
+            );
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(2),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+    }
+}
+```
+
+**Methods:**
+- `GenerateToken(User user)`: Creates JWT token with 2-hour expiration
+  - **Token Claims:** UserId, Email, Role (both custom and standard claim types)
+  - **Algorithm:** HMAC SHA-256
+  - **Configuration Required:** Jwt:Key, Jwt:Issuer, Jwt:Audience
+
+---
+
+#### AuthService
+
+**File:** `Hospitium.AuthService\Services\AuthService.cs`
+
+```csharp
+using Hospitium.AuthService.Data;
+using Hospitium.AuthService.DTOs;
+using Hospitium.AuthService.Exceptions;
+using Hospitium.AuthService.Models;
+using Hospitium.AuthService.Services.Interfaces;
+using Hospitium.Contracts.Events;
+using MassTransit;
+using Microsoft.EntityFrameworkCore;
+
+namespace Hospitium.AuthService.Services
+{
+    public class AuthService : IAuthService
+    {
+        private readonly AuthDbContext _context;
+        private readonly JwtService _jwtService;
+        private readonly IPublishEndpoint _publish;
+
+        public AuthService(AuthDbContext context, JwtService jwtService, IPublishEndpoint publish)
+        {
+            _context = context;
+            _jwtService = jwtService;
+            _publish = publish;
+        }
+
+        public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
+        {
+            var normalizedEmail = dto.Email.Trim().ToLowerInvariant();
+            var existingUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == normalizedEmail);
+
+            if (existingUser != null)
+            {
+                throw new UserAlreadyExistsException("Email already registered");
+            }
+
+            var user = new User
+            {
+                FullName = dto.FullName.Trim(),
+                Email = normalizedEmail,
+                Role = "User",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
+            };
+
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            await _publish.Publish(new UserRegisteredEvent
+            {
+                UserId = user.UserId,
+                Email = user.Email,
+                Name = user.FullName
+            });
+
+            return CreateAuthResponse(user, "User registered successfully");
+        }
+
+        public async Task<AuthResponseDto> LoginAsync(LoginDto dto)
+        {
+            var normalizedEmail = dto.Email.Trim().ToLowerInvariant();
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == normalizedEmail);
+
+            if (user == null)
+            {
+                throw new UserNotFoundException("User not found");
+            }
+
+            var validPassword = BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash);
+
+            if (!validPassword)
+            {
+                throw new InvalidCredentialsException("Invalid credentials");
+            }
+
+            await _publish.Publish(new UserLoggedInEvent
+            {
+                UserId = user.UserId,
+                Email = user.Email,
+                LoginTime = DateTime.UtcNow
+            });
+
+            return CreateAuthResponse(user, "Login successful");
+        }
+
+        private AuthResponseDto CreateAuthResponse(User user, string message)
+        {
+            var token = _jwtService.GenerateToken(user);
+
+            return new AuthResponseDto
+            {
+                Message = message,
+                Token = token,
+                UserId = user.UserId,
+                Email = user.Email,
+                Role = user.Role
+            };
+        }
+    }
+}
+```
+
+**Methods:**
+
+**RegisterAsync(RegisterDto dto):**
+- Validates email is not already registered
+- Normalizes email (trim & lowercase)
+- Hashes password using BCrypt
+- Creates and saves new user to database
+- Publishes `UserRegisteredEvent` via MassTransit
+- Returns authentication response with JWT token
+
+**LoginAsync(LoginDto dto):**
+- Looks up user by normalized email
+- Verifies password using BCrypt comparison
+- Publishes `UserLoggedInEvent` on successful login
+- Returns authentication response with JWT token
+
+**CreateAuthResponse(User user, string message):**
+- Generates JWT token via JwtService
+- Returns AuthResponseDto with token, user info, and message
+
+---
+
+#### IAuthService Interface
+
+**File:** `Hospitium.AuthService\Services\Interfaces\IAuthService.cs`
+
+```csharp
+using Hospitium.AuthService.DTOs;
+
+namespace Hospitium.AuthService.Services.Interfaces
+{
+    public interface IAuthService
+    {
+        Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto);
+        Task<AuthResponseDto> LoginAsync(LoginDto loginDto);
+    }
+}
+```
+
+**Contract:**
+- `RegisterAsync`: Registers new user
+- `LoginAsync`: Authenticates user and returns token
+
+---
+
+### DTOs
+
+#### RegisterDto
+
+**File:** `Hospitium.AuthService\DTOs\RegisterDto.cs`
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+
+namespace Hospitium.AuthService.DTOs
+{
+    public class RegisterDto
+    {
+        [Required]
+        [StringLength(100, MinimumLength = 3)]
+        public string FullName { get; set; } = string.Empty;
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        [MinLength(6)]
+        public string Password { get; set; } = string.Empty;
+    }
+}
+```
+
+**Validation Rules:**
+- `FullName`: Required, 3-100 characters
+- `Email`: Required, valid email format
+- `Password`: Required, minimum 6 characters
+
+---
+
+#### LoginDto
+
+**File:** `Hospitium.AuthService\DTOs\LoginDto.cs`
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+
+namespace Hospitium.AuthService.DTOs
+{
+    public class LoginDto
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        public string Password { get; set; } = string.Empty;
+    }
+}
+```
+
+**Validation Rules:**
+- `Email`: Required, valid email format
+- `Password`: Required
+
+---
+
+#### AuthResponseDto
+
+**File:** `Hospitium.AuthService\DTOs\AuthResponseDto.cs`
+
+```csharp
+namespace Hospitium.AuthService.DTOs
+{
+    public class AuthResponseDto
+    {
+        public string Message { get; set; } = string.Empty;
+        public string Token { get; set; } = string.Empty;
+        public int UserId { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
+    }
+}
+```
+
+**Response Properties:**
+- `Message`: Status message (e.g., "Login successful")
+- `Token`: JWT bearer token
+- `UserId`: User's unique identifier
+- `Email`: User's email address
+- `Role`: User's role in the system
+
+---
+
+### Controllers
+
+#### AuthController
+
+**File:** `Hospitium.AuthService\Controllers\AuthController.cs`
+
+```csharp
+using Hospitium.AuthService.DTOs;
+using Hospitium.AuthService.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Hospitium.AuthService.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
+    {
+        private readonly IAuthService _authService;
+
+        public AuthController(IAuthService authService)
+        {
+            _authService = authService;
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterDto dto)
+        {
+            var result = await _authService.RegisterAsync(dto);
+            return Ok(result);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto dto)
+        {
+            var result = await _authService.LoginAsync(dto);
+            return Ok(result);
+        }
+    }
+}
+```
+
+**Endpoints:**
+
+**POST /api/auth/register**
+- Request: `RegisterDto` (FullName, Email, Password)
+- Response: `AuthResponseDto`
+- Throws: `UserAlreadyExistsException` (409 Conflict)
+
+**POST /api/auth/login**
+- Request: `LoginDto` (Email, Password)
+- Response: `AuthResponseDto`
+- Throws: `UserNotFoundException` (404), `InvalidCredentialsException` (401)
+
+---
+
+### Middleware
+
+#### ExceptionHandlingMiddleware
+
+**File:** `Hospitium.AuthService\Middleware\ExceptionHandlingMiddleware.cs`
+
+```csharp
+using System.Net;
+using System.Text.Json;
+using Hospitium.AuthService.Exceptions;
+
+namespace Hospitium.AuthService.Middleware
+{
+    public class ExceptionHandlingMiddleware
+    {
+        private readonly RequestDelegate _next;
+
+        public ExceptionHandlingMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+
+        public async Task InvokeAsync(HttpContext context)
+        {
+            try
+            {
+                await _next(context);
+            }
+            catch (Exception exception)
+            {
+                await HandleExceptionAsync(context, exception);
+            }
+        }
+
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        {
+            var statusCode = exception switch
+            {
+                UserAlreadyExistsException => HttpStatusCode.Conflict,
+                InvalidCredentialsException => HttpStatusCode.Unauthorized,
+                UserNotFoundException => HttpStatusCode.NotFound,
+                _ => HttpStatusCode.InternalServerError
+            };
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)statusCode;
+
+            var response = JsonSerializer.Serialize(new { message = exception.Message });
+            return context.Response.WriteAsync(response);
+        }
+    }
+}
+```
+
+**Exception Mapping:**
+- `UserAlreadyExistsException` → 409 Conflict
+- `InvalidCredentialsException` → 401 Unauthorized
+- `UserNotFoundException` → 404 Not Found
+- Other exceptions → 500 Internal Server Error
+
+**Response Format:**
+```json
+{ "message": "exception message" }
+```
+
+---
+
+### Exceptions
+
+#### UserAlreadyExistsException
+
+**File:** `Hospitium.AuthService\Exceptions\UserAlreadyExistsException.cs`
+
+```csharp
+namespace Hospitium.AuthService.Exceptions
+{
+    public class UserAlreadyExistsException : Exception
+    {
+        public UserAlreadyExistsException(string message) : base(message)
+        {
+        }
+    }
+}
+```
+
+---
+
+#### UserNotFoundException
+
+**File:** `Hospitium.AuthService\Exceptions\UserNotFoundException.cs`
+
+```csharp
+namespace Hospitium.AuthService.Exceptions
+{
+    public class UserNotFoundException : Exception
+    {
+        public UserNotFoundException(string message) : base(message)
+        {
+        }
+    }
+}
+```
+
+---
+
+#### InvalidCredentialsException
+
+**File:** `Hospitium.AuthService\Exceptions\InvalidCredentialsException.cs`
+
+```csharp
+namespace Hospitium.AuthService.Exceptions
+{
+    public class InvalidCredentialsException : Exception
+    {
+        public InvalidCredentialsException(string message) : base(message)
+        {
+        }
+    }
+}
+```
+
+---
+
+### Configuration
+
+#### appsettings.json
+
+**File:** `Hospitium.AuthService\appsettings.json`
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=.\\sqlexpress;Initial Catalog=HospitiumAuthDb;Integrated Security=True;Trust Server Certificate=True"
+  },
+  "Jwt": {
+    "Key": "b1b5e8c7c2a44e779d5f9f2c8e6a0a1f4d9c2b7e8f1a3c6d5e4f7b8a9c0d1e2",
+    "Issuer": "Hospitium",
+    "Audience": "HospitiumUsers"
+  },
+  "RabbitMQ": {
+    "Host": "localhost",
+    "Username": "guest",
+    "Password": "guest"
+  },
+  "AllowedHosts": "*"
+}
+```
+
+**Configuration Details:**
+- **Database:** SQL Server Express (Windows Authentication)
+- **JWT:** 256-bit symmetric key for HMAC-SHA256 signing
+- **Issuer:** Hospitium
+- **Audience:** HospitiumUsers
+- **Message Queue:** RabbitMQ on localhost
+- **Logging:** Default=Information, AspNetCore=Warning
+
+---
+
+## Hospitium.Contracts
+
+### Events
+
+#### UserRegisteredEvent
+
+**File:** `Hospitium.Contracts\Events\UserRegisteredEvent.cs`
+
+```csharp
+namespace Hospitium.Contracts.Events
+{
+    public class UserRegisteredEvent
+    {
+        public int UserId { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+    }
+}
+```
+
+**Purpose:** Published when user successfully registers
+- `UserId`: New user's ID
+- `Email`: Registered email
+- `Name`: User's full name
+
+---
+
+#### UserLoggedInEvent
+
+**File:** `Hospitium.Contracts\Events\UserLoggedInEvent.cs`
+
+```csharp
+namespace Hospitium.Contracts.Events
+{
+    public class UserLoggedInEvent
+    {
+        public int UserId { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public DateTime LoginTime { get; set; }
+    }
+}
+```
+
+**Purpose:** Published when user successfully logs in
+- `UserId`: User's ID
+- `Email`: User's email
+- `LoginTime`: UTC timestamp of login
+
+---
+
+#### HotelApprovedEvent
+
+**File:** `Hospitium.Contracts\Events\HotelApprovedEvent.cs`
+
+```csharp
+namespace Hospitium.Contracts.Events
+{
+    public class HotelApprovedEvent
+    {
+        public int HotelId { get; set; }
+        public string ManagerEmail { get; set; } = string.Empty;
+        public string HotelName { get; set; } = string.Empty;
+    }
+}
+```
+
+**Purpose:** Published when hotel registration is approved
+- `HotelId`: Approved hotel's ID
+- `ManagerEmail`: Hotel manager's email
+- `HotelName`: Hotel name
+
+---
+
+#### HotelRejectedEvent
+
+**File:** `Hospitium.Contracts\Events\HotelRejectedEvent.cs`
+
+```csharp
+namespace Hospitium.Contracts.Events
+{
+    public class HotelRejectedEvent
+    {
+        public int HotelId { get; set; }
+        public string ManagerEmail { get; set; } = string.Empty;
+        public string HotelName { get; set; } = string.Empty;
+    }
+}
+```
+
+**Purpose:** Published when hotel registration is rejected
+- `HotelId`: Rejected hotel's ID
+- `ManagerEmail`: Hotel manager's email
+- `HotelName`: Hotel name
+
+---
+
+#### BookingCreatedEvent
+
+**File:** `Hospitium.Contracts\Events\BookingCreatedEvent.cs`
+
+```csharp
+namespace Hospitium.Contracts.Events
+{
+    public class BookingCreatedEvent
+    {
+        public int BookingId { get; set; }
+        public int RoomId { get; set; }
+        public string UserEmail { get; set; } = string.Empty;
+    }
+}
+```
+
+**Purpose:** Published when booking is successfully created
+- `BookingId`: New booking's ID
+- `RoomId`: Booked room's ID
+- `UserEmail`: Booking user's email
+
+---
+
+#### BookingCancelledEvent
+
+**File:** `Hospitium.Contracts\Events\BookingCancelledEvent.cs`
+
+```csharp
+namespace Hospitium.Contracts.Events
+{
+    public class BookingCancelledEvent
+    {
+        public int BookingId { get; set; }
+        public int RoomId { get; set; }
+        public string UserEmail { get; set; } = string.Empty;
+        public DateTime CancelledAt { get; set; }
+    }
+}
+```
+
+**Purpose:** Published when booking is cancelled
+- `BookingId`: Cancelled booking's ID
+- `RoomId`: Room's ID
+- `UserEmail`: User's email
+- `CancelledAt`: UTC timestamp of cancellation
+
+---
+
+## Summary
+
+### Architecture Overview
+
+**Technology Stack:**
+- **.NET 8** with C# 12
+- **Entity Framework Core** for ORM
+- **SQL Server Express** for data persistence
+- **MassTransit + RabbitMQ** for asynchronous messaging
+- **JWT** for authentication
+- **BCrypt** for password hashing
+- **Swagger/OpenAPI** for API documentation
+
+### Service Interaction
+
+1. **AuthService** handles user registration and login
+2. Publishes events to MassTransit/RabbitMQ:
+   - `UserRegisteredEvent` on registration
+   - `UserLoggedInEvent` on login
+3. Other services consume these events via RabbitMQ
+4. Returns JWT tokens for authenticated requests
+
+### Security Features
+
+- JWT token-based authentication
+- Password hashing with BCrypt
+- Email uniqueness constraint
+- Token expiration (2 hours)
+- Email validation and normalization
+- Exception handling with appropriate HTTP status codes
+
+---
+
+**Document Generated:** 2024  
+**Version:** 1.0
+
+---
+
+## Hospitium.NotificationService
+
+### Notification Program Configuration
+
+**File:** `Hospitium.NotificationService\Program.cs`
+
+```csharp
+using Hospitium.NotificationService.Services;
+using Hospitium.NotificationService.Consumers;
+using MassTransit;
+
+namespace Hospitium.NotificationService
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
+            builder.Services.AddSingleton<EmailService>();
+
+            builder.Services.AddMassTransit(x =>
+            {
+                x.AddConsumer<UserRegisteredConsumer>();
+                x.AddConsumer<UserLoggedInConsumer>();
+                x.AddConsumer<BookingCreatedConsumer>();
+                x.AddConsumer<BookingCancelledConsumer>();
+                x.AddConsumer<HotelApprovedConsumer>();
+                x.AddConsumer<HotelRejectedConsumer>();
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host("localhost", "/", h => { });
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
+
+            var app = builder.Build();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseAuthorization();
+            app.MapControllers();
+            app.Run();
+        }
+    }
+}
+```
+
+**Configuration Summary:**
+- Registers all 6 event consumers
+- Configures MassTransit with RabbitMQ
+- Email service configured as singleton
+- No database or authentication needed (background service)
+
+---
+
+### Notification Services
+
+#### EmailService
+
+**File:** `Hospitium.NotificationService\Services\EmailService.cs`
+
+```csharp
+using System.Net;
+using System.Net.Mail;
+
+namespace Hospitium.NotificationService.Services
+{
+    public class EmailService
+    {
+        private readonly IConfiguration _config;
+
+        public EmailService(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        public async Task SendEmailAsync(string to, string subject, string body)
+        {
+            var host = _config["Smtp:Host"];
+            var port = int.Parse(_config["Smtp:Port"]!);
+            var fromEmail = _config["Smtp:Email"];
+            var password = _config["Smtp:Password"];
+
+            var smtpClient = new SmtpClient(host, port)
+            {
+                Credentials = new NetworkCredential(fromEmail, password),
+                EnableSsl = true
+            };
+
+            var mail = new MailMessage(fromEmail, to, subject, body);
+
+            try
+            {
+                await smtpClient.SendMailAsync(mail);
+                Console.WriteLine("✅ Email sent successfully");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Email failed: {ex.Message}");
+            }
+        }
+    }
+}
+```
+
+**Methods:**
+- `SendEmailAsync(string to, string subject, string body)`: Sends email via SMTP
+  - Uses configuration for SMTP credentials
+  - Enables SSL for security
+  - Logs success/failure to console
+
+---
+
+### Notification Consumers
+
+All 6 consumers follow the same pattern - they consume domain events and send transactional emails:
+
+- **UserRegisteredConsumer**: Welcome email
+- **UserLoggedInConsumer**: Login notification
+- **BookingCreatedConsumer**: Booking confirmation
+- **BookingCancelledConsumer**: Cancellation notice
+- **HotelApprovedConsumer**: Approval notification to hotel manager
+- **HotelRejectedConsumer**: Rejection notification to hotel manager
+
+---
+
+## Hospitium.BookingService
+
+### Booking Program Configuration
+
+**File:** `Hospitium.BookingService\Program.cs`
+
+Configures:
+- JWT authentication (validates tokens from AuthService)
+- Entity Framework Core with SQL Server
+- MassTransit for publishing booking events
+- HttpClient for Hotel Service communication
+- Exception handling middleware
+
+---
+
+### Booking Models
+
+#### Booking Model
+
+**File:** `Hospitium.BookingService\Models\Booking.cs`
+
+**Properties:**
+- `BookingId`: Primary key
+- `UserId`: User who made the booking
+- `RoomId`: Room being booked
+- `FromDate`: Check-in date
+- `ToDate`: Check-out date
+- `Status`: "Confirmed" or "Cancelled"
+- `UserEmail`: User's email (for notifications)
+- `CreatedAt`: Booking creation timestamp
+
+---
+
+### Booking Services
+
+**Key Features:**
+- Validates booking dates (FromDate < ToDate)
+- Checks for date conflicts with other bookings
+- Calls Hotel Service to verify room availability
+- Publishes `BookingCreatedEvent` and `BookingCancelledEvent`
+- Supports filtering by "active" or "history" bookings
+- Enforces authorization (users can only see their own bookings)
+
+---
+
+### Booking Controllers
+
+**Main Endpoints:**
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `/api/bookings` | Required | Create new booking |
+| GET | `/api/bookings/my?type=active\|history` | Required | Get user's bookings |
+| GET | `/api/bookings?date=2024-01-01` | Admin | Get all bookings |
+| PUT | `/api/bookings/{id}/cancel` | Required | Cancel booking |
+| GET | `/api/bookings/{id}` | Required | Get booking details |
+
+---
+
+### HTTP Clients
+
+**HotelClient**: Communicates with Hotel Service at `http://localhost:5002`
+- Method: `IsRoomAvailable(int roomId)` - Checks if a room has availability
+- Used during booking creation to verify room is available
+
+---
+
+## Hospitium.HotelService
+
+### Hotel Program Configuration
+
+**File:** `Hospitium.HotelService\Program.cs`
+
+Configures:
+- Consumes `BookingCreatedEvent` and `BookingCancelledEvent` from RabbitMQ
+- Explicit queue configuration for booking events
+- JWT authentication with role-based authorization
+- Entity Framework Core with SQL Server
+
+---
+
+### Hotel Models
+
+#### Hotel Model
+- `Status`: "Pending", "Approved", or "Rejected"
+- `AverageRating`: Calculated from user reviews
+- `ManagerEmail`: For notifications
+- One-to-many relationship with Rooms
+
+#### Room Model
+- `Type`: Room category (e.g., "Single", "Double", "Suite")
+- `Price`: Per night (decimal)
+- `TotalCount`: Total rooms available
+- `AvailableCount`: Rooms not yet booked
+
+---
+
+### Hotel Services
+
+**HotelService**: Handles hotel and room management
+- Create hotels (HotelManager role)
+- Approve/reject hotels (Admin role)
+- Create/update rooms
+- Add ratings to hotels
+
+**HotelQueryService**: Advanced hotel search and filtering
+- Search by name
+- Filter by city, price range
+- Sort by name, price, or rating
+- Pagination support
+- Only shows approved hotels to public
+
+---
+
+### Hotel Consumers
+
+**BookingCreatedConsumer**: Decrements available room count when booking is created
+**BookingCancelledConsumer**: Increments available room count when booking is cancelled
+
+---
+
+### Hotel Controllers
+
+**Main Endpoints:**
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `/api/hotels` | HotelManager | Create new hotel |
+| POST | `/api/hotels/rooms` | HotelManager | Add room to hotel |
+| GET | `/api/hotels?search=...&city=...&minPrice=...&maxPrice=...&sortBy=name&order=asc&page=1&pageSize=10` | Anonymous | Search/filter hotels |
+| GET | `/api/hotels/{id}` | Anonymous | Get hotel details |
+| GET | `/api/hotels/{id}/rooms` | Anonymous | Get hotel's rooms |
+| GET | `/api/hotels/rooms/{roomId}` | Anonymous | Check room availability |
+| PUT | `/api/hotels/rooms/{roomId}` | HotelManager | Update room |
+| PUT | `/api/hotels/{id}/approve` | Admin | Approve pending hotel |
+| PUT | `/api/hotels/{id}/reject` | Admin | Reject pending hotel |
+| GET | `/api/hotels/my` | HotelManager | Get manager's hotels |
+
+---
+
+## Hospitium.Gateway
+
+### Gateway Configuration
+
+**File:** `Hospitium.Gateway\Program.cs`
+
+**Purpose:**
+- Acts as **API Gateway** using Ocelot
+- Routes requests to all microservices
+- Centralizes JWT authentication
+- Single entry point for all client requests
+- Configuration from `ocelot.json` file
+
+**Key Features:**
+- JWT validation before routing to services
+- Request/response transformation
+- Load balancing support
+- Request rate limiting capability
+
+---
+
+## Architecture Summary
+
+### Microservices Overview
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        API Gateway                          │
+│              (Routes + JWT Validation)                      │
+└──────┬──────────┬──────────┬──────────┬──────────────────┬──┘
+       │          │          │          │                  │
+   Auth API   Booking API  Hotel API  Notification      Contract
+                                      Service            (Events)
+       │          │          │          │
+    ┌──┴┐      ┌──┴┐      ┌──┴┐        │
+    │DB │      │DB │      │DB │        │
+    └───┘      └───┘      └───┘        │
+       │          │          │          │
+       └──────────┼──────────┼──────────┘
+                  │          │
+            RabbitMQ / MassTransit
+```
+
+### Event-Driven Flow
+
+1. **User Registration** (AuthService)
+   - Publishes `UserRegisteredEvent`
+   - NotificationService sends welcome email
+
+2. **User Login** (AuthService)
+   - Publishes `UserLoggedInEvent`
+   - NotificationService sends login notification
+
+3. **Booking Creation** (BookingService)
+   - Calls HotelService to check room availability
+   - Publishes `BookingCreatedEvent`
+   - HotelService decrements available count
+   - NotificationService sends confirmation email
+
+4. **Booking Cancellation** (BookingService)
+   - Publishes `BookingCancelledEvent`
+   - HotelService increments available count
+   - NotificationService sends cancellation email
+
+5. **Hotel Approval** (HotelService)
+   - Publishes `HotelApprovedEvent`
+   - NotificationService notifies hotel manager
+
+6. **Hotel Rejection** (HotelService)
+   - Publishes `HotelRejectedEvent`
+   - NotificationService notifies hotel manager
+
+### Database Summary
+
+| Service | Database | Purpose |
+|---------|----------|---------|
+| AuthService | HospitiumAuthDb | User accounts, credentials |
+| BookingService | HospitiumBookingDb | Bookings, dates, status |
+| HotelService | HospitiumHotelDb | Hotels, rooms, availability |
+| NotificationService | None | (Stateless event consumer) |
+| Gateway | None | (Routes only) |
+
+### Technology Stack
+
+- **.NET 8** with **C# 12**
+- **Entity Framework Core** for ORM
+- **SQL Server Express** for data persistence
+- **MassTransit + RabbitMQ** for async messaging
+- **JWT** for authentication
+- **BCrypt** for password hashing
+- **Ocelot** for API Gateway
+- **Swagger/OpenAPI** for API documentation
+
+### Security Features
+
+- JWT token-based authentication
+- Role-based authorization (User, Admin, HotelManager)
+- Password hashing with BCrypt
+- Email validation and normalization
+- Authorization checks for sensitive operations
+- Exception handling with appropriate HTTP status codes
+
+### Service Ports
+
+- **AuthService**: Port 5001
+- **HotelService**: Port 5002
+- **BookingService**: Port 5003
+- **NotificationService**: Port 5004
+- **Gateway**: Port 5000
+
+---
+
+**Document Generated:** 2024  
+**Version:** 2.0 - Complete Microservices Architecture

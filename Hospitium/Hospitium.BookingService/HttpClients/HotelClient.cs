@@ -1,36 +1,79 @@
-﻿using System.Text.Json;
+using System;
+using System.Linq;
+using System.Text.Json;
+using Hospitium.BookingService.DTOs;
 
 namespace Hospitium.BookingService.HttpClients
 {
     public class HotelClient : IHotelClient
     {
         private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HotelClient(HttpClient httpClient)
+        public HotelClient(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<bool> IsRoomAvailable(int roomId)
+        private void AddAuthHeader()
         {
-            var response = await _httpClient.GetAsync($"/api/hotels/rooms/{roomId}");
+            var authHeader = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"].FirstOrDefault();
+            if (!string.IsNullOrEmpty(authHeader))
+            {
+                _httpClient.DefaultRequestHeaders.Remove("Authorization");
+                _httpClient.DefaultRequestHeaders.Add("Authorization", authHeader);
+            }
+        }
+
+        public async Task<List<int>> GetManagerRoomIdsAsync()
+        {
+            AddAuthHeader();
+            var response = await _httpClient.GetAsync("/api/hotels/my/room-ids");
 
             if (!response.IsSuccessStatusCode)
-                return false;
+                return new List<int>();
 
             var content = await response.Content.ReadAsStringAsync();
-
-            var room = JsonSerializer.Deserialize<RoomResponse>(
-                content,
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-            return room != null && room.AvailableCount > 0;
+            return JsonSerializer.Deserialize<List<int>>(content) ?? new List<int>();
         }
 
-        private class RoomResponse
+        public async Task<(bool IsAvailable, decimal Price)> CheckRoomAvailabilityAndPrice(int roomId, int requestedRooms)
         {
-            public int RoomId { get; set; }
-            public int AvailableCount { get; set; }
+            var room = await GetRoomDetailsAsync(roomId);
+
+            if (room != null && room.AvailableCount >= requestedRooms)
+            {
+                return (true, room.Price);
+            }
+
+            return (false, 0);
         }
+
+        public async Task<RoomResponseDto?> GetRoomDetailsAsync(int roomId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"/api/hotels/rooms/{roomId}");
+
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                var content = await response.Content.ReadAsStringAsync();
+
+                if (string.IsNullOrWhiteSpace(content))
+                    return null;
+
+                return JsonSerializer.Deserialize<RoomResponseDto>(
+                    content,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            }
+            catch (Exception ex)
+            {
+                // In a production environment, you would log the exception here.
+                return null; 
+            }
+        }
+
     }
 }

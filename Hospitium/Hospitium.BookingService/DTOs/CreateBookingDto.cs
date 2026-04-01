@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospitium.BookingService.DTOs
 {
@@ -12,5 +12,9 @@ namespace Hospitium.BookingService.DTOs
 
         [Required]
         public DateTime ToDate { get; set; }
+
+        [Required]
+        [Range(1, 100, ErrorMessage = "Number of rooms must be greater than 0.")]
+        public int NumberOfRooms { get; set; } = 1;
     }
 }

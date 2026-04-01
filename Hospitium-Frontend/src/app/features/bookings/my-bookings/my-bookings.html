@@ -1,0 +1,121 @@
+<div class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8 mt-4">
+  <h1 class="text-4xl font-display font-semibold text-brand-900 mb-8 tracking-tight">My Bookings</h1>
+
+  <!-- Tabs -->
+  <div class="mb-10">
+    <div class="inline-flex bg-gray-50 p-1 rounded-xl shadow-inner border border-gray-100">
+      <button (click)="setTab('active')"
+        [class]="activeTab === 'active' ? 'bg-white text-brand-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+        class="px-6 py-2.5 text-sm font-semibold rounded-lg transition-all focus:outline-none">
+        Active
+      </button>
+      <button (click)="setTab('past')"
+        [class]="activeTab === 'past' ? 'bg-white text-brand-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+        class="px-6 py-2.5 text-sm font-semibold rounded-lg transition-all focus:outline-none">
+        History
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="flex justify-center items-center py-12">
+    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-brand-600"></div>
+  </div>
+
+  <!-- Active Bookings -->
+  <div *ngIf="!isLoading && activeTab === 'active'" class="animate-fade-in">
+    <div *ngIf="activeBookings.length === 0" class="bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm">
+      <p class="text-gray-500 text-lg">You have no active bookings at the moment.</p>
+    </div>
+
+    <div *ngIf="activeBookings.length > 0" class="space-y-5">
+      <div *ngFor="let booking of activeBookings"
+           class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col sm:flex-row sm:items-center gap-5 relative overflow-hidden group">
+
+        <!-- Left Icon -->
+        <div class="flex-shrink-0">
+          <div class="w-14 h-14 bg-brand-100 rounded-xl flex items-center justify-center text-brand-600 group-hover:scale-105 transition-transform">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
+        </div>
+
+        <!-- Center Info -->
+        <div class="flex-1 min-w-0">
+          <h3 class="text-lg font-semibold text-gray-900 truncate">{{ booking.hotelName }}</h3>
+          <p class="text-sm text-gray-500 mt-1 flex items-center">
+            <span>{{ booking.roomType }}</span>
+            <span class="mx-2 text-gray-300">•</span>
+            <span>{{ booking.numberOfRooms }} room(s)</span>
+            <span class="mx-2 text-gray-300">•</span>
+            <span class="font-mono text-xs">HB-{{ booking.bookingId }}</span>
+          </p>
+          <div class="flex items-center text-sm text-gray-500 mt-2">
+            <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            {{ booking.fromDate | date:'MMM d, yyyy' }}
+            <span class="mx-2">→</span>
+            {{ booking.toDate | date:'MMM d, yyyy' }}
+          </div>
+        </div>
+
+        <!-- Right Side: Price & Actions -->
+        <div class="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-4 mt-4 sm:mt-0 pt-4 sm:pt-0 border-t border-gray-50 sm:border-0 w-full sm:w-auto">
+          <div class="flex items-center space-x-4">
+            <span class="text-2xl font-bold text-brand-900 tracking-tight">₹{{ booking.totalPrice }}</span>
+            <span class="badge-success px-3 py-1">Confirmed</span>
+            <button (click)="cancelBooking(booking.bookingId)"
+                    [disabled]="cancellingId === booking.bookingId"
+                    class="bg-rose-50 text-rose-600 hover:bg-rose-100 hover:text-rose-700 font-medium px-4 py-1.5 rounded-lg text-sm transition-colors cursor-pointer disabled:opacity-50">
+              {{ cancellingId === booking.bookingId ? 'Cancelling...' : 'Cancel' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Past Bookings -->
+  <div *ngIf="!isLoading && activeTab === 'past'" class="animate-fade-in">
+    <div *ngIf="pastBookings.length === 0" class="bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm">
+      <p class="text-gray-500 text-lg">You have no booking history.</p>
+    </div>
+
+    <div *ngIf="pastBookings.length > 0" class="space-y-5">
+      <div *ngFor="let booking of pastBookings"
+           class="bg-white opacity-80 p-5 rounded-2xl border border-gray-100 flex flex-col sm:flex-row sm:items-center gap-5 group">
+
+        <!-- Left Icon -->
+        <div class="flex-shrink-0">
+          <div class="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
+        </div>
+
+        <!-- Center Info -->
+        <div class="flex-1 min-w-0">
+          <h3 class="text-lg font-semibold text-gray-700 truncate">{{ booking.hotelName }}</h3>
+          <p class="text-sm text-gray-500 mt-1 flex items-center">
+            <span>{{ booking.roomType }}</span>
+            <span class="mx-2 text-gray-300">•</span>
+            <span>{{ booking.numberOfRooms }} room(s)</span>
+            <span class="mx-2 text-gray-300">•</span>
+            <span class="font-mono text-xs">HB-{{ booking.bookingId }}</span>
+          </p>
+          <div class="flex items-center text-sm text-gray-400 mt-2">
+            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            {{ booking.fromDate | date:'MMM d, yyyy' }}
+            <span class="mx-2">→</span>
+            {{ booking.toDate | date:'MMM d, yyyy' }}
+          </div>
+        </div>
+
+        <!-- Right Side: Price & Status -->
+        <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+          <span class="text-xl font-bold text-gray-600 tracking-tight">₹{{ booking.totalPrice }}</span>
+          <span [class]="booking.status === 'Cancelled' ? 'badge-error' : 'badge-warning'" class="px-3 py-1">
+            {{ booking.status }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

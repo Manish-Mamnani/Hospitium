@@ -1,0 +1,113 @@
+<div class="flex min-h-[calc(100vh-5rem)] bg-gray-50">
+  <!-- Sidebar -->
+  <div class="w-64 bg-white border-r border-gray-100 hidden md:block border-t border-gray-100 flex-shrink-0">
+    <div class="px-5 py-6">
+      <p class="text-xs font-bold text-gray-400 mb-4 tracking-wider uppercase">Admin Panel</p>
+      <div class="space-y-1">
+        <a routerLink="/admin" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="bg-brand-100 text-brand-700 font-medium" class="flex items-center px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          Dashboard
+        </a>
+        <a routerLink="/admin/approvals" routerLinkActive="bg-brand-100 text-brand-700 font-medium" class="flex items-center px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Approval Queue
+        </a>
+        <a routerLink="/admin/hotels" routerLinkActive="bg-brand-100 text-brand-700 font-medium" class="flex items-center px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          Hotel Management
+        </a>
+        <a routerLink="/admin/global-bookings" routerLinkActive="bg-brand-100 text-brand-700 font-medium" class="flex items-center px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Global Bookings
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 p-8 overflow-y-auto">
+    <div class="max-w-6xl">
+
+      <!-- Header + Filter -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 class="text-3xl font-display font-semibold text-brand-900 tracking-tight">Global Bookings</h1>
+          <p class="text-gray-500 mt-2 text-sm">All bookings across the platform</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <input type="date" [(ngModel)]="filterDate"
+                 class="px-4 py-2.5 rounded-xl border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+          <button (click)="loadBookings()"
+                  class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition-colors">
+            Filter
+          </button>
+          <button *ngIf="filterDate" (click)="filterDate=''; loadBookings()"
+                  class="px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm hover:bg-gray-50 transition-colors">
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div *ngIf="isLoading" class="flex justify-center py-12">
+        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600"></div>
+      </div>
+
+      <!-- Table -->
+      <div *ngIf="!isLoading" class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div *ngIf="bookings.length === 0" class="p-12 text-center">
+          <p class="text-gray-500">No bookings found{{ filterDate ? ' for the selected date' : '' }}.</p>
+        </div>
+
+        <table *ngIf="bookings.length > 0" class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-100 bg-gray-50">
+              <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Booking ID</th>
+              <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Guest</th>
+              <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Hotel / Room</th>
+              <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Dates</th>
+              <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Amount</th>
+              <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-50">
+            <tr *ngFor="let b of bookings" class="hover:bg-gray-50 transition-colors">
+              <td class="px-5 py-4 font-mono text-xs text-gray-500">#{{ b.bookingId }}</td>
+              <td class="px-5 py-4">
+                <p class="font-medium text-gray-900">{{ b.userEmail }}</p>
+              </td>
+              <td class="px-5 py-4">
+                <p class="font-medium text-gray-900">{{ b.hotelName || 'Hotel #' + b.hotelId }}</p>
+                <p class="text-xs text-gray-500 mt-0.5">{{ b.roomType }} · {{ b.numberOfRooms }} room(s)</p>
+              </td>
+              <td class="px-5 py-4 text-gray-600">
+                {{ b.fromDate | date:'MMM d' }} – {{ b.toDate | date:'MMM d, y' }}
+              </td>
+              <td class="px-5 py-4 font-semibold text-gray-900">₹{{ b.totalPrice }}</td>
+              <td class="px-5 py-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-semibold" [class]="getStatusClass(b.status)">
+                  {{ b.status }}
+                </span>
+              </td>
+              <td class="px-5 py-4">
+                <button *ngIf="b.status?.toLowerCase() === 'confirmed'"
+                        (click)="cancelBooking(b.bookingId)"
+                        [disabled]="cancellingId === b.bookingId"
+                        class="px-3 py-1.5 rounded-lg text-xs font-medium text-red-600 border border-red-200 hover:bg-red-50 disabled:opacity-50 transition-colors">
+                  {{ cancellingId === b.bookingId ? 'Cancelling...' : 'Cancel' }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Summary -->
+      <p *ngIf="!isLoading && bookings.length > 0" class="text-sm text-gray-400 mt-4">
+        Showing {{ bookings.length }} booking(s)
+      </p>
+
+    </div>
+  </div>
+</div>

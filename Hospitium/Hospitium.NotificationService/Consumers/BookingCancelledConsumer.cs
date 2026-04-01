@@ -1,4 +1,4 @@
-﻿using MassTransit;
+using MassTransit;
 using Hospitium.Contracts.Events;
 using Hospitium.NotificationService.Services;
 
@@ -17,10 +17,34 @@ namespace Hospitium.NotificationService.Consumers
         {
             var booking = context.Message;
 
+            var htmlBody = $@"
+                <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;'>
+                    <div style='background-color: #EF4444; color: white; padding: 20px; text-align: center;'>
+                        <h1 style='margin: 0; font-size: 24px;'>Hospitium</h1>
+                        <p style='margin: 5px 0 0;'>Booking Cancellation</p>
+                    </div>
+                    <div style='padding: 30px;'>
+                        <h2 style='color: #333;'>Booking Cancelled</h2>
+                        <p style='color: #555; font-size: 16px; line-height: 1.5;'>
+                            We're sorry to see you go. Your booking <strong>#{booking.BookingId}</strong> has been successfully cancelled.
+                        </p>
+                        <div style='background-color: #fce8e8; padding: 15px; border-radius: 5px; margin-top: 20px; border: 1px solid #fecaca;'>
+                            <p style='margin: 0 0 10px; color: #7f1d1d;'><strong>Booking ID:</strong> HB-{booking.BookingId}</p>
+                            <p style='margin: 0 0 10px; color: #7f1d1d;'><strong>Cancelled At:</strong> {booking.CancelledAt:f}</p>
+                        </div>
+                        <p style='color: #777; font-size: 14px; margin-top: 30px;'>
+                            Any eligible refund will be processed within 5-7 business days. We hope to host you another time!
+                        </p>
+                    </div>
+                    <div style='background-color: #f3f4f6; color: #888; text-align: center; padding: 15px; font-size: 12px;'>
+                        &copy; {DateTime.Now.Year} Hospitium Inc. All rights reserved.
+                    </div>
+                </div>";
+
             await _email.SendEmailAsync(
                 booking.UserEmail,
-                "Booking Cancelled",
-                $"Your booking #{booking.BookingId} was cancelled at {booking.CancelledAt}."
+                "Hospitium: Booking Cancellation Notice",
+                htmlBody
             );
 
         }

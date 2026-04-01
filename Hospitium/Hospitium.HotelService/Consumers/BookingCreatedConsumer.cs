@@ -1,4 +1,4 @@
-﻿using Hospitium.Contracts.Events;
+using Hospitium.Contracts.Events;
 using Hospitium.HotelService.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -25,9 +25,11 @@ namespace Hospitium.HotelService.Consumers
             if (room == null)
                 return;
 
-            if (room.AvailableCount > 0)
+            var requestedRooms = context.Message.NumberOfRooms > 0 ? context.Message.NumberOfRooms : 1;
+
+            if (room.AvailableCount >= requestedRooms)
             {
-                room.AvailableCount--;
+                room.AvailableCount -= requestedRooms;
                 await _context.SaveChangesAsync();
             }
         }

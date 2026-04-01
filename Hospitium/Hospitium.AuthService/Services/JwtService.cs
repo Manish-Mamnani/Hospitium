@@ -22,6 +22,7 @@ namespace Hospitium.AuthService.Services
                 new Claim("UserId", user.UserId.ToString()),
                 new Claim("Email", user.Email),
                 new Claim("Role", user.Role),
+                new Claim("FullName", user.FullName ?? string.Empty),
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role)

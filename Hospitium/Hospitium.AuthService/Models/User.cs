@@ -23,5 +23,10 @@ namespace Hospitium.AuthService.Models
         public string Role { get; set; } = "User";
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [MaxLength(6)]
+        public string? ResetOtp { get; set; }
+
+        public DateTime? ResetOtpExpiry { get; set; }
     }
 }

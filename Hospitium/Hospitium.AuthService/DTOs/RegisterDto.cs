@@ -15,5 +15,8 @@ namespace Hospitium.AuthService.DTOs
         [Required]
         [MinLength(6)]
         public string Password { get; set; } = string.Empty;
+
+        [Required]
+        public string Role { get; set; } = "User"; // Will accept "User" or "HotelManager"
     }
 }

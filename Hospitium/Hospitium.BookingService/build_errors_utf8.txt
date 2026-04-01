@@ -1,0 +1,12 @@
+﻿  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Hospitium.Contracts -> D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.Contracts\bin\Debug\net8.0\Hospitium.Contracts.dll
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.BookingService\Program.cs(53,14): error CS1513: } expected [D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.BookingService\Hospitium.BookingService.csproj]
+
+Build FAILED.
+
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.BookingService\Program.cs(53,14): error CS1513: } expected [D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.BookingService\Hospitium.BookingService.csproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:02.29

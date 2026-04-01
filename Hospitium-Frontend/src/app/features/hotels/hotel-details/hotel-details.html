@@ -1,0 +1,68 @@
+<div class="max-w-7xl mx-auto py-8 px-4" *ngIf="hotel">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Hotel Info -->
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ hotel.name }}</h1>
+      <p class="text-gray-600 mb-4">{{ hotel.description }}</p>
+      <div class="space-y-2">
+        <p><strong>City:</strong> {{ hotel.city }}</p>
+        <p><strong>Address:</strong> {{ hotel.address }}</p>
+        <p><strong>Rating:</strong> {{ hotel.rating }}/5</p>
+      </div>
+    </div>
+
+    <!-- Booking Form -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Book Your Stay</h2>
+      <form (ngSubmit)="bookRoom()" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Room Type</label>
+          <select [(ngModel)]="bookingForm.roomId" name="roomId" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            <option [value]="null">Select a room</option>
+            <option *ngFor="let room of rooms" [value]="room.roomId">
+              {{ room.type }} - ₹{{ room.price }}/night ({{ room.availableCount }} available)
+            </option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Check-in</label>
+          <input type="date" [(ngModel)]="bookingForm.checkIn" name="checkIn" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Check-out</label>
+          <input type="date" [(ngModel)]="bookingForm.checkOut" name="checkOut" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Number of Rooms</label>
+          <input type="number" [(ngModel)]="bookingForm.rooms" name="rooms" min="1" max="100" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+        <div *ngIf="errorMessage" class="text-red-600 text-sm">
+          {{ errorMessage }}
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">
+          Book Now
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Rooms -->
+  <div class="mt-8">
+    <h2 class="text-2xl font-bold mb-4">Available Rooms</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div *ngFor="let room of rooms" class="bg-white p-6 rounded-lg shadow">
+        <h3 class="text-lg font-semibold">{{ room.type }}</h3>
+        <p class="text-lg font-bold mt-2">₹{{ room.price }}/night</p>
+        <p class="text-sm text-gray-500">{{ room.availableCount }} available</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isLoading" class="text-center py-8">
+  <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+</div>
+
+<div *ngIf="errorMessage && !isLoading" class="text-center py-8 text-red-600">
+  {{ errorMessage }}
+</div>

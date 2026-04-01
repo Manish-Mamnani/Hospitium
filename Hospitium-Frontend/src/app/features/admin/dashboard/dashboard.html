@@ -1,0 +1,37 @@
+<div class="max-w-7xl mx-auto py-8 px-4">
+  <h1 class="text-3xl font-bold text-gray-900 mb-6">Admin Dashboard</h1>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="text-center py-8">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+  </div>
+
+  <!-- Stats -->
+  <div *ngIf="!isLoading" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h3 class="text-lg font-semibold text-gray-900">Total Hotels</h3>
+      <p class="text-3xl font-bold text-indigo-600">{{ stats.totalHotels }}</p>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h3 class="text-lg font-semibold text-gray-900">Pending Approvals</h3>
+      <p class="text-3xl font-bold text-yellow-600">{{ stats.pendingApprovals }}</p>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h3 class="text-lg font-semibold text-gray-900">Total Bookings</h3>
+      <p class="text-3xl font-bold text-green-600">{{ stats.totalBookings }}</p>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="bg-white p-6 rounded-lg shadow">
+    <h2 class="text-xl font-semibold mb-4">Quick Actions</h2>
+    <div class="flex space-x-4">
+      <a routerLink="/admin/approvals" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
+        Review Approvals
+      </a>
+      <a routerLink="/admin/hotels" class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">
+        View All Hotels
+      </a>
+    </div>
+  </div>
+</div>

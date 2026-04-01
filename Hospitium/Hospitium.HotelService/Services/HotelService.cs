@@ -1,4 +1,7 @@
-﻿using Hospitium.Contracts.Events;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Hospitium.Contracts.Events;
 using Hospitium.HotelService.Data;
 using Hospitium.HotelService.DTOs;
 using Hospitium.HotelService.Exceptions;
@@ -37,15 +40,7 @@ namespace Hospitium.HotelService.Services
             _context.Hotels.Add(hotel);
             await _context.SaveChangesAsync();
 
-            return new HotelResponseDto
-            {
-                HotelId = hotel.HotelId,
-                Name = hotel.Name,
-                City = hotel.City,
-                Rating = hotel.AverageRating,
-                Status = hotel.Status,
-                MinPrice = 0
-            };
+            return MapToHotelResponse(hotel);
         }
 
         public async Task<RoomResponseDto> CreateRoomAsync(int userId, CreateRoomDto dto)
@@ -96,10 +91,8 @@ namespace Hospitium.HotelService.Services
                 throw new InvalidHotelOperationException("Hotel is already approved.");
 
             hotel.Status = "Approved";
-
             await _context.SaveChangesAsync();
 
-            // ✅ PUBLISH EVENT WITH REAL EMAIL
             await _publish.Publish(new HotelApprovedEvent
             {
                 HotelId = hotel.HotelId,
@@ -107,19 +100,7 @@ namespace Hospitium.HotelService.Services
                 ManagerEmail = hotel.ManagerEmail
             });
 
-            var minPrice = hotel.Rooms.Any()
-                ? hotel.Rooms.Min(r => r.Price)
-                : 0;
-
-            return new HotelResponseDto
-            {
-                HotelId = hotel.HotelId,
-                Name = hotel.Name,
-                City = hotel.City,
-                Status = hotel.Status,
-                Rating = hotel.AverageRating,
-                MinPrice = minPrice
-            };
+            return MapToHotelResponse(hotel);
         }
 
         public async Task<HotelResponseDto> RejectHotelAsync(int hotelId)
@@ -135,10 +116,8 @@ namespace Hospitium.HotelService.Services
                 throw new InvalidHotelOperationException("Hotel is already rejected.");
 
             hotel.Status = "Rejected";
-
             await _context.SaveChangesAsync();
 
-            // ✅ PUBLISH EVENT WITH REAL EMAIL
             await _publish.Publish(new HotelRejectedEvent
             {
                 HotelId = hotel.HotelId,
@@ -146,24 +125,14 @@ namespace Hospitium.HotelService.Services
                 ManagerEmail = hotel.ManagerEmail
             });
 
-            var minPrice = hotel.Rooms.Any()
-                ? hotel.Rooms.Min(r => r.Price)
-                : 0;
-
-            return new HotelResponseDto
-            {
-                HotelId = hotel.HotelId,
-                Name = hotel.Name,
-                City = hotel.City,
-                Status = hotel.Status,
-                Rating = hotel.AverageRating,
-                MinPrice = minPrice
-            };
+            return MapToHotelResponse(hotel);
         }
 
         public async Task<RoomResponseDto> GetRoomByIdAsync(int roomId)
         {
-            var room = await _context.Rooms.FindAsync(roomId);
+            var room = await _context.Rooms
+                .Include(r => r.Hotel)
+                .FirstOrDefaultAsync(r => r.RoomId == roomId);
 
             if (room == null)
                 throw new RoomNotFoundException(roomId);
@@ -171,6 +140,7 @@ namespace Hospitium.HotelService.Services
             return new RoomResponseDto
             {
                 RoomId = room.RoomId,
+                HotelName = room.Hotel?.Name ?? "Unknown Hotel",
                 Type = room.Type,
                 Price = room.Price,
                 AvailableCount = room.AvailableCount
@@ -189,19 +159,7 @@ namespace Hospitium.HotelService.Services
             if (hotel.Status != "Approved")
                 throw new InvalidHotelOperationException("Hotel not available.");
 
-            var minPrice = hotel.Rooms.Any()
-                ? hotel.Rooms.Min(r => r.Price)
-                : 0;
-
-            return new HotelResponseDto
-            {
-                HotelId = hotel.HotelId,
-                Name = hotel.Name,
-                City = hotel.City,
-                Rating = hotel.AverageRating,
-                Status = hotel.Status,
-                MinPrice = minPrice
-            };
+            return MapToHotelResponse(hotel);
         }
 
         public async Task<List<HotelResponseDto>> GetApprovedHotelsAsync()
@@ -211,15 +169,7 @@ namespace Hospitium.HotelService.Services
                 .Where(h => h.Status == "Approved")
                 .ToListAsync();
 
-            return hotels.Select(h => new HotelResponseDto
-            {
-                HotelId = h.HotelId,
-                Name = h.Name,
-                City = h.City,
-                Status = h.Status,
-                Rating = h.AverageRating,
-                MinPrice = h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : 0
-            }).ToList();
+            return hotels.Select(MapToHotelResponse).ToList();
         }
 
         public async Task<List<HotelResponseDto>> GetPendingHotelsAsync()
@@ -229,15 +179,7 @@ namespace Hospitium.HotelService.Services
                 .Where(h => h.Status == "Pending")
                 .ToListAsync();
 
-            return hotels.Select(h => new HotelResponseDto
-            {
-                HotelId = h.HotelId,
-                Name = h.Name,
-                City = h.City,
-                Status = h.Status,
-                Rating = h.AverageRating,
-                MinPrice = h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : 0
-            }).ToList();
+            return hotels.Select(MapToHotelResponse).ToList();
         }
 
         public async Task<List<HotelResponseDto>> GetMyHotelsAsync(int userId)
@@ -247,15 +189,15 @@ namespace Hospitium.HotelService.Services
                 .Where(h => h.CreatedByUserId == userId)
                 .ToListAsync();
 
-            return hotels.Select(h => new HotelResponseDto
-            {
-                HotelId = h.HotelId,
-                Name = h.Name,
-                City = h.City,
-                Rating = h.AverageRating,
-                Status = h.Status,
-                MinPrice = h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : 0
-            }).ToList();
+            return hotels.Select(MapToHotelResponse).ToList();
+        }
+
+        public async Task<List<int>> GetMyRoomIdsAsync(int userId)
+        {
+            return await _context.Rooms
+                .Where(r => r.Hotel.CreatedByUserId == userId)
+                .Select(r => r.RoomId)
+                .ToListAsync();
         }
 
         public async Task<List<RoomResponseDto>> GetRoomsByHotelIdAsync(int hotelId)
@@ -293,6 +235,9 @@ namespace Hospitium.HotelService.Services
 
             var hotel = room.Hotel;
 
+            if (hotel == null)
+                throw new InvalidHotelOperationException("Room is not associated with a hotel.");
+
             if (hotel.CreatedByUserId != userId)
                 throw new UnauthorizedAccessException("You cannot update this room.");
 
@@ -319,7 +264,7 @@ namespace Hospitium.HotelService.Services
             };
         }
 
-        public async Task<HotelResponseDto> UpdateHotelAsync(int id, CreateHotelDto dto)
+        public async Task<HotelResponseDto> UpdateHotelAsync(int id, int userId, string role, CreateHotelDto dto)
         {
             var hotel = await _context.Hotels
                 .Include(h => h.Rooms)
@@ -328,36 +273,55 @@ namespace Hospitium.HotelService.Services
             if (hotel == null)
                 throw new HotelNotFoundException(id);
 
+            if (hotel.CreatedByUserId != userId && role != "Admin")
+                throw new UnauthorizedAccessException("You can only update your own hotels.");
+
             hotel.Name = dto.Name;
             hotel.City = dto.City;
             hotel.Description = dto.Description;
 
             await _context.SaveChangesAsync();
 
-            var minPrice = hotel.Rooms.Any()
-                ? hotel.Rooms.Min(r => r.Price)
-                : 0;
-
-            return new HotelResponseDto
-            {
-                HotelId = hotel.HotelId,
-                Name = hotel.Name,
-                City = hotel.City,
-                Status = hotel.Status,
-                Rating = hotel.AverageRating,
-                MinPrice = minPrice
-            };
+            return MapToHotelResponse(hotel);
         }
 
-        public async Task DeleteHotelAsync(int id)
+        public async Task DeleteHotelAsync(int id, int userId, string role)
         {
             var hotel = await _context.Hotels.FindAsync(id);
 
             if (hotel == null)
                 throw new HotelNotFoundException(id);
 
+            if (hotel.CreatedByUserId != userId && role != "Admin")
+                throw new UnauthorizedAccessException("You can only delete your own hotels.");
+
             hotel.Status = "Deleted";
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<HotelResponseDto>> GetAllHotelsAsync()
+        {
+            var hotels = await _context.Hotels
+                .Include(h => h.Rooms)
+                .OrderByDescending(h => h.HotelId)
+                .ToListAsync();
+
+            return hotels.Select(MapToHotelResponse).ToList();
+        }
+
+        private HotelResponseDto MapToHotelResponse(Hotel h)
+        {
+            return new HotelResponseDto
+            {
+                HotelId = h.HotelId,
+                Name = h.Name,
+                City = h.City,
+                Status = h.Status,
+                ManagerEmail = h.ManagerEmail,
+                Description = h.Description,
+                Rating = h.AverageRating,
+                MinPrice = h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : 0
+            };
         }
 
         public async Task<HotelResponseDto> AddRatingAsync(int hotelId, double rating)
@@ -383,19 +347,7 @@ namespace Hospitium.HotelService.Services
 
             await _context.SaveChangesAsync();
 
-            var minPrice = hotel.Rooms.Any()
-                ? hotel.Rooms.Min(r => r.Price)
-                : 0;
-
-            return new HotelResponseDto
-            {
-                HotelId = hotel.HotelId,
-                Name = hotel.Name,
-                City = hotel.City,
-                Status = hotel.Status,
-                Rating = hotel.AverageRating,
-                MinPrice = minPrice
-            };
+            return MapToHotelResponse(hotel);
         }
     }
 }

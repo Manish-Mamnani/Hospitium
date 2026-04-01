@@ -28,6 +28,7 @@ namespace Hospitium.NotificationService
                 x.AddConsumer<BookingCancelledConsumer>();
                 x.AddConsumer<HotelApprovedConsumer>();
                 x.AddConsumer<HotelRejectedConsumer>();
+                x.AddConsumer<PasswordResetRequestedConsumer>();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {

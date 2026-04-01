@@ -1,4 +1,4 @@
-﻿using Hospitium.HotelService.DTOs;
+using Hospitium.HotelService.DTOs;
 using Hospitium.HotelService.Exceptions;
 using Hospitium.HotelService.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -75,6 +75,14 @@ namespace Hospitium.HotelService.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet("admin/all")]
+        public async Task<IActionResult> GetAllHotelsForAdmin()
+        {
+            var result = await _hotelService.GetAllHotelsAsync();
+            return Ok(result);
+        }
+
         // 🔹 Get Hotels (Search + Filter + Sort + Pagination)
         [AllowAnonymous]
         [HttpGet]
@@ -85,15 +93,10 @@ namespace Hospitium.HotelService.Controllers
         }
 
         [HttpGet("rooms/{roomId}")]
-        public async Task<IActionResult> GetRoomById(int roomId)
+        public async Task<IActionResult> GetRoom(int roomId)
         {
-            var room = await _hotelService.GetRoomByIdAsync(roomId);
-
-            return Ok(new RoomAvailabilityDto
-            {
-                RoomId = room.RoomId,
-                AvailableCount = room.AvailableCount
-            });
+            var result = await _hotelService.GetRoomByIdAsync(roomId);
+            return Ok(result);
         }
 
         [Authorize(Roles = "HotelManager")]
@@ -119,19 +122,24 @@ namespace Hospitium.HotelService.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "Admin")]
+
+        [Authorize(Roles = "Admin,HotelManager")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateHotel(int id, CreateHotelDto dto)
         {
-            var result = await _hotelService.UpdateHotelAsync(id, dto);
+            var userId = int.Parse(User.FindFirst("UserId")!.Value);
+            var role = User.FindFirst("Role")!.Value;
+            var result = await _hotelService.UpdateHotelAsync(id, userId, role, dto);
             return Ok(result);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,HotelManager")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHotel(int id)
         {
-            await _hotelService.DeleteHotelAsync(id);
+            var userId = int.Parse(User.FindFirst("UserId")!.Value);
+            var role = User.FindFirst("Role")!.Value;
+            await _hotelService.DeleteHotelAsync(id, userId, role);
             return NoContent();
         }
 
@@ -140,9 +148,16 @@ namespace Hospitium.HotelService.Controllers
         public async Task<IActionResult> GetMyHotels()
         {
             var userId = int.Parse(User.FindFirst("UserId")!.Value);
-
             var result = await _hotelService.GetMyHotelsAsync(userId);
+            return Ok(result);
+        }
 
+        [Authorize(Roles = "HotelManager")]
+        [HttpGet("my/room-ids")]
+        public async Task<IActionResult> GetMyRoomIds()
+        {
+            var userId = int.Parse(User.FindFirst("UserId")!.Value);
+            var result = await _hotelService.GetMyRoomIdsAsync(userId);
             return Ok(result);
         }
 

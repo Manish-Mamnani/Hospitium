@@ -1,4 +1,4 @@
-﻿using Hospitium.BookingService.DTOs;
+using Hospitium.BookingService.DTOs;
 using Hospitium.BookingService.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +51,15 @@ namespace Hospitium.BookingService.Controllers
         public async Task<IActionResult> GetAllBookings([FromQuery] DateTime? date)
         {
             var result = await _service.GetAllBookingsAsync(date);
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "HotelManager")]
+        [HttpGet("manager")]
+        public async Task<IActionResult> GetManagerBookings()
+        {
+            var result = await _service.GetManagerBookingsAsync();
 
             return Ok(result);
         }
