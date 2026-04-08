@@ -4,16 +4,18 @@ import { ApiService } from '../../../core/api.service';
 import { ToastService } from '../../../core/toast.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Sidebar } from '../../../shared/sidebar/sidebar';
 
 @Component({
   selector: 'app-global-bookings',
-  imports: [CommonModule, RouterLink, RouterLinkActive, FormsModule],
+  imports: [CommonModule, FormsModule, Sidebar],
   templateUrl: './global-bookings.html',
 })
 export class GlobalBookingsComponent implements OnInit {
   bookings: any[] = [];
   isLoading = false;
   filterDate = '';
+  selectedStatus = '';
   cancellingId: number | null = null;
 
   constructor(
@@ -28,8 +30,10 @@ export class GlobalBookingsComponent implements OnInit {
 
   loadBookings() {
     this.isLoading = true;
-    const query = this.filterDate ? `?date=${this.filterDate}` : '';
-    this.apiService.get<any[]>(`/bookings${query}`).subscribe({
+    const params: any = {};
+    if (this.filterDate) params.date = this.filterDate;
+    
+    this.apiService.get<any[]>('/bookings', params).subscribe({
       next: (bookings) => {
         this.bookings = bookings || [];
         this.isLoading = false;
@@ -40,6 +44,11 @@ export class GlobalBookingsComponent implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  get filteredBookings() {
+    if (!this.selectedStatus) return this.bookings;
+    return this.bookings.filter(b => b.status?.toLowerCase() === this.selectedStatus.toLowerCase());
   }
 
   cancelBooking(bookingId: number) {
@@ -62,10 +71,17 @@ export class GlobalBookingsComponent implements OnInit {
 
   getStatusClass(status: string): string {
     switch (status?.toLowerCase()) {
-      case 'confirmed': return 'bg-green-100 text-green-700';
-      case 'cancelled': return 'bg-red-100 text-red-700';
-      case 'pending': return 'bg-yellow-100 text-yellow-700';
-      default: return 'bg-gray-100 text-gray-600';
+      case 'confirmed': 
+        return 'badge-success';
+      case 'completed':
+        return 'badge-active';
+      case 'cancelled': 
+      case 'rejected':
+        return 'badge-error';
+      case 'pending': 
+        return 'badge-warning';
+      default: 
+        return 'badge-active';
     }
   }
 }

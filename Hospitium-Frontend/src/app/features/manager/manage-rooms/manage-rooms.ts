@@ -5,9 +5,12 @@ import { ToastService } from '../../../core/toast.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import { Sidebar } from '../../../shared/sidebar/sidebar';
+
 @Component({
   selector: 'app-manage-rooms',
-  imports: [CommonModule, FormsModule, RouterLink],
+  standalone: true,
+  imports: [CommonModule, FormsModule, Sidebar],
   templateUrl: './manage-rooms.html',
 })
 export class ManageRoomsComponent implements OnInit {

@@ -9,5 +9,6 @@ namespace Hospitium.AuthService.Services.Interfaces
         Task RequestPasswordResetAsync(ForgotPasswordDto dto);
         Task<bool> VerifyOtpAsync(VerifyOtpDto dto);
         Task ResetPasswordAsync(ResetPasswordDto dto);
+        Task<IEnumerable<UserDto>> GetAllManagersAsync();
     }
 }

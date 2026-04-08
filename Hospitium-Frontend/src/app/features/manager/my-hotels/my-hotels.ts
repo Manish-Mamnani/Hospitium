@@ -1,36 +1,36 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ApiService } from '../../../core/api.service';
 import { ToastService } from '../../../core/toast.service';
 import { CommonModule } from '@angular/common';
 
+import { Sidebar } from '../../../shared/sidebar/sidebar';
+
 @Component({
   selector: 'app-my-hotels',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, Sidebar],
   templateUrl: './my-hotels.html',
   styleUrl: './my-hotels.css',
 })
 export class MyHotelsComponent implements OnInit {
-  hotels: any[] = [];
-  isLoading = false;
+  hotels = signal<any[]>([]);
+  isLoading = signal(false);
 
-  constructor(private apiService: ApiService, private router: Router, private toastService: ToastService, private cdr: ChangeDetectorRef) {}
+  constructor(private apiService: ApiService, private router: Router, private toastService: ToastService) {}
 
   ngOnInit() {
     this.loadHotels();
   }
 
   loadHotels() {
-    this.isLoading = true;
+    this.isLoading.set(true);
     this.apiService.get<any[]>('/hotels/my').subscribe({
       next: (hotels) => {
-        this.hotels = hotels;
-        this.isLoading = false;
-        this.cdr.detectChanges();
+        this.hotels.set(hotels || []);
+        this.isLoading.set(false);
       },
       error: () => {
-        this.isLoading = false;
-        this.cdr.detectChanges();
+        this.isLoading.set(false);
       }
     });
   }

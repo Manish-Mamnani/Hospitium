@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../../core/api.service';
 import { CommonModule } from '@angular/common';
@@ -11,15 +11,42 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './search-results.css',
 })
 export class SearchResultsComponent implements OnInit {
-  hotels: any[] = [];
-  isLoading = false;
-  errorMessage = '';
+  hotels = signal<any[]>([]);
+  isLoading = signal(false);
+  errorMessage = signal('');
   filters = {
-    city: '',
+    city: 'Mumbai',
     minPrice: null as number | null,
     maxPrice: null as number | null,
-    sortBy: 'price'
+    minRating: 0,
+    availableOnly: false,
+    sortBy: 'price_asc',
+    page: 1,
+    pageSize: 10
   };
+  totalCount = signal(0);
+  totalPages = signal(0);
+
+  resetFilters() {
+    this.filters = {
+      city: 'Mumbai',
+      minPrice: null,
+      maxPrice: null,
+      minRating: 0,
+      availableOnly: false,
+      sortBy: 'price_asc',
+      page: 1,
+      pageSize: 10
+    };
+    this.applyFilters();
+  }
+
+  changePage(newPage: number) {
+    if (newPage < 1 || newPage > this.totalPages()) return;
+    this.filters.page = newPage;
+    this.searchHotels();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -35,22 +62,31 @@ export class SearchResultsComponent implements OnInit {
   }
 
   searchHotels() {
-    this.isLoading = true;
-    this.errorMessage = '';
-    const params = {
+    this.isLoading.set(true);
+    this.errorMessage.set('');
+    const params: any = {
       city: this.filters.city,
       minPrice: this.filters.minPrice,
       maxPrice: this.filters.maxPrice,
-      sortBy: this.filters.sortBy
+      minRating: this.filters.minRating,
+      availableOnly: this.filters.availableOnly,
+      sortBy: this.filters.sortBy,
+      page: this.filters.page,
+      pageSize: this.filters.pageSize
     };
-    this.apiService.get('/hotels', params).subscribe({
-      next: (response: any) => {
-        this.hotels = response.data || response;
-        this.isLoading = false;
+    
+    this.apiService.get<any>('/hotels', params).subscribe({
+      next: (response) => {
+        // Handle paginated responses (.items or .data) or fallback
+        const hotelsData = response.items || response.data || [];
+        this.hotels.set(hotelsData);
+        this.totalCount.set(response.totalCount || 0);
+        this.totalPages.set(Math.ceil(this.totalCount() / this.filters.pageSize));
+        this.isLoading.set(false);
       },
-      error: (err) => {
-        this.errorMessage = 'Failed to load hotels';
-        this.isLoading = false;
+      error: () => {
+        this.errorMessage.set('Failed to load hotels');
+        this.isLoading.set(false);
       }
     });
   }

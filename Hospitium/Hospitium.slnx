@@ -5,4 +5,5 @@
   <Project Path="Hospitium.Gateway/Hospitium.Gateway.csproj" Id="cc76e8b5-5944-4b7f-9999-7df766cd19a2" />
   <Project Path="Hospitium.HotelService/Hospitium.HotelService.csproj" Id="ee6ae61c-b297-4019-8edc-e5a38c6de05d" />
   <Project Path="Hospitium.NotificationService/Hospitium.NotificationService.csproj" Id="d62e293e-77a7-4fc7-b177-f0a5da7960e5" />
+  <Project Path="Hospitium.ReviewService/Hospitium.ReviewService.csproj" />
 </Solution>

@@ -160,14 +160,5 @@ namespace Hospitium.HotelService.Controllers
             var result = await _hotelService.GetMyRoomIdsAsync(userId);
             return Ok(result);
         }
-
-        // ⭐ Rating
-        [Authorize]
-        [HttpPost("{id}/rate")]
-        public async Task<IActionResult> RateHotel(int id, AddRatingDto dto)
-        {
-            var result = await _hotelService.AddRatingAsync(id, dto.Rating);
-            return Ok(result);
-        }
     }
 }

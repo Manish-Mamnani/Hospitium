@@ -156,5 +156,20 @@ namespace Hospitium.AuthService.Services
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<UserDto>> GetAllManagersAsync()
+        {
+            return await _context.Users
+                .Where(u => u.Role == "HotelManager")
+                .Select(u => new UserDto
+                {
+                    UserId = u.UserId,
+                    FullName = u.FullName,
+                    Email = u.Email,
+                    Role = u.Role,
+                    CreatedAt = u.CreatedAt
+                })
+                .ToListAsync();
+        }
     }
 }

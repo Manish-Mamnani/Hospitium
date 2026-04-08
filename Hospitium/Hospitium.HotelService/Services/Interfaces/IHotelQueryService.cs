@@ -1,9 +1,9 @@
-﻿using Hospitium.HotelService.DTOs;
+using Hospitium.HotelService.DTOs;
 
 namespace Hospitium.HotelService.Services.Interfaces
 {
     public interface IHotelQueryService
     {
-        Task<List<HotelResponseDto>> GetHotelsAsync(HotelQueryParams query);
+        Task<PaginatedResult<HotelResponseDto>> GetHotelsAsync(HotelQueryParams query);
     }
 }

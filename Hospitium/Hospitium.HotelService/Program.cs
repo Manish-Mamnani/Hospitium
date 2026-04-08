@@ -30,6 +30,7 @@ namespace Hospitium.HotelService
             {
                 x.AddConsumer<BookingCreatedConsumer>();
                 x.AddConsumer<BookingCancelledConsumer>();
+                x.AddConsumer<ReviewAddedConsumer>();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
@@ -44,6 +45,11 @@ namespace Hospitium.HotelService
                     cfg.ReceiveEndpoint("booking-cancelled-queue", e =>
                     {
                         e.ConfigureConsumer<BookingCancelledConsumer>(context);
+                    });
+
+                    cfg.ReceiveEndpoint("review-added-queue", e =>
+                    {
+                        e.ConfigureConsumer<ReviewAddedConsumer>(context);
                     });
                 });
             });

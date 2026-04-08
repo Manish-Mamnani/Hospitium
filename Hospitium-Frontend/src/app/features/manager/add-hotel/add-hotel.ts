@@ -1,13 +1,16 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../../core/api.service';
 import { ToastService } from '../../../core/toast.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import { Sidebar } from '../../../shared/sidebar/sidebar';
+
 @Component({
   selector: 'app-add-hotel',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, Sidebar],
   templateUrl: './add-hotel.html',
 })
 export class AddHotelComponent {

@@ -3,9 +3,12 @@ import { ApiService } from '../../../core/api.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
+import { Sidebar } from '../../../shared/sidebar/sidebar';
+
 @Component({
   selector: 'app-approval-queue',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  standalone: true,
+  imports: [CommonModule, RouterLink, Sidebar],
   templateUrl: './approval-queue.html',
   styleUrl: './approval-queue.css',
 })

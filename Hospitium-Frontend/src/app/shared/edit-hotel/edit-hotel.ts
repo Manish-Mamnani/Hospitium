@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../core/api.service';
 import { ToastService } from '../../core/toast.service';
 import { CommonModule } from '@angular/common';
@@ -8,7 +8,7 @@ import { AuthService } from '../../core/auth.service';
 
 @Component({
   selector: 'app-edit-hotel',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './edit-hotel.html',
 })
 export class EditHotelComponent implements OnInit {

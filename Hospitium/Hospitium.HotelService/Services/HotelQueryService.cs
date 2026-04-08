@@ -1,4 +1,4 @@
-﻿using Hospitium.HotelService.Data;
+using Hospitium.HotelService.Data;
 using Hospitium.HotelService.DTOs;
 using Hospitium.HotelService.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +14,7 @@ namespace Hospitium.HotelService.Services
             _context = context;
         }
 
-        public async Task<List<HotelResponseDto>> GetHotelsAsync(HotelQueryParams queryParams)
+        public async Task<PaginatedResult<HotelResponseDto>> GetHotelsAsync(HotelQueryParams queryParams)
         {
             var query = _context.Hotels
                 .Include(h => h.Rooms)
@@ -41,13 +41,13 @@ namespace Hospitium.HotelService.Services
             if (queryParams.MinPrice.HasValue)
             {
                 query = query.Where(h => h.Rooms.Any() &&
-                                         h.Rooms.Min(r => r.Price) >= queryParams.MinPrice.Value);
+                h.Rooms.Min(r => r.Price) >= queryParams.MinPrice.Value);
             }
 
             if (queryParams.MaxPrice.HasValue)
             {
                 query = query.Where(h => h.Rooms.Any() &&
-                                         h.Rooms.Min(r => r.Price) <= queryParams.MaxPrice.Value);
+                h.Rooms.Min(r => r.Price) <= queryParams.MaxPrice.Value);
             }
 
             // Availability
@@ -59,12 +59,15 @@ namespace Hospitium.HotelService.Services
             // Sorting
             query = ApplySorting(query, queryParams.SortBy, queryParams.Order);
 
+            // Total Count (BEFORE pagination)
+            var totalCount = await query.CountAsync();
+
             // Pagination
             var skip = (queryParams.Page - 1) * queryParams.PageSize;
             query = query.Skip(skip).Take(queryParams.PageSize);
 
             // Projection
-            return await query.Select(h => new HotelResponseDto
+            var data = await query.Select(h => new HotelResponseDto
             {
                 HotelId = h.HotelId,
                 Name = h.Name,
@@ -73,6 +76,14 @@ namespace Hospitium.HotelService.Services
                 Rating = h.AverageRating,
                 MinPrice = h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : 0
             }).ToListAsync();
+
+            return new PaginatedResult<HotelResponseDto>
+            {
+                Data = data,
+                TotalCount = totalCount,
+                Page = queryParams.Page,
+                PageSize = queryParams.PageSize
+            };
         }
 
         private IQueryable<Models.Hotel> ApplySorting(IQueryable<Models.Hotel> query, string? sortBy, string? order)

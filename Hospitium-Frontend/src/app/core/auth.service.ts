@@ -44,13 +44,17 @@ export class AuthService {
     });
   }
 
-  login(credentials: { email: string; password: string }): Observable<AuthResponse> {
+  login(credentials: { email: string; password: string }, returnUrl?: string): Observable<AuthResponse> {
     return this.apiService.post<AuthResponse>('/auth/login', credentials).pipe(
       tap((response) => {
         this.tokenService.setToken(response.token);
         this.notifyAuthChange();
         this.toastService.success('Successfully logged in!');
-        this.redirectBasedOnRole();
+        if (returnUrl) {
+          this.router.navigateByUrl(returnUrl);
+        } else {
+          this.redirectBasedOnRole();
+        }
       }),
       catchError((error) => {
         this.toastService.error(error.error?.message || 'Login failed.');

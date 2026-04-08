@@ -5,9 +5,12 @@ import { ToastService } from '../../../core/toast.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import { Sidebar } from '../../../shared/sidebar/sidebar';
+
 @Component({
   selector: 'app-my-bookings',
-  imports: [CommonModule, RouterLink, RouterLinkActive, FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, Sidebar],
   templateUrl: './my-bookings.html',
 })
 export class MyBookingsComponent implements OnInit {

@@ -4,16 +4,18 @@ import { ToastService } from '../../../core/toast.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router, RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Sidebar } from '../../../shared/sidebar/sidebar';
 
 @Component({
   selector: 'app-admin-hotels',
-  imports: [CommonModule, RouterLink, RouterLinkActive, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, Sidebar],
   templateUrl: './admin-hotels.html',
 })
 export class AdminHotelsComponent implements OnInit {
   hotels: any[] = [];
   isLoading = false;
   searchTerm = '';
+  selectedStatus = '';
 
   constructor(
     private apiService: ApiService,
@@ -43,22 +45,31 @@ export class AdminHotelsComponent implements OnInit {
   }
 
   get filteredHotels() {
-    if (!this.searchTerm) return this.hotels;
-    const term = this.searchTerm.toLowerCase();
-    return this.hotels.filter(h => 
-      h.name.toLowerCase().includes(term) || 
-      h.city.toLowerCase().includes(term) ||
-      h.managerEmail.toLowerCase().includes(term)
-    );
+    let filtered = this.hotels;
+    
+    if (this.selectedStatus) {
+      filtered = filtered.filter(h => h.status?.toLowerCase() === this.selectedStatus.toLowerCase());
+    }
+
+    if (this.searchTerm) {
+      const term = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(h => 
+        h.name.toLowerCase().includes(term) || 
+        h.city.toLowerCase().includes(term) ||
+        h.managerEmail.toLowerCase().includes(term)
+      );
+    }
+    
+    return filtered;
   }
 
   getStatusClass(status: string) {
     switch (status?.toLowerCase()) {
-      case 'approved': return 'bg-emerald-100 text-emerald-700';
-      case 'pending': return 'bg-amber-100 text-amber-700';
-      case 'rejected': return 'bg-rose-100 text-rose-700';
-      case 'deleted': return 'bg-gray-100 text-gray-700';
-      default: return 'bg-blue-100 text-blue-700';
+      case 'approved': return 'badge-success';
+      case 'pending': return 'badge-warning';
+      case 'rejected': return 'badge-error';
+      case 'deleted': return 'badge-cancelled';
+      default: return 'badge-active';
     }
   }
 

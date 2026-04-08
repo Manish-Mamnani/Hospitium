@@ -1,0 +1,6 @@
+@Hospitium.ReviewService_HostAddress = http://localhost:5200
+
+GET {{Hospitium.ReviewService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

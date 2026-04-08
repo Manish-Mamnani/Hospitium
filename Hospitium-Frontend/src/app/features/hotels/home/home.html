@@ -1,65 +1,88 @@
-<div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-  <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
-    <div class="text-center">
-      <h1 class="text-4xl font-extrabold sm:text-5xl md:text-6xl">Find your perfect stay</h1>
-      <p class="mt-3 max-w-md mx-auto text-base sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-        Discover amazing hotels and book your next adventure with Hospitium.
+<div class="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-neutral-bg">
+  <!-- Dynamic Background Decoration -->
+  <div class="absolute inset-0 z-0">
+    <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/5 rounded-full blur-[120px]"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+    <div class="animate-fade-in">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6">
+        Discover Your Next Escape
+      </span>
+      <h1 class="text-5xl md:text-7xl font-bold text-neutral-primary mb-8 leading-tight">
+        Experience Luxury <br/> 
+        <span class="text-primary italic font-serif">Redefined.</span>
+      </h1>
+      <p class="max-w-2xl mx-auto text-lg text-neutral-secondary mb-12 leading-relaxed">
+        From boutique hideaways to grand resorts, find and book the world's most 
+        exquisite stays with Hospitium's curated collection.
       </p>
-    </div>
-    <div class="mt-10 max-w-md mx-auto sm:max-w-lg md:mt-12 md:max-w-3xl">
-      <form (ngSubmit)="onSearch()" class="bg-white rounded-lg shadow-lg p-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
-          <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-          <input type="text" id="city" [(ngModel)]="searchQuery.city" name="city" class="text-gray-900 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Where are you going?">
-        </div>
-        <div>
-          <label for="checkIn" class="block text-sm font-medium text-gray-700">Check-in</label>
-          <input type="date" id="checkIn" [(ngModel)]="searchQuery.checkIn" name="checkIn" class="text-gray-900 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-        </div>
-        <div>
-          <label for="checkOut" class="block text-sm font-medium text-gray-700">Check-out</label>
-          <input type="date" id="checkOut" [(ngModel)]="searchQuery.checkOut" name="checkOut" class="text-gray-900 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-        </div>
-        <div>
-          <label for="guests" class="block text-sm font-medium text-gray-700">Guests</label>
-          <input type="number" id="guests" [(ngModel)]="searchQuery.guests" name="guests" min="1" class="text-gray-900 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-        </div>
-        <div class="sm:col-span-2 lg:col-span-4">
-          <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-md py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Search Hotels
+
+      <!-- Premium Search Bar -->
+      <div class="max-w-5xl mx-auto">
+        <form (ngSubmit)="onSearch()" class="card-premium p-4 md:p-2 bg-white/80 backdrop-blur-md flex flex-col md:flex-row items-stretch gap-4 md:gap-2 shadow-2xl shadow-primary/10">
+          
+          <!-- City Input -->
+          <div class="flex-1 relative group">
+            <div class="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-secondary group-focus-within:text-primary transition-colors">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            </div>
+            <input type="text" [(ngModel)]="searchQuery.city" name="city" placeholder="Mumbai" 
+                   class="w-full bg-transparent border-0 pl-12 pr-4 py-4 text-sm font-bold text-neutral-primary focus:outline-none placeholder:text-neutral-secondary/50">
+            <div class="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-8 bg-neutral-border"></div>
+          </div>
+
+          <!-- Dates Wrapper -->
+          <div class="flex-1 flex gap-2">
+            <div class="flex-1 relative group">
+              <input type="date" [(ngModel)]="searchQuery.checkIn" (change)="validateDates()" name="checkIn" 
+                     [min]="minDate"
+                     class="w-full bg-transparent border-0 px-4 py-4 text-xs font-bold text-neutral-primary focus:outline-none cursor-pointer">
+              <div class="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-8 bg-neutral-border"></div>
+            </div>
+            <div class="flex-1 relative group">
+              <input type="date" [(ngModel)]="searchQuery.checkOut" (change)="validateDates()" name="checkOut" 
+                     [min]="minDate"
+                     class="w-full bg-transparent border-0 px-4 py-4 text-xs font-bold text-neutral-primary focus:outline-none cursor-pointer">
+            </div>
+          </div>
+
+          <!-- Search Button -->
+          <button type="submit" class="btn-primary min-w-[160px] flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            Find Hotels
           </button>
+        </form>
+
+        <!-- Date Validation Error -->
+        <div *ngIf="dateError()" class="mt-4 text-error-text text-sm font-bold animate-fade-in flex items-center justify-center">
+            <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {{ dateError() }}
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-  <h2 class="text-3xl font-extrabold text-gray-900 mb-8">Featured Hotels</h2>
-  <div *ngIf="isLoading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div *ngFor="let i of [1,2,3,4,5,6]" class="animate-pulse">
-      <div class="bg-gray-300 h-48 rounded-lg"></div>
-      <div class="mt-4 space-y-2">
-        <div class="bg-gray-300 h-4 rounded"></div>
-        <div class="bg-gray-300 h-4 w-3/4 rounded"></div>
-      </div>
+<div class="max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8">
+  <div class="flex items-end justify-between mb-12">
+    <div>
+      <h2 class="text-3xl font-bold mb-2">Featured Destinations</h2>
+      <p class="text-neutral-secondary">Explore our most-loved cities this season.</p>
     </div>
+    <a routerLink="/hotels/search" [queryParams]="{ city: '' }" class="text-primary hover:text-primary-hover font-bold transition-colors">View All</a>
   </div>
-  <div *ngIf="!isLoading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div *ngFor="let hotel of featuredHotels" class="bg-white overflow-hidden shadow rounded-lg">
-      <div class="h-48 bg-gray-200 flex items-center justify-center">
-        <span class="text-gray-500">Hotel Image</span>
-      </div>
-      <div class="p-6">
-        <h3 class="text-lg font-medium text-gray-900">{{ hotel.name }}</h3>
-        <p class="text-sm text-gray-500">{{ hotel.city }}</p>
-        <p class="mt-2 text-sm text-gray-600">{{ hotel.city }}</p>
-        <div class="mt-4 flex items-center justify-between">
-          <span class="text-lg font-bold text-gray-900">₹{{ hotel.minPrice }}/night</span>
-          <button class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700" [routerLink]="['/hotels', hotel.hotelId]">
-            View Details
-          </button>
-        </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div *ngFor="let city of ['Mumbai', 'Delhi', 'Goa']" 
+         [routerLink]="['/hotels/search']" [queryParams]="{ city: city }"
+         class="card-premium h-64 relative group cursor-pointer overflow-hidden border-0">
+      <img [src]="'https://source.unsplash.com/featured/?'+city+',city'" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+      <div class="absolute bottom-6 left-6 text-white">
+        <h3 class="text-2xl font-bold mb-1">{{ city }}</h3>
+        <p class="text-sm opacity-80 font-medium uppercase tracking-widest">Available now</p>
       </div>
     </div>
   </div>

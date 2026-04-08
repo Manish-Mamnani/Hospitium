@@ -1,6 +1,6 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   credentials = { email: '', password: '' };
   errorMessage = '';
   isLoading = false;
@@ -19,11 +19,18 @@ export class LoginComponent {
   // Touched state — errors only appear after user has interacted with a field
   touched = { email: false, password: false };
 
+  returnUrl: string = '';
+
   constructor(
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {}
+
+  ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
+  }
 
   // ── Validation getters ──────────────────────────────────────────
   get emailError(): string {
@@ -62,7 +69,7 @@ export class LoginComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.authService.login(this.credentials).subscribe({
+    this.authService.login(this.credentials, this.returnUrl).subscribe({
       next: () => {
         this.isLoading = false;
         this.cdr.detectChanges();

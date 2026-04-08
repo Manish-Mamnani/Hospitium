@@ -5,9 +5,11 @@ import { AddHotelComponent } from './add-hotel/add-hotel';
 import { ManageRoomsComponent } from './manage-rooms/manage-rooms';
 import { EditHotelComponent } from '../../shared/edit-hotel/edit-hotel';
 import { MyBookingsComponent } from './my-bookings/my-bookings';
+import { ManagerDashboardComponent } from './dashboard/dashboard';
 
 const routes: Routes = [
   { path: '', component: MyHotelsComponent },
+  { path: 'dashboard', component: ManagerDashboardComponent },
   { path: 'add-hotel', component: AddHotelComponent },
   { path: 'manage-rooms/:hotelId', component: ManageRoomsComponent },
   { path: 'hotels/:id/edit', component: EditHotelComponent },

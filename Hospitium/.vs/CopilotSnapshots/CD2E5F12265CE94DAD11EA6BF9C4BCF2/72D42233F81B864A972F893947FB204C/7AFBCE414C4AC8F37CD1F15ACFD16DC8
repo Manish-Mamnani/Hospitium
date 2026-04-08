@@ -1,0 +1,1331 @@
+﻿# Hospitium Microservices - Complete API Endpoints
+
+**Project:** Hospitium  
+**Target Framework:** .NET 8  
+**API Gateway:** Ocelot  
+**Base URLs:**
+- Gateway: `http://localhost:5000`
+- AuthService: `http://localhost:5001`
+- HotelService: `http://localhost:5002`
+- BookingService: `http://localhost:5003`
+
+---
+
+## Table of Contents
+
+1. [Authentication Service](#authentication-service)
+2. [Users Service](#users-service)
+3. [Hotel Service](#hotel-service)
+4. [Booking Service](#booking-service)
+5. [Review Service](#review-service)
+6. [Authentication & Authorization](#authentication--authorization)
+7. [Error Codes](#error-codes)
+
+---
+
+## Authentication Service
+
+**Base URL:** `http://localhost:5001/api/auth` (or `http://localhost:5000/api/auth` via Gateway)
+
+### Register User
+
+```
+POST /api/auth/register
+```
+
+**Description:** Register a new user account
+
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "fullName": "string (required, 3-100 characters)",
+  "email": "string (required, valid email format)",
+  "password": "string (required, minimum 6 characters)"
+}
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "message": "User registered successfully",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "userId": 1,
+  "email": "user@example.com",
+  "role": "User"
+}
+```
+
+**Error Responses:**
+- `409 Conflict`: Email already registered
+- `400 Bad Request`: Validation failed
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X POST http://localhost:5001/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fullName": "John Doe",
+    "email": "john@example.com",
+    "password": "SecurePass123"
+  }'
+```
+
+---
+
+### Login User
+
+```
+POST /api/auth/login
+```
+
+**Description:** Authenticate user and receive JWT token
+
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "email": "string (required, valid email format)",
+  "password": "string (required)"
+}
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "userId": 1,
+  "email": "user@example.com",
+  "role": "User"
+}
+```
+
+**Error Responses:**
+- `404 Not Found`: User not found
+- `401 Unauthorized`: Invalid credentials
+- `400 Bad Request`: Validation failed
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X POST http://localhost:5001/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john@example.com",
+    "password": "SecurePass123"
+  }'
+```
+
+**JWT Token Structure:**
+```
+Header: { "alg": "HS256", "typ": "JWT" }
+Payload: {
+  "UserId": "1",
+  "Email": "john@example.com",
+  "Role": "User",
+  "nameid": "1",
+  "email": "john@example.com",
+  "role": "User",
+  "exp": 1234567890,
+  "iss": "Hospitium",
+  "aud": "HospitiumUsers"
+}
+```
+
+**Token Expiry:** 2 hours from creation
+
+---
+
+## Users Service
+
+**Base URL:** `http://localhost:5001/api/users` (or `http://localhost:5000/api/users` via Gateway)
+
+### Get All Managers
+
+```
+GET /api/users/managers
+```
+
+**Description:** Retrieve list of all hotel managers
+
+**Headers:**
+```
+Authorization: Bearer {token} (optional)
+```
+
+**Query Parameters:** None
+
+**Success Response (200 OK):**
+```json
+[
+  {
+    "userId": 1,
+    "fullName": "Manager One",
+    "email": "manager1@example.com",
+    "role": "HotelManager"
+  },
+  {
+    "userId": 2,
+    "fullName": "Manager Two",
+    "email": "manager2@example.com",
+    "role": "HotelManager"
+  }
+]
+```
+
+**Error Responses:**
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X GET http://localhost:5001/api/users/managers \
+  -H "Authorization: Bearer {token}"
+```
+
+---
+
+## Hotel Service
+
+**Base URL:** `http://localhost:5002/api/hotels` (or `http://localhost:5000/api/hotels` via Gateway)
+
+### Create Hotel
+
+```
+POST /api/hotels
+```
+
+**Authentication:** Required (Role: `HotelManager`)
+
+**Description:** Create a new hotel
+
+**Headers:**
+```
+Content-Type: application/json
+Authorization: Bearer {token}
+```
+
+**Request Body:**
+```json
+{
+  "name": "string (required)",
+  "city": "string (required)",
+  "description": "string (required)"
+}
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "hotelId": 1,
+  "name": "Grand Hotel",
+  "city": "New York",
+  "status": "Pending",
+  "rating": 0,
+  "minPrice": 0
+}
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not authenticated or wrong role
+- `400 Bad Request`: Validation failed
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X POST http://localhost:5002/api/hotels \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "name": "Grand Hotel",
+    "city": "New York",
+    "description": "Luxury 5-star hotel"
+  }'
+```
+
+---
+
+### Create Room
+
+```
+POST /api/hotels/rooms
+```
+
+**Authentication:** Required (Role: `HotelManager`)
+
+**Description:** Add a room to an approved hotel
+
+**Headers:**
+```
+Content-Type: application/json
+Authorization: Bearer {token}
+```
+
+**Request Body:**
+```json
+{
+  "hotelId": 1,
+  "type": "string (required, e.g., 'Single', 'Double', 'Suite')",
+  "price": 150.00,
+  "totalCount": 10
+}
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "roomId": 1,
+  "type": "Double",
+  "price": 150.00,
+  "availableCount": 10
+}
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not authenticated or wrong role
+- `404 Not Found`: Hotel not found
+- `400 Bad Request`: Hotel must be approved before adding rooms
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X POST http://localhost:5002/api/hotels/rooms \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "hotelId": 1,
+    "type": "Double",
+    "price": 150.00,
+    "totalCount": 10
+  }'
+```
+
+---
+
+### Get Hotels (Search & Filter)
+
+```
+GET /api/hotels?search=name&city=NewYork&minPrice=100&maxPrice=500&sortBy=price&order=asc&page=1&pageSize=10
+```
+
+**Authentication:** None (Public endpoint)
+
+**Description:** Search, filter, sort, and paginate hotels
+
+**Headers:**
+```
+Accept: application/json
+```
+
+**Query Parameters:**
+```
+search:        string (optional) - Search by hotel name
+city:          string (optional) - Filter by city
+minPrice:      decimal (optional) - Minimum room price
+maxPrice:      decimal (optional) - Maximum room price
+availableOnly: boolean (optional) - Show only hotels with available rooms
+sortBy:        string (optional) - 'name', 'price', 'rating' (default: 'id')
+order:         string (optional) - 'asc' or 'desc' (default: 'asc')
+page:          int (optional, default: 1) - Page number
+pageSize:      int (optional, default: 10) - Items per page
+```
+
+**Success Response (200 OK):**
+```json
+[
+  {
+    "hotelId": 1,
+    "name": "Grand Hotel",
+    "city": "New York",
+    "status": "Approved",
+    "rating": 4.5,
+    "minPrice": 150.00
+  },
+  {
+    "hotelId": 2,
+    "name": "Luxury Inn",
+    "city": "New York",
+    "status": "Approved",
+    "rating": 4.8,
+    "minPrice": 200.00
+  }
+]
+```
+
+**Error Responses:**
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X GET "http://localhost:5002/api/hotels?search=Grand&city=NewYork&minPrice=100&maxPrice=500&sortBy=price&order=asc&page=1&pageSize=10" \
+  -H "Accept: application/json"
+```
+
+---
+
+### Get Hotel by ID
+
+```
+GET /api/hotels/{id}
+```
+
+**Authentication:** None (Public endpoint)
+
+**Description:** Get detailed information about a specific hotel
+
+**Path Parameters:**
+```
+id: int (required) - Hotel ID
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "hotelId": 1,
+  "name": "Grand Hotel",
+  "city": "New York",
+  "status": "Approved",
+  "rating": 4.5,
+  "minPrice": 150.00
+}
+```
+
+**Error Responses:**
+- `404 Not Found`: Hotel not found or not approved
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X GET http://localhost:5002/api/hotels/1 \
+  -H "Accept: application/json"
+```
+
+---
+
+### Get Hotel Rooms
+
+```
+GET /api/hotels/{id}/rooms
+```
+
+**Authentication:** None (Public endpoint)
+
+**Description:** Get all rooms in a hotel
+
+**Path Parameters:**
+```
+id: int (required) - Hotel ID
+```
+
+**Success Response (200 OK):**
+```json
+[
+  {
+    "roomId": 1,
+    "type": "Single",
+    "price": 100.00,
+    "availableCount": 5
+  },
+  {
+    "roomId": 2,
+    "type": "Double",
+    "price": 150.00,
+    "availableCount": 8
+  }
+]
+```
+
+**Error Responses:**
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X GET http://localhost:5002/api/hotels/1/rooms \
+  -H "Accept: application/json"
+```
+
+---
+
+### Get Room by ID
+
+```
+GET /api/hotels/rooms/{roomId}
+```
+
+**Authentication:** None (Public endpoint)
+
+**Description:** Check room availability
+
+**Path Parameters:**
+```
+roomId: int (required) - Room ID
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "roomId": 1,
+  "availableCount": 5
+}
+```
+
+**Error Responses:**
+- `404 Not Found`: Room not found
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X GET http://localhost:5002/api/hotels/rooms/1 \
+  -H "Accept: application/json"
+```
+
+---
+
+### Update Room
+
+```
+PUT /api/hotels/rooms/{roomId}
+```
+
+**Authentication:** Required (Role: `HotelManager`)
+
+**Description:** Update room details (price, availability)
+
+**Path Parameters:**
+```
+roomId: int (required) - Room ID
+```
+
+**Headers:**
+```
+Content-Type: application/json
+Authorization: Bearer {token}
+```
+
+**Request Body:**
+```json
+{
+  "price": 150.00,
+  "totalCount": 10,
+  "availableCount": 8
+}
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "roomId": 1,
+  "type": "Double",
+  "price": 150.00,
+  "availableCount": 8
+}
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not authenticated or wrong role
+- `404 Not Found`: Room not found
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X PUT http://localhost:5002/api/hotels/rooms/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "price": 150.00,
+    "totalCount": 10,
+    "availableCount": 8
+  }'
+```
+
+---
+
+### Approve Hotel
+
+```
+PUT /api/hotels/{id}/approve
+```
+
+**Authentication:** Required (Role: `Admin`)
+
+**Description:** Approve a pending hotel registration
+
+**Path Parameters:**
+```
+id: int (required) - Hotel ID
+```
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "hotelId": 1,
+  "name": "Grand Hotel",
+  "city": "New York",
+  "status": "Approved",
+  "rating": 0,
+  "minPrice": 0
+}
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not Admin
+- `404 Not Found`: Hotel not found
+- `400 Bad Request`: Hotel already approved
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X PUT http://localhost:5002/api/hotels/1/approve \
+  -H "Authorization: Bearer {token}"
+```
+
+---
+
+### Reject Hotel
+
+```
+PUT /api/hotels/{id}/reject
+```
+
+**Authentication:** Required (Role: `Admin`)
+
+**Description:** Reject a pending hotel registration
+
+**Path Parameters:**
+```
+id: int (required) - Hotel ID
+```
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "hotelId": 1,
+  "name": "Grand Hotel",
+  "city": "New York",
+  "status": "Rejected",
+  "rating": 0,
+  "minPrice": 0
+}
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not Admin
+- `404 Not Found`: Hotel not found
+- `400 Bad Request`: Hotel already rejected
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X PUT http://localhost:5002/api/hotels/1/reject \
+  -H "Authorization: Bearer {token}"
+```
+
+---
+
+### Get My Hotels
+
+```
+GET /api/hotels/my
+```
+
+**Authentication:** Required (Role: `HotelManager`)
+
+**Description:** Get all hotels created by current hotel manager
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Success Response (200 OK):**
+```json
+[
+  {
+    "hotelId": 1,
+    "name": "My Hotel",
+    "city": "New York",
+    "status": "Approved",
+    "rating": 4.5,
+    "minPrice": 150.00
+  }
+]
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not authenticated
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X GET http://localhost:5002/api/hotels/my \
+  -H "Authorization: Bearer {token}"
+```
+
+---
+
+## Booking Service
+
+**Base URL:** `http://localhost:5003/api/bookings` (or `http://localhost:5000/api/bookings` via Gateway)
+
+### Create Booking
+
+```
+POST /api/bookings
+```
+
+**Authentication:** Required
+
+**Description:** Create a new hotel room booking
+
+**Headers:**
+```
+Content-Type: application/json
+Authorization: Bearer {token}
+```
+
+**Request Body:**
+```json
+{
+  "roomId": 1,
+  "fromDate": "2024-02-01T00:00:00Z",
+  "toDate": "2024-02-05T00:00:00Z"
+}
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "bookingId": 1,
+  "roomId": 1,
+  "fromDate": "2024-02-01T00:00:00Z",
+  "toDate": "2024-02-05T00:00:00Z",
+  "status": "Confirmed"
+}
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not authenticated
+- `400 Bad Request`:
+  - Invalid dates (FromDate >= ToDate)
+  - Booking dates conflict with existing booking
+  - Room not available
+- `500 Internal Server Error`: Server error
+
+**Business Logic:**
+- Validates that FromDate < ToDate
+- Checks for overlapping bookings
+- Calls Hotel Service to verify room availability
+- Publishes `BookingCreatedEvent` to RabbitMQ
+- NotificationService sends confirmation email
+
+**Example cURL:**
+```bash
+curl -X POST http://localhost:5003/api/bookings \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "roomId": 1,
+    "fromDate": "2024-02-01T00:00:00Z",
+    "toDate": "2024-02-05T00:00:00Z"
+  }'
+```
+
+---
+
+### Get My Bookings
+
+```
+GET /api/bookings/my?type=active
+```
+
+**Authentication:** Required
+
+**Description:** Get current user's bookings (active or history)
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Query Parameters:**
+```
+type: string (optional) - 'active' or 'history'
+  - active:  Current and future bookings (not cancelled, not expired)
+  - history: Past bookings or cancelled bookings
+  - (none):  All bookings
+```
+
+**Success Response (200 OK):**
+```json
+[
+  {
+    "bookingId": 1,
+    "roomId": 1,
+    "fromDate": "2024-02-01T00:00:00Z",
+    "toDate": "2024-02-05T00:00:00Z",
+    "status": "Confirmed"
+  },
+  {
+    "bookingId": 2,
+    "roomId": 2,
+    "fromDate": "2024-03-01T00:00:00Z",
+    "toDate": "2024-03-10T00:00:00Z",
+    "status": "Cancelled"
+  }
+]
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not authenticated
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X GET "http://localhost:5003/api/bookings/my?type=active" \
+  -H "Authorization: Bearer {token}"
+```
+
+---
+
+### Get All Bookings
+
+```
+GET /api/bookings?date=2024-02-01
+```
+
+**Authentication:** Required (Role: `Admin`)
+
+**Description:** Get all bookings (admin only), optionally filtered by date
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Query Parameters:**
+```
+date: DateTime (optional) - Filter bookings for a specific date
+      Shows bookings where date is between FromDate and ToDate
+```
+
+**Success Response (200 OK):**
+```json
+[
+  {
+    "bookingId": 1,
+    "roomId": 1,
+    "fromDate": "2024-02-01T00:00:00Z",
+    "toDate": "2024-02-05T00:00:00Z",
+    "status": "Confirmed"
+  }
+]
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not Admin
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X GET "http://localhost:5003/api/bookings?date=2024-02-01" \
+  -H "Authorization: Bearer {token}"
+```
+
+---
+
+### Get Booking by ID
+
+```
+GET /api/bookings/{id}
+```
+
+**Authentication:** Required
+
+**Description:** Get booking details (user can see own, admin can see all)
+
+**Path Parameters:**
+```
+id: int (required) - Booking ID
+```
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "bookingId": 1,
+  "roomId": 1,
+  "fromDate": "2024-02-01T00:00:00Z",
+  "toDate": "2024-02-05T00:00:00Z",
+  "status": "Confirmed"
+}
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not authenticated or not authorized to view
+- `404 Not Found`: Booking not found
+- `500 Internal Server Error`: Server error
+
+**Example cURL:**
+```bash
+curl -X GET http://localhost:5003/api/bookings/1 \
+  -H "Authorization: Bearer {token}"
+```
+
+---
+
+### Cancel Booking
+
+```
+PUT /api/bookings/{bookingId}/cancel
+```
+
+**Authentication:** Required
+
+**Description:** Cancel a booking (user can cancel own, admin can cancel any)
+
+**Path Parameters:**
+```
+bookingId: int (required) - Booking ID
+```
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "bookingId": 1,
+  "roomId": 1,
+  "fromDate": "2024-02-01T00:00:00Z",
+  "toDate": "2024-02-05T00:00:00Z",
+  "status": "Cancelled"
+}
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not authenticated or not authorized to cancel
+- `404 Not Found`: Booking not found
+- `400 Bad Request`: Booking already cancelled
+- `500 Internal Server Error`: Server error
+
+**Business Logic:**
+- Updates booking status to "Cancelled"
+- Publishes `BookingCancelledEvent` to RabbitMQ
+- HotelService increments room availability
+- NotificationService sends cancellation email
+
+**Example cURL:**
+```bash
+curl -X PUT http://localhost:5003/api/bookings/1/cancel \
+  -H "Authorization: Bearer {token}"
+```
+
+---
+
+## Review Service
+
+**Base URL:** `http://localhost:5004/api/reviews` (or `http://localhost:5000/api/reviews` via Gateway)
+
+### Add Review
+
+```
+POST /api/reviews
+```
+
+**Authentication:** Required
+
+**Description:** Add a review with comment and rating for a hotel
+
+**Headers:**
+```
+Content-Type: application/json
+Authorization: Bearer {token}
+```
+
+**Request Body:**
+```json
+{
+  "hotelId": 1,
+  "rating": 5,
+  "comment": "string (required, max 1000 characters)"
+}
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "reviewId": 1,
+  "hotelId": 1,
+  "userId": 1,
+  "userName": "John Doe",
+  "rating": 5,
+  "comment": "Excellent hotel with great service!",
+  "createdAt": "2024-02-01T10:30:00Z"
+}
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not authenticated
+- `400 Bad Request`: Validation failed (rating must be 1-5)
+- `500 Internal Server Error`: Server error
+
+**Business Logic:**
+- Extracts UserId and UserName from JWT token
+- Validates rating is between 1-5
+- Publishes `ReviewAddedEvent` to RabbitMQ
+- HotelService consumes event and updates hotel average rating
+
+**Example cURL:**
+```bash
+curl -X POST http://localhost:5004/api/reviews \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "hotelId": 1,
+    "rating": 5,
+    "comment": "Excellent hotel with great service!"
+  }'
+```
+
+---
+
+### Rate Hotel (Quick Rating Only)
+
+```
+POST /api/reviews/rate?hotelId=1&rating=5
+```
+
+**Authentication:** Required
+
+**Description:** Add a quick rating without a detailed comment
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Query Parameters:**
+```
+hotelId: int (required) - Hotel ID
+rating:  int (required) - Rating value (1-5)
+```
+
+**Success Response (200 OK):**
+```json
+{
+  "reviewId": 2,
+  "hotelId": 1,
+  "userId": 1,
+  "userName": "john@example.com",
+  "rating": 5,
+  "comment": "Rating only",
+  "createdAt": "2024-02-01T11:00:00Z"
+}
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Not authenticated
+- `400 Bad Request`: Invalid rating (must be 1-5)
+- `500 Internal Server Error`: Server error
+
+**Business Logic:**
+- Creates a review with comment "Rating only"
+- Publishes `ReviewAddedEvent` to RabbitMQ
+- HotelService increments hotel rating
+
+**Example cURL:**
+```bash
+curl -X POST "http://localhost:5004/api/reviews/rate?hotelId=1&rating=5" \
+  -H "Authorization: Bearer {token}"
+```
+
+---
+
+### Get Hotel Reviews
+
+```
+GET /api/reviews/hotel/{hotelId}
+```
+
+**Authentication:** None (Public endpoint)
+
+**Description:** Get all reviews for a specific hotel
+
+**Path Parameters:**
+```
+hotelId: int (required) - Hotel ID
+```
+
+**Success Response (200 OK):**
+```json
+[
+  {
+    "reviewId": 1,
+    "hotelId": 1,
+    "userId": 1,
+    "userName": "John Doe",
+    "rating": 5,
+    "comment": "Excellent hotel with great service!",
+    "createdAt": "2024-02-01T10:30:00Z"
+  },
+  {
+    "reviewId": 2,
+    "hotelId": 1,
+    "userId": 2,
+    "userName": "Jane Smith",
+    "rating": 4,
+    "comment": "Good location and clean rooms",
+    "createdAt": "2024-02-01T09:15:00Z"
+  }
+]
+```
+
+**Error Responses:**
+- `500 Internal Server Error`: Server error
+
+**Notes:**
+- Returns reviews sorted by most recent first
+- Does not include deleted reviews
+- Shows userName instead of email for privacy
+
+**Example cURL:**
+```bash
+curl -X GET http://localhost:5004/api/reviews/hotel/1 \
+  -H "Accept: application/json"
+```
+
+---
+
+## Authentication & Authorization
+
+### JWT Token
+
+All protected endpoints require a valid JWT token in the `Authorization` header:
+
+```
+Authorization: Bearer {token}
+```
+
+**Token Claims:**
+```
+UserId: User's ID (extracted from token)
+Email: User's email address
+Role: User's role (User, Admin, HotelManager)
+```
+
+**Token Expiry:** 2 hours from creation
+
+**Roles & Permissions:**
+
+| Role | Endpoints |
+|------|-----------|
+| **User** | Register, Login, Create Booking, View Own Bookings, Cancel Own Booking, Add Review, Rate Hotel |
+| **Admin** | All User endpoints + Approve/Reject Hotels, View All Bookings |
+| **HotelManager** | Register, Login, Create Hotel, Create Room, Update Room, View Own Hotels |
+
+### Authorization Header Format
+
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxIiwiRW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIiwiUm9sZSI6IlVzZXIifQ.signature
+```
+
+---
+
+## Error Codes
+
+### HTTP Status Codes
+
+| Code | Meaning | Common Causes |
+|------|---------|---------------|
+| **200** | OK | Request successful |
+| **400** | Bad Request | Validation failure, invalid input |
+| **401** | Unauthorized | Invalid/missing token, wrong role |
+| **404** | Not Found | Resource not found |
+| **409** | Conflict | Email already exists, booking date conflict |
+| **500** | Internal Server Error | Server error |
+
+### Standard Error Response Format
+
+```json
+{
+  "message": "Error description"
+}
+```
+
+### Common Error Scenarios
+
+#### Missing Authentication
+```
+Status: 401 Unauthorized
+{
+  "message": "Authorization header missing or invalid"
+}
+```
+
+#### Invalid Email
+```
+Status: 409 Conflict
+{
+  "message": "Email already registered"
+}
+```
+
+#### Invalid Dates
+```
+Status: 400 Bad Request
+{
+  "message": "FromDate must be before ToDate"
+}
+```
+
+#### Room Not Available
+```
+Status: 400 Bad Request
+{
+  "message": "Room is not available for selected dates"
+}
+```
+
+#### Unauthorized Access
+```
+Status: 401 Unauthorized
+{
+  "message": "You do not have permission to access this resource"
+}
+```
+
+---
+
+## API Testing Guide
+
+### Step-by-Step Flow
+
+**1. Register a new user:**
+```bash
+curl -X POST http://localhost:5001/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fullName": "John Doe",
+    "email": "john@example.com",
+    "password": "Password123"
+  }'
+```
+
+Response will include `token`. Save it for next requests.
+
+**2. Search hotels:**
+```bash
+curl -X GET "http://localhost:5002/api/hotels?search=Grand&page=1&pageSize=10" \
+  -H "Accept: application/json"
+```
+
+**3. Get hotel details:**
+```bash
+curl -X GET http://localhost:5002/api/hotels/1 \
+  -H "Accept: application/json"
+```
+
+**4. Check room availability:**
+```bash
+curl -X GET http://localhost:5002/api/hotels/rooms/1 \
+  -H "Accept: application/json"
+```
+
+**5. Create a booking:**
+```bash
+curl -X POST http://localhost:5003/api/bookings \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {your_token_here}" \
+  -d '{
+    "roomId": 1,
+    "fromDate": "2024-02-15T00:00:00Z",
+    "toDate": "2024-02-20T00:00:00Z"
+  }'
+```
+
+**6. View your bookings:**
+```bash
+curl -X GET "http://localhost:5003/api/bookings/my?type=active" \
+  -H "Authorization: Bearer {your_token_here}"
+```
+
+**7. Cancel a booking:**
+```bash
+curl -X PUT http://localhost:5003/api/bookings/1/cancel \
+  -H "Authorization: Bearer {your_token_here}"
+```
+
+---
+
+## Postman Collection
+
+You can import this into Postman for easier testing:
+
+```json
+{
+  "info": {
+    "name": "Hospitium API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:5001/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"fullName\":\"John Doe\",\"email\":\"john@example.com\",\"password\":\"Password123\"}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:5001/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"john@example.com\",\"password\":\"Password123\"}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+**Documentation Generated:** 2024  
+**API Version:** 1.0  
+**Last Updated:** Version 2.0 (Updated with complete endpoints and error handling)

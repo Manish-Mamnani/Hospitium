@@ -323,31 +323,5 @@ namespace Hospitium.HotelService.Services
                 MinPrice = h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : 0
             };
         }
-
-        public async Task<HotelResponseDto> AddRatingAsync(int hotelId, double rating)
-        {
-            if (rating < 1 || rating > 5)
-                throw new InvalidRatingException();
-
-            var hotel = await _context.Hotels
-                .Include(h => h.Rooms)
-                .FirstOrDefaultAsync(h => h.HotelId == hotelId);
-
-            if (hotel == null)
-                throw new HotelNotFoundException(hotelId);
-
-            if (hotel.Status != "Approved")
-                throw new InvalidHotelOperationException("Cannot rate unapproved hotel.");
-
-            hotel.TotalReviews++;
-
-            hotel.AverageRating =
-                ((hotel.AverageRating * (hotel.TotalReviews - 1)) + rating)
-                / hotel.TotalReviews;
-
-            await _context.SaveChangesAsync();
-
-            return MapToHotelResponse(hotel);
-        }
     }
 }

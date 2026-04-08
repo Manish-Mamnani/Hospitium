@@ -13,33 +13,51 @@
   }
 
   body {
-    @apply bg-gray-50 text-gray-800 font-sans antialiased;
+    @apply bg-neutral-bg text-neutral-primary font-body antialiased selection:bg-primary/10;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight text-neutral-primary;
   }
 }
 
 @layer components {
+  /* Redesigned Components */
   .btn-primary {
-    @apply bg-brand-900 text-white px-5 py-2.5 rounded-xl font-semibold transition-all hover:bg-brand-700 focus:outline-none focus:ring-4 focus:ring-brand-100 cursor-pointer;
+    @apply bg-primary hover:bg-primary-hover active:bg-primary-active text-white font-bold py-3 px-6 rounded-2xl transition-all shadow-lg shadow-primary/10 transform hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:transform-none;
   }
 
+  .btn-accent {
+    @apply bg-accent hover:bg-accent/90 text-white font-bold py-3 px-6 rounded-2xl transition-all shadow-lg shadow-accent/10 transform hover:-translate-y-0.5 active:scale-95;
+  }
+
+  .card-premium {
+    @apply bg-neutral-surface border border-neutral-border rounded-[2rem] shadow-sm hover:shadow-md transition-all duration-300;
+  }
+
+  /* Status Badges - Refined Palette */
   .badge-success {
-    @apply bg-emerald-100 text-emerald-800 text-xs font-semibold rounded-full;
+    @apply bg-success-bg text-success-text px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-success-text/10;
   }
 
   .badge-warning {
-    @apply bg-amber-100 text-amber-800 text-xs font-semibold rounded-full;
+    @apply bg-warning-bg text-warning-text px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-warning-text/10;
   }
 
   .badge-error {
-    @apply bg-rose-100 text-rose-800 text-xs font-semibold rounded-full;
+    @apply bg-error-bg text-error-text px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-error-text/10;
   }
 
-  .card-hover {
-    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  .badge-active {
+    @apply bg-booking-active-bg text-booking-active-text px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
+  }
+
+  .badge-cancelled {
+    @apply bg-booking-cancelled-bg text-booking-cancelled-text px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
+  }
+
+  .input-premium {
+    @apply w-full bg-neutral-bg border border-neutral-border rounded-xl px-4 py-3 text-neutral-primary focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all;
   }
 
   .animate-fade-in {

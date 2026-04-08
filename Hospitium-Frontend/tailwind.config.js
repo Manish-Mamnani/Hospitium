@@ -6,17 +6,51 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50:  '#F7F5FF',
-          100: '#F2EFFE',
-          600: '#6F5FE3',
-          700: '#574BBA',
-          900: '#2E2854',
+        primary: {
+          DEFAULT: '#5A7A5A', // Sage
+          hover: '#4B684B',
+          active: '#3F593F',
+          light: '#8AAE8A',
         },
+        accent: {
+          DEFAULT: '#C4A86A', // Gold
+          soft: '#F4EDDC',   // For pending status bg
+        },
+        neutral: {
+          bg: '#F4F6F4',
+          surface: '#FFFFFF',
+          sidebar: '#E7EFE7',
+          border: '#D6E0D6',
+          primary: '#2A2E2A',
+          secondary: '#909890',
+        },
+        success: {
+          bg: '#E0EDE0',
+          text: '#3A5A3A',
+        },
+        warning: {
+          bg: '#F4EDDC',
+          text: '#7A6020',
+        },
+        error: {
+          DEFAULT: '#A87070',
+          bg: '#F0E4E4',
+          text: '#7A3A3A',
+        },
+        booking: {
+          active: {
+            bg: '#EAF0EA',
+            text: '#2A5A2A',
+          },
+          cancelled: {
+            bg: '#EEEEEE',
+            text: '#909890',
+          }
+        }
       },
       fontFamily: {
-        sans:    ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['Outfit', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'display': ['Outfit', 'sans-serif'],
+        'body': ['Inter', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-out',

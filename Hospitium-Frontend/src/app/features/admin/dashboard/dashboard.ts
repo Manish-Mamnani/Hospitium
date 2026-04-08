@@ -3,9 +3,11 @@ import { RouterLink } from '@angular/router';
 import { ApiService } from '../../../core/api.service';
 import { CommonModule } from '@angular/common';
 
+import { Sidebar } from '../../../shared/sidebar/sidebar';
+
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, Sidebar],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
