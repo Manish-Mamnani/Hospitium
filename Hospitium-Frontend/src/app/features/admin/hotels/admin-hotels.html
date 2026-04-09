@@ -20,6 +20,7 @@
               <option value="Approved">Approved</option>
               <option value="Pending">Pending</option>
               <option value="Rejected">Rejected</option>
+              <option value="Deleted">Deleted</option>
             </select>
             <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
@@ -68,7 +69,7 @@
                   <span [class]="getStatusClass(h.status)">{{ h.status }}</span>
                 </td>
                 <td class="px-6 py-4 text-right">
-                  <a [routerLink]="['/admin/hotels', h.hotelId, 'edit']"
+                  <a *ngIf="h.status !== 'Deleted'" [routerLink]="['/admin/hotels', h.hotelId, 'edit']"
                      class="px-4 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-bold hover:bg-primary/20 transition-all opacity-0 group-hover:opacity-100">
                     Manage
                   </a>

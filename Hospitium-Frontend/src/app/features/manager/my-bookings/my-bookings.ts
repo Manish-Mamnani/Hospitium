@@ -4,6 +4,7 @@ import { ApiService } from '../../../core/api.service';
 import { ToastService } from '../../../core/toast.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ConfirmService } from '../../../core/confirm.service';
 
 import { Sidebar } from '../../../shared/sidebar/sidebar';
 
@@ -17,11 +18,13 @@ export class MyBookingsComponent implements OnInit {
   bookings: any[] = [];
   isLoading = false;
   cancellingId: number | null = null;
+  completingId: number | null = null;
 
   constructor(
     private apiService: ApiService,
     private toastService: ToastService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private confirmService: ConfirmService
   ) {}
 
   ngOnInit() {
@@ -44,8 +47,16 @@ export class MyBookingsComponent implements OnInit {
     });
   }
 
-  cancelBooking(bookingId: number) {
-    if (!confirm('Are you sure you want to cancel this booking?')) return;
+  async cancelBooking(bookingId: number) {
+    const confirmed = await this.confirmService.confirm({
+      title: 'Cancel Reservation',
+      message: 'Are you sure you want to cancel this booking? This action might be subject to the property policy.',
+      confirmText: 'Yes, Cancel',
+      type: 'danger'
+    });
+
+    if (!confirmed) return;
+    
     this.cancellingId = bookingId;
     this.apiService.put(`/bookings/${bookingId}/cancel`, {}).subscribe({
       next: () => {
@@ -62,12 +73,39 @@ export class MyBookingsComponent implements OnInit {
     });
   }
 
+  async completeBooking(bookingId: number) {
+    const confirmed = await this.confirmService.confirm({
+      title: 'Complete Stay',
+      message: 'Mark this guest stay as finished? This will officially close the reservation records.',
+      confirmText: 'Complete',
+      type: 'success'
+    });
+
+    if (!confirmed) return;
+
+    this.completingId = bookingId;
+    this.apiService.put(`/bookings/${bookingId}/complete`, {}).subscribe({
+      next: () => {
+        this.completingId = null;
+        this.toastService.success('Booking marked as completed.');
+        this.loadBookings();
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.completingId = null;
+        this.toastService.error(err.error?.message || 'Failed to complete booking.');
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   getStatusClass(status: string): string {
     switch (status?.toLowerCase()) {
-      case 'confirmed': return 'bg-green-100 text-green-700';
-      case 'cancelled': return 'bg-red-100 text-red-700';
-      case 'pending': return 'bg-yellow-100 text-yellow-700';
-      default: return 'bg-gray-100 text-gray-600';
+      case 'confirmed': return 'bg-primary/5 text-primary border-primary/20';
+      case 'completed': return 'badge-completed';
+      case 'cancelled': return 'bg-error-bg text-error-text border-error-text/10';
+      case 'pending': return 'bg-accent/5 text-accent border-accent/20';
+      default: return 'bg-gray-100 text-gray-600 border-gray-200';
     }
   }
 }

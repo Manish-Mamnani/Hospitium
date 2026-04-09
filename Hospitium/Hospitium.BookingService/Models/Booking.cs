@@ -24,6 +24,9 @@ namespace Hospitium.BookingService.Models
         public int NumberOfRooms { get; set; } = 1;
         
         public decimal TotalPrice { get; set; }
+        
+        public decimal? CancellationDeduction { get; set; }
+        public decimal? RefundAmount { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }

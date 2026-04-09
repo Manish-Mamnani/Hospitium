@@ -9,6 +9,8 @@ using Hospitium.BookingService.HttpClients;
 using Hospitium.BookingService.Interfaces;
 using Hospitium.BookingService.Models;
 using Microsoft.EntityFrameworkCore;
+using MassTransit;
+using Hospitium.Contracts.Events;
 
 namespace Hospitium.BookingService.Services
 {
@@ -16,11 +18,13 @@ namespace Hospitium.BookingService.Services
     {
         private readonly BookingDbContext _context;
         private readonly IHotelClient _hotelClient;
+        private readonly IPublishEndpoint _publish;
 
-        public BookingService(BookingDbContext context, IHotelClient hotelClient)
+        public BookingService(BookingDbContext context, IHotelClient hotelClient, IPublishEndpoint publish)
         {
             _context = context;
             _hotelClient = hotelClient;
+            _publish = publish;
         }
 
         public async Task<BookingResponseDto> CreateBookingAsync(int userId, string email, CreateBookingDto dto)
@@ -64,6 +68,18 @@ namespace Hospitium.BookingService.Services
 
             _context.Bookings.Add(booking);
             await _context.SaveChangesAsync();
+
+            // 📢 Publish Creation Event for Email notifications
+            await _publish.Publish(new BookingCreatedEvent
+            {
+                BookingId = booking.BookingId,
+                RoomId = booking.RoomId,
+                NumberOfRooms = booking.NumberOfRooms,
+                UserEmail = booking.UserEmail,
+                HotelName = booking.HotelName,
+                FromDate = booking.FromDate,
+                ToDate = booking.ToDate
+            });
 
             return await MapToResponse(booking);
         }
@@ -136,7 +152,61 @@ namespace Hospitium.BookingService.Services
             if (booking.Status == "Cancelled")
                 throw new BookingAlreadyCancelledException(id);
 
+            // 🕒 Cancellation Policy Logic (Local timezone assumed as reference for check-in)
+            // Let's assume standard 12:00 PM check-in
+            var checkInTime = booking.FromDate.Date.AddHours(12);
+            var now = DateTime.UtcNow;
+            var hoursUntilCheckIn = (checkInTime - now).TotalHours;
+
+            decimal deductionPercentage = 0;
+            if (hoursUntilCheckIn < 0) deductionPercentage = 100;
+            else if (hoursUntilCheckIn < 24) deductionPercentage = 50;
+            else if (hoursUntilCheckIn < 72) deductionPercentage = 25;
+            else deductionPercentage = 0;
+
+            booking.CancellationDeduction = (booking.TotalPrice * deductionPercentage) / 100;
+            booking.RefundAmount = booking.TotalPrice - booking.CancellationDeduction;
             booking.Status = "Cancelled";
+            
+            await _context.SaveChangesAsync();
+
+            // 📢 Publish Cancellation Event for Email notifications
+            await _publish.Publish(new BookingCancelledEvent
+            {
+                BookingId = booking.BookingId,
+                RoomId = booking.RoomId,
+                NumberOfRooms = booking.NumberOfRooms,
+                UserEmail = booking.UserEmail,
+                HotelName = booking.HotelName,
+                RefundAmount = booking.RefundAmount ?? 0,
+                DeductionAmount = booking.CancellationDeduction ?? 0,
+                CancelledAt = DateTime.UtcNow
+            });
+
+            return await MapToResponse(booking);
+        }
+
+        public async Task<BookingResponseDto> CompleteBookingAsync(int id, int userId, string role)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+
+            if (booking == null)
+                throw new BookingNotFoundException(id);
+
+            // 🔐 Security: Managers can complete bookings for their hotels
+            if (role != "Admin")
+            {
+                var roomIds = await _hotelClient.GetManagerRoomIdsAsync();
+                if (roomIds == null || !roomIds.Contains(booking.RoomId))
+                {
+                    throw new UnauthorizedAccessException("You can only complete bookings for your own properties.");
+                }
+            }
+
+            if (booking.Status == "Completed")
+                return await MapToResponse(booking);
+
+            booking.Status = "Completed";
             await _context.SaveChangesAsync();
 
             return await MapToResponse(booking);
@@ -169,7 +239,9 @@ namespace Hospitium.BookingService.Services
                 ToDate = b.ToDate,
                 NumberOfRooms = b.NumberOfRooms,
                 TotalPrice = b.TotalPrice,
-                Status = b.Status
+                Status = b.Status,
+                CancellationDeduction = b.CancellationDeduction,
+                RefundAmount = b.RefundAmount
             };
 
             // Fallback for legacy bookings where denormalized fields are empty

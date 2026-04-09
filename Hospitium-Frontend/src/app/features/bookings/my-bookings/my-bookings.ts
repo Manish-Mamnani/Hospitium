@@ -1,7 +1,8 @@
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../../core/api.service';
 import { ToastService } from '../../../core/toast.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CancellationService } from '../../../core/cancellation.service';
 
 @Component({
   selector: 'app-my-bookings',
@@ -19,7 +20,8 @@ export class MyBookingsComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private toastService: ToastService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private cancellationService: CancellationService
   ) {}
 
   ngOnInit() {
@@ -43,10 +45,14 @@ export class MyBookingsComponent implements OnInit {
     });
   }
 
-  cancelBooking(bookingId: number) {
+  async cancelBooking(booking: any) {
     if (this.cancellingId) return;
-    this.cancellingId = bookingId;
-    this.apiService.put(`/bookings/${bookingId}/cancel`, {}).subscribe({
+    
+    const confirmed = await this.cancellationService.showDialog(booking);
+    if (!confirmed) return;
+
+    this.cancellingId = booking.bookingId;
+    this.apiService.put(`/bookings/${booking.bookingId}/cancel`, {}).subscribe({
       next: () => {
         this.cancellingId = null;
         this.toastService.success('Booking cancelled successfully.');

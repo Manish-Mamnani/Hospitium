@@ -45,7 +45,8 @@ module.exports = {
           cancelled: {
             bg: '#EEEEEE',
             text: '#909890',
-          }
+          },
+          completed: '#5B6E8C'
         }
       },
       fontFamily: {

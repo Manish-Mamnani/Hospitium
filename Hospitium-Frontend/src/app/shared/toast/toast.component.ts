@@ -8,11 +8,10 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="fixed top-5 right-5 z-[9999] flex flex-col gap-3" style="min-width:320px; max-width:420px;">
+    <div class="fixed top-24 right-5 z-[9999] flex flex-col gap-3 pointer-events-none" style="min-width:320px; max-width:420px;">
       <div *ngFor="let toast of toasts; let i = index"
-           class="flex items-start gap-3 px-4 py-3 bg-white rounded-xl shadow-2xl pointer-events-auto"
-           [ngClass]="getToastClass(toast.type)"
-           style="border-left: 4px solid;">
+           class="flex items-start gap-3 px-4 py-3 bg-white rounded-xl shadow-2xl pointer-events-auto animate-fade-in border-l-4"
+           [ngClass]="getToastClass(toast.type)">
         <!-- Icon -->
         <div class="flex-shrink-0 mt-0.5">
           <svg *ngIf="toast.type === 'success'" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,24 +44,23 @@ export class ToastComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.toastService.toastState$.subscribe(toast => {
-      this.toasts.push(toast);
+      this.toasts = [...this.toasts, toast];
       setTimeout(() => this.removeToast(toast), 5000);
     });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   remove(index: number) {
-    this.toasts.splice(index, 1);
+    this.toasts = this.toasts.filter((_, i) => i !== index);
   }
 
   private removeToast(toast: ToastMessage) {
-    const index = this.toasts.indexOf(toast);
-    if (index !== -1) {
-      this.toasts.splice(index, 1);
-    }
+    this.toasts = this.toasts.filter(t => t !== toast);
   }
 
   getToastClass(type: string): string {

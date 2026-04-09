@@ -248,6 +248,21 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/hotels/{id}/images",
+      "UpstreamPathTemplate": "/hotels/{id}/images",
+      "UpstreamHttpMethod": [ "POST", "DELETE" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/bookings",
       "UpstreamPathTemplate": "/bookings",
       "UpstreamHttpMethod": [ "GET", "POST" ],
@@ -276,6 +291,18 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
+    },
+    {
+      "DownstreamPathTemplate": "/images/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/images/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ],
   "GlobalConfiguration": {

@@ -17,5 +17,7 @@ namespace Hospitium.HotelService.DTOs
         public string Description { get; set; } = string.Empty;
 
         public decimal MinPrice { get; set; }
+
+        public List<HotelImageResponseDto> Images { get; set; } = new();
     }
 }

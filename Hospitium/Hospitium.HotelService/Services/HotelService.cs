@@ -29,7 +29,7 @@ namespace Hospitium.HotelService.Services
             {
                 Name = dto.Name,
                 City = dto.City,
-                Description = dto.Description,
+                Description = dto.Description ?? string.Empty,
                 AverageRating = 0,
                 TotalReviews = 0,
                 Status = "Pending",
@@ -82,6 +82,7 @@ namespace Hospitium.HotelService.Services
         {
             var hotel = await _context.Hotels
                 .Include(h => h.Rooms)
+                .Include(h => h.Images)
                 .FirstOrDefaultAsync(h => h.HotelId == hotelId);
 
             if (hotel == null)
@@ -107,6 +108,7 @@ namespace Hospitium.HotelService.Services
         {
             var hotel = await _context.Hotels
                 .Include(h => h.Rooms)
+                .Include(h => h.Images)
                 .FirstOrDefaultAsync(h => h.HotelId == hotelId);
 
             if (hotel == null)
@@ -151,6 +153,7 @@ namespace Hospitium.HotelService.Services
         {
             var hotel = await _context.Hotels
                 .Include(h => h.Rooms)
+                .Include(h => h.Images)
                 .FirstOrDefaultAsync(h => h.HotelId == id);
 
             if (hotel == null)
@@ -166,6 +169,7 @@ namespace Hospitium.HotelService.Services
         {
             var hotels = await _context.Hotels
                 .Include(h => h.Rooms)
+                .Include(h => h.Images)
                 .Where(h => h.Status == "Approved")
                 .ToListAsync();
 
@@ -176,6 +180,7 @@ namespace Hospitium.HotelService.Services
         {
             var hotels = await _context.Hotels
                 .Include(h => h.Rooms)
+                .Include(h => h.Images)
                 .Where(h => h.Status == "Pending")
                 .ToListAsync();
 
@@ -186,6 +191,7 @@ namespace Hospitium.HotelService.Services
         {
             var hotels = await _context.Hotels
                 .Include(h => h.Rooms)
+                .Include(h => h.Images)
                 .Where(h => h.CreatedByUserId == userId)
                 .ToListAsync();
 
@@ -268,6 +274,7 @@ namespace Hospitium.HotelService.Services
         {
             var hotel = await _context.Hotels
                 .Include(h => h.Rooms)
+                .Include(h => h.Images)
                 .FirstOrDefaultAsync(h => h.HotelId == id);
 
             if (hotel == null)
@@ -278,7 +285,7 @@ namespace Hospitium.HotelService.Services
 
             hotel.Name = dto.Name;
             hotel.City = dto.City;
-            hotel.Description = dto.Description;
+            hotel.Description = dto.Description ?? string.Empty;
 
             await _context.SaveChangesAsync();
 
@@ -303,10 +310,71 @@ namespace Hospitium.HotelService.Services
         {
             var hotels = await _context.Hotels
                 .Include(h => h.Rooms)
+                .Include(h => h.Images)
                 .OrderByDescending(h => h.HotelId)
                 .ToListAsync();
 
             return hotels.Select(MapToHotelResponse).ToList();
+        }
+
+        public async Task<HotelImageResponseDto> AddHotelImageAsync(int hotelId, int userId, string role, string imageUrl, bool isPrimary)
+        {
+            var hotel = await _context.Hotels.Include(h => h.Images).FirstOrDefaultAsync(h => h.HotelId == hotelId);
+            if (hotel == null) throw new HotelNotFoundException(hotelId);
+
+            if (hotel.CreatedByUserId != userId && role != "Admin")
+                throw new UnauthorizedAccessException("You can only add images to your own hotels.");
+
+            if (hotel.Images.Count >= 10)
+                throw new InvalidOperationException("Maximum limit of 10 images reached.");
+
+            if (isPrimary && hotel.Images.Any())
+            {
+                foreach (var img in hotel.Images) img.IsPrimary = false;
+            }
+            else if (!hotel.Images.Any())
+            {
+                isPrimary = true;
+            }
+
+            var image = new HotelImage
+            {
+                HotelId = hotelId,
+                ImageUrl = imageUrl,
+                IsPrimary = isPrimary
+            };
+
+            _context.HotelImages.Add(image);
+            await _context.SaveChangesAsync();
+
+            return new HotelImageResponseDto
+            {
+                ImageId = image.ImageId,
+                ImageUrl = image.ImageUrl,
+                IsPrimary = image.IsPrimary
+            };
+        }
+
+        public async Task DeleteHotelImageAsync(int hotelId, int imageId, int userId, string role)
+        {
+            var hotel = await _context.Hotels.Include(h => h.Images).FirstOrDefaultAsync(h => h.HotelId == hotelId);
+            if (hotel == null) throw new HotelNotFoundException(hotelId);
+
+            if (hotel.CreatedByUserId != userId && role != "Admin")
+                throw new UnauthorizedAccessException("You can only delete images from your own hotels.");
+
+            var image = hotel.Images.FirstOrDefault(i => i.ImageId == imageId);
+            if (image == null) throw new KeyNotFoundException("Image not found.");
+
+            _context.HotelImages.Remove(image);
+            
+            if (image.IsPrimary && hotel.Images.Count > 1)
+            {
+                var first = hotel.Images.FirstOrDefault(i => i.ImageId != imageId);
+                if (first != null) first.IsPrimary = true;
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         private HotelResponseDto MapToHotelResponse(Hotel h)
@@ -320,7 +388,13 @@ namespace Hospitium.HotelService.Services
                 ManagerEmail = h.ManagerEmail,
                 Description = h.Description,
                 Rating = h.AverageRating,
-                MinPrice = h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : 0
+                MinPrice = h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : 0,
+                Images = h.Images?.Select(i => new HotelImageResponseDto 
+                { 
+                    ImageId = i.ImageId, 
+                    ImageUrl = i.ImageUrl, 
+                    IsPrimary = i.IsPrimary 
+                }).ToList() ?? new List<HotelImageResponseDto>()
             };
         }
     }

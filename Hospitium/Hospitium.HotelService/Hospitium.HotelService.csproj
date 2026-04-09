@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Hospitium.Contracts\Hospitium.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\hotels\" />
+  </ItemGroup>
+
 </Project>

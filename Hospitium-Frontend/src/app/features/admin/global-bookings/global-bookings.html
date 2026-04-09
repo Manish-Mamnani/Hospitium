@@ -69,10 +69,13 @@
                   <div class="text-[10px] text-neutral-secondary uppercase tracking-widest">to {{ booking.toDate | date:'mediumDate' }}</div>
                 </td>
                 <td class="px-6 py-4">
-                  <span [class]="getStatusClass(booking.status)">{{ booking.status }}</span>
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border"
+                        [ngClass]="getStatusClass(booking.status)">
+                    {{ booking.status }}
+                  </span>
                 </td>
                 <td class="px-6 py-4 text-right">
-                  <button *ngIf="booking.status?.toLowerCase() !== 'cancelled'" 
+                  <button *ngIf="booking.status?.toLowerCase() === 'confirmed' || booking.status?.toLowerCase() === 'pending'" 
                           (click)="cancelBooking(booking.bookingId)"
                           [disabled]="cancellingId === booking.bookingId"
                           class="text-error-text font-bold text-xs hover:underline uppercase tracking-widest disabled:opacity-50">

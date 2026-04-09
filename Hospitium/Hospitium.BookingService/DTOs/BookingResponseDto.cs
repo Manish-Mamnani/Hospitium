@@ -19,6 +19,10 @@ namespace Hospitium.BookingService.DTOs
 
         public string Status { get; set; } = string.Empty;
 
+        public decimal? CancellationDeduction { get; set; }
+
+        public decimal? RefundAmount { get; set; }
+
         public int NumberOfRooms { get; set; }
 
         public decimal TotalPrice { get; set; }

@@ -94,4 +94,13 @@ export class SearchResultsComponent implements OnInit {
   applyFilters() {
     this.searchHotels();
   }
+
+  getPrimaryImageUrl(hotel: any): string {
+    if (hotel.images && hotel.images.length > 0) {
+      const primary = hotel.images.find((img: any) => img.isPrimary);
+      const path = primary ? primary.imageUrl : hotel.images[0].imageUrl;
+      return `http://localhost:5000${path}`;
+    }
+    return 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80';
+  }
 }

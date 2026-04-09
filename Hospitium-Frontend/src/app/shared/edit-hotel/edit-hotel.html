@@ -37,8 +37,51 @@
         <!-- Description -->
         <div class="space-y-2">
           <label class="block text-sm font-semibold text-neutral-secondary ml-1">Description</label>
-          <textarea name="description" [(ngModel)]="hotel.description" rows="5"
+          <textarea name="description" [(ngModel)]="hotel.description" rows="5" maxlength="500"
+                    [class.border-rose-500]="descriptionError"
                     class="w-full px-5 py-4 rounded-2xl border border-neutral-border bg-neutral-bg/50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-neutral-primary font-medium resize-none leading-relaxed"></textarea>
+          <p *ngIf="descriptionError" class="text-xs font-bold text-rose-600 mt-1 ml-1">{{ descriptionError }}</p>
+        </div>
+
+        <!-- Image Gallery -->
+        <div class="space-y-4 pt-6 border-t border-neutral-border mt-8">
+          <label class="block text-sm font-semibold text-neutral-secondary ml-1">Property Images</label>
+          
+          <div *ngIf="hotel.images?.length > 0" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
+             <div *ngFor="let img of hotel.images" class="relative group aspect-square rounded-xl overflow-hidden bg-neutral-bg border border-neutral-border/50 shadow-sm">
+                <img [src]="getPrimaryImageUrl(img.imageUrl)" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                   <button type="button" (click)="deleteImage(img.imageId)" class="bg-rose-500 text-white p-2.5 rounded-full hover:bg-rose-600 shadow-xl transform hover:scale-110 focus:ring-4 focus:ring-rose-500/30 transition-all">
+                      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                   </button>
+                </div>
+                <div *ngIf="img.isPrimary" class="absolute top-2 left-2 bg-primary text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest shadow-md">
+                   Primary
+                </div>
+             </div>
+          </div>
+
+          <div class="p-6 border-2 border-dashed border-neutral-border/80 rounded-2xl bg-neutral-bg/30 text-center transition-colors hover:bg-neutral-bg/50 hover:border-neutral-primary/20">
+             <input type="file" multiple accept=".jpg,.jpeg,.png" (change)="onFileSelected($event)" class="hidden" #fileInput>
+             <button type="button" (click)="fileInput.click()" class="px-6 py-3 bg-white border border-neutral-border rounded-xl text-sm font-bold text-neutral-primary hover:bg-neutral-bg transition-colors shadow-sm mb-3 focus:ring-4 focus:ring-neutral-200 outline-none">
+                 Select Photos
+             </button>
+             <p class="text-xs text-neutral-secondary font-medium">Add up to {{ 10 - (hotel.images?.length || 0) }} more photos (max 5MB each)</p>
+             
+             <div *ngIf="selectedFiles.length > 0" class="mt-6 text-left animate-fade-in p-4 bg-white rounded-xl border border-neutral-border shadow-sm">
+                <h4 class="text-[10px] font-black text-neutral-secondary uppercase tracking-widest mb-3">Ready to upload</h4>
+                <div class="flex flex-wrap gap-2 mb-4">
+                   <span *ngFor="let file of selectedFiles; let i = index" class="inline-flex items-center bg-neutral-bg px-3 py-1.5 rounded-lg text-xs font-semibold text-neutral-primary shadow-sm border border-neutral-border/50">
+                     <span class="truncate max-w-[150px]">{{ file.name }}</span>
+                     <button type="button" (click)="removeSelectedFile(i)" class="ml-2 text-rose-500 hover:text-rose-700 transition-colors focus:outline-none">&times;</button>
+                   </span>
+                </div>
+                <button type="button" (click)="uploadNewImages()" [disabled]="isSaving" class="px-6 py-2.5 bg-neutral-primary text-white rounded-xl text-xs font-bold hover:bg-neutral-800 transition-all disabled:opacity-50 flex items-center focus:ring-4 focus:ring-neutral-primary/20 outline-none shadow-md">
+                   <svg *ngIf="isSaving" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                   Upload Selected Photos
+                </button>
+             </div>
+          </div>
         </div>
 
         <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-neutral-border mt-12">

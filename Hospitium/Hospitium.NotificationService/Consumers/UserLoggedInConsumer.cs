@@ -14,6 +14,8 @@ public class UserLoggedInConsumer : IConsumer<UserLoggedInEvent>
     public async Task Consume(ConsumeContext<UserLoggedInEvent> context)
     {
         var user = context.Message;
+        var istZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+        var localTime = TimeZoneInfo.ConvertTimeFromUtc(user.LoginTime, istZone);
 
         var htmlBody = $@"
             <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;'>
@@ -24,7 +26,7 @@ public class UserLoggedInConsumer : IConsumer<UserLoggedInEvent>
                 <div style='padding: 30px;'>
                     <h2 style='color: #333;'>Hello,</h2>
                     <p style='color: #555; font-size: 16px; line-height: 1.5;'>
-                        We noticed a new login to your Hospitium account on <strong>{user.LoginTime:f}</strong>.
+                        We noticed a new login to your Hospitium account on <strong>{localTime:dd-MM-yyyy HH:mm}</strong>.
                     </p>
                     <p style='color: #555; font-size: 16px; line-height: 1.5;'>
                         If this was you, no further action is required. If you did not authorize this login, please change your password immediately or contact our support team.

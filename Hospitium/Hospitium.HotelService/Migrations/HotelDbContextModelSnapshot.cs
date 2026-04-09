@@ -63,6 +63,32 @@ namespace Hospitium.HotelService.Migrations
                     b.ToTable("Hotels");
                 });
 
+            modelBuilder.Entity("Hospitium.HotelService.Models.HotelImage", b =>
+                {
+                    b.Property<int>("ImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
+
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ImageId");
+
+                    b.HasIndex("HotelId");
+
+                    b.ToTable("HotelImages");
+                });
+
             modelBuilder.Entity("Hospitium.HotelService.Models.Room", b =>
                 {
                     b.Property<int>("RoomId")
@@ -95,6 +121,17 @@ namespace Hospitium.HotelService.Migrations
                     b.ToTable("Rooms");
                 });
 
+            modelBuilder.Entity("Hospitium.HotelService.Models.HotelImage", b =>
+                {
+                    b.HasOne("Hospitium.HotelService.Models.Hotel", "Hotel")
+                        .WithMany("Images")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
+                });
+
             modelBuilder.Entity("Hospitium.HotelService.Models.Room", b =>
                 {
                     b.HasOne("Hospitium.HotelService.Models.Hotel", "Hotel")
@@ -108,6 +145,8 @@ namespace Hospitium.HotelService.Migrations
 
             modelBuilder.Entity("Hospitium.HotelService.Models.Hotel", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618

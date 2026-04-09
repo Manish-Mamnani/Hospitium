@@ -26,7 +26,12 @@ export class MyHotelsComponent implements OnInit {
     this.isLoading.set(true);
     this.apiService.get<any[]>('/hotels/my').subscribe({
       next: (hotels) => {
-        this.hotels.set(hotels || []);
+        const sorted = (hotels || []).sort((a, b) => {
+           if (a.status === 'Deleted' && b.status !== 'Deleted') return 1;
+           if (a.status !== 'Deleted' && b.status === 'Deleted') return -1;
+           return 0;
+        });
+        this.hotels.set(sorted);
         this.isLoading.set(false);
       },
       error: () => {
@@ -45,5 +50,13 @@ export class MyHotelsComponent implements OnInit {
 
   editHotel(hotelId: number) {
     this.router.navigate(['/manager/hotels', hotelId, 'edit']);
+  }
+
+  getPrimaryImageUrl(hotel: any): string {
+    if (hotel.images && hotel.images.length > 0) {
+      const primary = hotel.images.find((i: any) => i.isPrimary) || hotel.images[0];
+      return `http://localhost:5000${primary.imageUrl}`;
+    }
+    return `https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`;
   }
 }

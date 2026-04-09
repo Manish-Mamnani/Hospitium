@@ -77,6 +77,18 @@ namespace Hospitium.BookingService.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "HotelManager,Admin")]
+        [HttpPut("{bookingId}/complete")]
+        public async Task<IActionResult> CompleteBooking(int bookingId)
+        {
+            var userId = int.Parse(User.FindFirst("UserId")!.Value);
+            var role = User.FindFirst("Role")!.Value;
+
+            var result = await _service.CompleteBookingAsync(bookingId, userId, role);
+
+            return Ok(result);
+        }
+
         [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookingById(int id)

@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class HotelDetailsComponent implements OnInit {
   hotel: any = null;
+  activeImageUrl: string = '';
   rooms: any[] = [];
   reviews: any[] = [];
   isLoading = false;
@@ -53,6 +54,12 @@ export class HotelDetailsComponent implements OnInit {
     this.apiService.get(`/hotels/${id}`).subscribe({
       next: (hotel: any) => {
         this.hotel = hotel;
+        if (this.hotel.images && this.hotel.images.length > 0) {
+           const primary = this.hotel.images.find((i:any) => i.isPrimary) || this.hotel.images[0];
+           this.activeImageUrl = `http://localhost:5000${primary.imageUrl}`;
+        } else {
+           this.activeImageUrl = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80';
+        }
         
         this.apiService.get(`/hotels/${id}/rooms`).subscribe({
           next: (roomsData: any) => {
@@ -83,6 +90,10 @@ export class HotelDetailsComponent implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  setActiveImage(imgUrl: string) {
+    this.activeImageUrl = `http://localhost:5000${imgUrl}`;
   }
 
   calculateTotalPrice(): number {

@@ -145,3 +145,4 @@ D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\RabbitMQ.Client.dll
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\Hospitium.Contracts.dll
 D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\Hospitium.Contracts.pdb
+D:\Sprint Documentation\Hospitium\Hospitium\Hospitium.HotelService\bin\Debug\net8.0\Hospitium.HotelService.staticwebassets.runtime.json

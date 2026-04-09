@@ -14,6 +14,9 @@ public class BookingCreatedConsumer : IConsumer<BookingCreatedEvent>
     public async Task Consume(ConsumeContext<BookingCreatedEvent> context)
     {
         var booking = context.Message;
+        var istZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+        var checkInLocal = TimeZoneInfo.ConvertTimeFromUtc(booking.FromDate, istZone);
+        var checkOutLocal = TimeZoneInfo.ConvertTimeFromUtc(booking.ToDate, istZone);
 
         var htmlBody = $@"
             <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;'>
@@ -28,6 +31,8 @@ public class BookingCreatedConsumer : IConsumer<BookingCreatedEvent>
                         Get ready for a wonderful stay.
                     </p>
                     <div style='background-color: #f9fafb; padding: 15px; border-radius: 5px; margin-top: 20px;'>
+                        <p style='margin: 0 0 10px; color: #444;'><strong>Hotel:</strong> {booking.HotelName}</p>
+                        <p style='margin: 0 0 10px; color: #444;'><strong>Stay Dates:</strong> {checkInLocal:dd-MM-yyyy} to {checkOutLocal:dd-MM-yyyy}</p>
                         <p style='margin: 0 0 10px; color: #444;'><strong>Booking ID:</strong> HB-{booking.BookingId}</p>
                         <p style='margin: 0 0 10px; color: #444;'><strong>Rooms Booked:</strong> {booking.NumberOfRooms}</p>
                     </div>

@@ -31,13 +31,15 @@
         <div *ngFor="let hotel of hotels()" class="card-premium group">
           <div class="p-3">
              <div class="h-48 rounded-xl overflow-hidden bg-neutral-bg relative">
-                <img [src]="hotel.imageUrl || '/assets/hotel-placeholder.jpg'" 
+                <img [src]="getPrimaryImageUrl(hotel)" 
                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                      onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
-                <div class="absolute top-3 left-3">
-                   <span class="badge-success" *ngIf="hotel.status === 'Approved'">Approved</span>
-                   <span class="badge-warning" *ngIf="hotel.status !== 'Approved'">Pending Review</span>
+                <div class="absolute top-3 left-3 flex flex-col gap-1.5">
+                   <span class="badge-success shadow-md" *ngIf="hotel.status === 'Approved'">Approved</span>
+                   <span class="badge-error shadow-md" *ngIf="hotel.status === 'Deleted'">Deleted</span>
+                   <span class="badge-warning shadow-md" *ngIf="hotel.status !== 'Approved' && hotel.status !== 'Deleted'">Pending Review</span>
                 </div>
+                <div *ngIf="!hotel.images || hotel.images.length === 0" class="absolute bottom-2 right-2 bg-black/70 text-white text-[9px] font-black px-2 py-0.5 rounded backdrop-blur-md border border-white/20 shadow-sm tracking-widest uppercase">Sample Image</div>
              </div>
           </div>
 
@@ -53,14 +55,14 @@
                {{ hotel.description || 'Modern hotel with all amenities for a comfortable stay.' }}
             </p>
 
-            <div class="mt-6 flex flex-wrap gap-2 border-t border-neutral-border pt-4">
+             <div class="mt-6 flex flex-wrap gap-2 border-t border-neutral-border pt-4">
                <button *ngIf="hotel.status === 'Approved'" (click)="manageRooms(hotel.hotelId)" 
                        class="flex-[2] px-3 py-2 bg-primary text-white border border-primary rounded-lg text-xs font-bold hover:bg-primary-hover transition-all flex items-center justify-center gap-2">
                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/></svg>
                  Add Room
                </button>
-               <button (click)="editHotel(hotel.hotelId)" class="flex-1 px-3 py-2 bg-neutral-bg border border-neutral-border text-neutral-primary rounded-lg text-xs font-bold hover:bg-neutral-border transition-all">Edit</button>
-               <button [routerLink]="['/hotels', hotel.hotelId]" class="flex-1 px-3 py-2 bg-neutral-bg border border-neutral-border text-neutral-secondary rounded-lg text-xs font-bold hover:bg-neutral-border transition-all">View</button>
+               <button *ngIf="hotel.status !== 'Deleted'" (click)="editHotel(hotel.hotelId)" class="flex-1 px-3 py-2 bg-neutral-bg border border-neutral-border text-neutral-primary rounded-lg text-xs font-bold hover:bg-neutral-border transition-all">Edit</button>
+               <button *ngIf="hotel.status !== 'Deleted'" [routerLink]="['/hotels', hotel.hotelId]" class="flex-1 px-3 py-2 bg-neutral-bg border border-neutral-border text-neutral-secondary rounded-lg text-xs font-bold hover:bg-neutral-border transition-all">View</button>
             </div>
           </div>
         </div>

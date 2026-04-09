@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospitium.HotelService.DTOs
 {
@@ -13,7 +13,7 @@ namespace Hospitium.HotelService.DTOs
         public string City { get; set; } = string.Empty;
 
         [MaxLength(500)]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
 
     }
 }

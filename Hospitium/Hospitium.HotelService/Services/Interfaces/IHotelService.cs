@@ -19,5 +19,7 @@ namespace Hospitium.HotelService.Services.Interfaces
         Task<RoomResponseDto> GetRoomByIdAsync(int roomId);
         Task<List<RoomResponseDto>> GetRoomsByHotelIdAsync(int hotelId);
         Task<List<int>> GetMyRoomIdsAsync(int userId);
+        Task<HotelImageResponseDto> AddHotelImageAsync(int hotelId, int userId, string role, string imageUrl, bool isPrimary);
+        Task DeleteHotelImageAsync(int hotelId, int imageId, int userId, string role);
     }
 }

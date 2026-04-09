@@ -10,6 +10,7 @@ namespace Hospitium.HotelService.Data
 
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<HotelImage> HotelImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,6 +22,12 @@ namespace Hospitium.HotelService.Data
             modelBuilder.Entity<Room>()
                 .Property(r => r.Price)
                 .HasPrecision(18, 2);
+
+            modelBuilder.Entity<HotelImage>()
+                .HasOne(i => i.Hotel)
+                .WithMany(h => h.Images)
+                .HasForeignKey(i => i.HotelId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

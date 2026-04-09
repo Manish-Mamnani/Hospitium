@@ -5,6 +5,7 @@ import { ToastService } from '../../core/toast.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/auth.service';
+import { ConfirmService } from '../../core/confirm.service';
 
 @Component({
   selector: 'app-edit-hotel',
@@ -22,6 +23,12 @@ export class EditHotelComponent implements OnInit {
   isSaving = false;
   isDeleting = false;
   userRole: string | null = null;
+  selectedFiles: File[] = [];
+
+  get descriptionError(): string {
+    if (this.hotel.description && this.hotel.description.length > 500) return 'Description cannot exceed 500 characters.';
+    return '';
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -29,7 +36,8 @@ export class EditHotelComponent implements OnInit {
     private apiService: ApiService,
     private toastService: ToastService,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService
+    private authService: AuthService,
+    private confirmService: ConfirmService
   ) {}
 
   ngOnInit() {
@@ -48,7 +56,8 @@ export class EditHotelComponent implements OnInit {
         this.hotel = {
           name: data.name,
           city: data.city,
-          description: data.description
+          description: data.description,
+          images: data.images || []
         };
         this.isLoading = false;
         this.cdr.detectChanges();
@@ -62,8 +71,8 @@ export class EditHotelComponent implements OnInit {
   }
 
   updateHotel() {
-    if (!this.hotel.name || !this.hotel.city) {
-      this.toastService.error('Name and City are required.');
+    if (!this.hotel.name || !this.hotel.city || this.descriptionError) {
+      this.toastService.error('Please fix validation errors before updating.');
       return;
     }
 
@@ -82,10 +91,15 @@ export class EditHotelComponent implements OnInit {
     });
   }
 
-  deleteHotel() {
-    if (!confirm('Are you sure you want to delete this hotel? This action cannot be undone.')) {
-      return;
-    }
+  async deleteHotel() {
+    const confirmed = await this.confirmService.confirm({
+      title: 'Delete Property',
+      message: 'Are you sure you want to delete this hotel? This action is permanent and will remove all associated rooms and records.',
+      confirmText: 'Delete Forever',
+      type: 'danger'
+    });
+
+    if (!confirmed) return;
 
     this.isDeleting = true;
     this.apiService.delete(`/hotels/${this.hotelId}`).subscribe({
@@ -108,5 +122,75 @@ export class EditHotelComponent implements OnInit {
     } else {
       this.router.navigate(['/manager']);
     }
+  }
+
+  onFileSelected(event: any) {
+    if (event.target.files) {
+      const files = Array.from(event.target.files) as File[];
+      for (const file of files) {
+        if ((this.hotel.images?.length || 0) + this.selectedFiles.length >= 10) {
+           this.toastService.error('Maximum limit of 10 images reached');
+           break;
+        }
+        if (file.size <= 5 * 1024 * 1024) {
+          this.selectedFiles.push(file);
+        } else {
+          this.toastService.error(`${file.name} exceeds 5MB limit`);
+        }
+      }
+      event.target.value = '';
+    }
+  }
+
+  removeSelectedFile(index: number) {
+    this.selectedFiles.splice(index, 1);
+  }
+
+  uploadNewImages() {
+    if (this.selectedFiles.length === 0) return;
+    this.isSaving = true;
+    const formData = new FormData();
+    this.selectedFiles.forEach(file => formData.append('images', file));
+
+    this.apiService.post(`/hotels/${this.hotelId}/images`, formData).subscribe({
+      next: (res: any) => {
+        this.hotel.images = [...(this.hotel.images || []), ...res];
+        this.selectedFiles = [];
+        this.isSaving = false;
+        this.toastService.success('Images uploaded successfully.');
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.isSaving = false;
+        this.toastService.error('Failed to upload images.');
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  async deleteImage(imageId: number) {
+    const confirmed = await this.confirmService.confirm({
+      title: 'Remove Image',
+      message: 'Are you sure you want to remove this image from your property gallery?',
+      confirmText: 'Remove',
+      type: 'danger'
+    });
+
+    if (!confirmed) return;
+
+    this.apiService.delete(`/hotels/${this.hotelId}/images/${imageId}`).subscribe({
+      next: () => {
+        this.hotel.images = this.hotel.images.filter((img: any) => img.imageId !== imageId);
+        this.toastService.success('Image removed.');
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.toastService.error('Failed to remove image.');
+      }
+    });
+  }
+
+  getPrimaryImageUrl(imageUrl: string): string {
+    return `http://localhost:5000${imageUrl}`;
   }
 }

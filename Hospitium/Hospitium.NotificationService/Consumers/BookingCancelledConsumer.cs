@@ -16,6 +16,8 @@ namespace Hospitium.NotificationService.Consumers
         public async Task Consume(ConsumeContext<BookingCancelledEvent> context)
         {
             var booking = context.Message;
+            var istZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            var localTime = TimeZoneInfo.ConvertTimeFromUtc(booking.CancelledAt, istZone);
 
             var htmlBody = $@"
                 <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;'>
@@ -29,8 +31,11 @@ namespace Hospitium.NotificationService.Consumers
                             We're sorry to see you go. Your booking <strong>#{booking.BookingId}</strong> has been successfully cancelled.
                         </p>
                         <div style='background-color: #fce8e8; padding: 15px; border-radius: 5px; margin-top: 20px; border: 1px solid #fecaca;'>
+                            <p style='margin: 0 0 10px; color: #7f1d1d;'><strong>Hotel:</strong> {booking.HotelName}</p>
                             <p style='margin: 0 0 10px; color: #7f1d1d;'><strong>Booking ID:</strong> HB-{booking.BookingId}</p>
-                            <p style='margin: 0 0 10px; color: #7f1d1d;'><strong>Cancelled At:</strong> {booking.CancelledAt:f}</p>
+                            <p style='margin: 0 0 10px; color: #7f1d1d;'><strong>Refundable Amount:</strong> ₹{booking.RefundAmount}</p>
+                            <p style='margin: 0 0 10px; color: #7f1d1d;'><strong>Deduction:</strong> ₹{booking.DeductionAmount}</p>
+                            <p style='margin: 0 0 10px; color: #7f1d1d;'><strong>Cancelled At:</strong> {localTime:dd-MM-yyyy HH:mm}</p>
                         </div>
                         <p style='color: #777; font-size: 14px; margin-top: 30px;'>
                             Any eligible refund will be processed within 5-7 business days. We hope to host you another time!

@@ -13,13 +13,16 @@ namespace Hospitium.HotelService.Controllers
     {
         private readonly IHotelService _hotelService;
         private readonly IHotelQueryService _queryService;
+        private readonly IWebHostEnvironment _environment;
 
         public HotelController(
             IHotelService hotelService,
-            IHotelQueryService queryService)
+            IHotelQueryService queryService,
+            IWebHostEnvironment environment)
         {
             _hotelService = hotelService;
             _queryService = queryService;
+            _environment = environment;
         }
 
         // 🔹 Create Hotel
@@ -159,6 +162,68 @@ namespace Hospitium.HotelService.Controllers
             var userId = int.Parse(User.FindFirst("UserId")!.Value);
             var result = await _hotelService.GetMyRoomIdsAsync(userId);
             return Ok(result);
+        }
+
+        [Authorize(Roles = "Admin,HotelManager")]
+        [HttpPost("{id}/images")]
+        public async Task<IActionResult> UploadHotelImages(int id, [FromForm] List<IFormFile> images)
+        {
+            if (images == null || images.Count == 0)
+                return BadRequest("No images uploaded.");
+
+            if (images.Count > 10)
+                return BadRequest("Maximum limit of 10 images per request.");
+
+            var userId = int.Parse(User.FindFirst("UserId")!.Value);
+            var role = User.FindFirst("Role")!.Value;
+
+            var uploadedImages = new List<HotelImageResponseDto>();
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            long maxFileSize = 5 * 1024 * 1024; // 5 MB
+
+            var uploadsFolder = Path.Combine(_environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"), "images", "hotels");
+            if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+
+            bool isFirstUpload = true; // Temporary flag for Primary image
+            foreach (var file in images)
+            {
+                if (file.Length == 0) continue;
+
+                if (file.Length > maxFileSize)
+                    return BadRequest($"File {file.FileName} exceeds the 5MB limit.");
+
+                var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+                if (!allowedExtensions.Contains(ext))
+                    return BadRequest($"File {file.FileName} has an invalid extension.");
+
+                var uniqueFileName = $"{id}_{Guid.NewGuid()}{ext}";
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var imageUrl = $"/images/hotels/{uniqueFileName}";
+                var result = await _hotelService.AddHotelImageAsync(id, userId, role, imageUrl, isFirstUpload);
+                uploadedImages.Add(result);
+                isFirstUpload = false;
+            }
+
+            return Ok(uploadedImages);
+        }
+
+        [Authorize(Roles = "Admin,HotelManager")]
+        [HttpDelete("{id}/images/{imageId}")]
+        public async Task<IActionResult> DeleteHotelImage(int id, int imageId)
+        {
+            var userId = int.Parse(User.FindFirst("UserId")!.Value);
+            var role = User.FindFirst("Role")!.Value;
+
+            // In a real app, you should fetch the image URL and delete physical file as well
+            // For now we remove db record
+            await _hotelService.DeleteHotelImageAsync(id, imageId, userId, role);
+            return NoContent();
         }
     }
 }

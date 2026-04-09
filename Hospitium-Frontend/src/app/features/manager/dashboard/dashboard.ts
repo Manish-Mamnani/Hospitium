@@ -72,6 +72,7 @@ export class ManagerDashboardComponent implements OnInit {
   getStatusClass(status: string): string {
     switch (status?.toLowerCase()) {
       case 'confirmed': return 'bg-primary/5 text-primary border-primary/20';
+      case 'completed': return 'badge-completed';
       case 'cancelled': return 'bg-error-bg text-error-text border-error-text/10';
       default: return 'bg-accent/5 text-accent border-accent/20';
     }

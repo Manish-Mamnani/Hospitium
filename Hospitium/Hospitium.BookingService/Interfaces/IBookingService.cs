@@ -10,6 +10,7 @@ namespace Hospitium.BookingService.Interfaces
         Task<List<BookingResponseDto>> GetAllBookingsAsync(DateTime? date);
         Task<List<BookingResponseDto>> GetManagerBookingsAsync();
         Task<BookingResponseDto> CancelBookingAsync(int bookingId, int userId, string email, string role);
+        Task<BookingResponseDto> CompleteBookingAsync(int bookingId, int userId, string role);
         Task<BookingResponseDto> GetBookingByIdAsync(int bookingId, int userId, string role);
     }
 }

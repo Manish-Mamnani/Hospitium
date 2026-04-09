@@ -30,6 +30,9 @@ namespace Hospitium.BookingService.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
 
+                    b.Property<decimal?>("CancellationDeduction")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -42,6 +45,9 @@ namespace Hospitium.BookingService.Migrations
 
                     b.Property<int>("NumberOfRooms")
                         .HasColumnType("int");
+
+                    b.Property<decimal?>("RefundAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("RoomId")
                         .HasColumnType("int");

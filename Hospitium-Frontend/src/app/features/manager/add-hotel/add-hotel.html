@@ -47,9 +47,25 @@
                   <!-- Description -->
                   <div>
                     <label class="block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest">Property Description</label>
-                    <textarea [(ngModel)]="hotel.description" name="description" rows="5" 
+                    <textarea [(ngModel)]="hotel.description" name="description" rows="5" maxlength="500" (blur)="touch('description')"
+                              [class.border-rose-500]="descriptionError"
                               class="input-premium py-4 text-sm leading-relaxed"
                               placeholder="Highlight the architectural beauty, amenities, and guest experiences..."></textarea>
+                    <p *ngIf="descriptionError" class="mt-2 text-[10px] font-bold text-rose-600 uppercase tracking-tight">{{ descriptionError }}</p>
+                  </div>
+
+                  <!-- Images -->
+                  <div>
+                    <label class="block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest">Image Gallery (Up to 10)</label>
+                    <input type="file" multiple accept=".jpg,.jpeg,.png" (change)="onFileSelected($event)"
+                           class="input-premium py-4 text-sm w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all">
+                    <p class="mt-2 text-[10px] font-medium text-neutral-secondary">Recommended: 5-6 appealing photos (Max 5MB each)</p>
+                    <div *ngIf="selectedFiles.length > 0" class="mt-4 flex flex-wrap gap-2">
+                       <span *ngFor="let file of selectedFiles; let i = index" class="inline-flex items-center bg-neutral-bg px-3 py-1 rounded-full text-xs font-medium text-neutral-primary border border-neutral-border">
+                         {{ file.name }}
+                         <button type="button" (click)="removeFile(i)" class="ml-2 text-rose-500 hover:text-rose-700 font-bold focus:outline-none">&times;</button>
+                       </span>
+                    </div>
                   </div>
                 </div>
 

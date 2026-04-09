@@ -56,6 +56,13 @@
     @apply bg-booking-cancelled-bg text-booking-cancelled-text px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
   }
 
+  .badge-completed {
+    background-color: rgba(91, 110, 140, 0.1);
+    color: #5B6E8C;
+    border: 1px solid rgba(91, 110, 140, 0.3);
+    @apply px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest;
+  }
+
   .input-premium {
     @apply w-full bg-neutral-bg border border-neutral-border rounded-xl px-4 py-3 text-neutral-primary focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all;
   }

@@ -62,7 +62,7 @@
           <div class="flex items-center space-x-4">
             <span class="text-2xl font-bold text-brand-900 tracking-tight">₹{{ booking.totalPrice }}</span>
             <span class="badge-success px-3 py-1">Confirmed</span>
-            <button (click)="cancelBooking(booking.bookingId)"
+            <button (click)="cancelBooking(booking)"
                     [disabled]="cancellingId === booking.bookingId"
                     class="bg-rose-50 text-rose-600 hover:bg-rose-100 hover:text-rose-700 font-medium px-4 py-1.5 rounded-lg text-sm transition-colors cursor-pointer disabled:opacity-50">
               {{ cancellingId === booking.bookingId ? 'Cancelling...' : 'Cancel' }}

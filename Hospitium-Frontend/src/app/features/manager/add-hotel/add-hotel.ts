@@ -22,6 +22,7 @@ export class AddHotelComponent {
   isLoading = false;
   errorMessage = '';
   touched = { name: false, city: false, description: false };
+  selectedFiles: File[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -44,7 +45,13 @@ export class AddHotelComponent {
   }
 
   get isFormValid(): boolean {
-    return !this.nameError && !this.cityError && !!this.hotel.name && !!this.hotel.city;
+    return !this.nameError && !this.cityError && !this.descriptionError && !!this.hotel.name && !!this.hotel.city;
+  }
+
+  get descriptionError(): string {
+    if (!this.touched.description) return '';
+    if (this.hotel.description && this.hotel.description.length > 500) return 'Description cannot exceed 500 characters.';
+    return '';
   }
 
   touch(field: 'name' | 'city' | 'description') { this.touched[field] = true; }
@@ -61,12 +68,13 @@ export class AddHotelComponent {
       description: this.hotel.description.trim()
     };
 
-    this.apiService.post('/hotels', payload).subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.toastService.success('Hotel submitted for approval!');
-        this.router.navigate(['/manager']);
-        this.cdr.detectChanges();
+    this.apiService.post<any>('/hotels', payload).subscribe({
+      next: (res) => {
+        if (this.selectedFiles.length > 0) {
+          this.uploadImages(res.hotelId);
+        } else {
+          this.finalizeSubmit();
+        }
       },
       error: (err) => {
         this.isLoading = false;
@@ -74,5 +82,54 @@ export class AddHotelComponent {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  onFileSelected(event: any) {
+    if (event.target.files) {
+      const files = Array.from(event.target.files) as File[];
+      for (const file of files) {
+        if (this.selectedFiles.length < 10) {
+          if (file.size <= 5 * 1024 * 1024) { // 5MB
+            this.selectedFiles.push(file);
+          } else {
+             this.toastService.error(`${file.name} exceeds 5MB limit`);
+          }
+        } else {
+           this.toastService.error('Maximum limit of 10 images reached');
+           break;
+        }
+      }
+      // Reset input value so same files can be re-selected if removed
+      event.target.value = '';
+    }
+  }
+
+  removeFile(index: number) {
+    this.selectedFiles.splice(index, 1);
+  }
+
+  private uploadImages(hotelId: number) {
+    const formData = new FormData();
+    this.selectedFiles.forEach(file => {
+      formData.append('images', file);
+    });
+
+    this.apiService.post(`/hotels/${hotelId}/images`, formData).subscribe({
+      next: () => {
+        this.finalizeSubmit();
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = 'Hotel created, but failed to upload images: ' + (err.error?.message || 'Unknown error');
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  private finalizeSubmit() {
+    this.isLoading = false;
+    this.toastService.success('Hotel submitted for approval!');
+    this.router.navigate(['/manager']);
+    this.cdr.detectChanges();
   }
 }

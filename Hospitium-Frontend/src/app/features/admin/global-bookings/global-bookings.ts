@@ -5,6 +5,7 @@ import { ToastService } from '../../../core/toast.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Sidebar } from '../../../shared/sidebar/sidebar';
+import { ConfirmService } from '../../../core/confirm.service';
 
 @Component({
   selector: 'app-global-bookings',
@@ -21,7 +22,8 @@ export class GlobalBookingsComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private toastService: ToastService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private confirmService: ConfirmService
   ) {}
 
   ngOnInit() {
@@ -51,8 +53,15 @@ export class GlobalBookingsComponent implements OnInit {
     return this.bookings.filter(b => b.status?.toLowerCase() === this.selectedStatus.toLowerCase());
   }
 
-  cancelBooking(bookingId: number) {
-    if (!confirm('Are you sure you want to cancel this booking?')) return;
+  async cancelBooking(bookingId: number) {
+    const confirmed = await this.confirmService.confirm({
+      title: 'Cancel Booking',
+      message: 'As an administrator, you are about to force-cancel this reservation. This action is permanent.',
+      confirmText: 'Yes, Cancel',
+      type: 'danger'
+    });
+
+    if (!confirmed) return;
     this.cancellingId = bookingId;
     this.apiService.put(`/bookings/${bookingId}/cancel`, {}).subscribe({
       next: () => {
@@ -71,17 +80,12 @@ export class GlobalBookingsComponent implements OnInit {
 
   getStatusClass(status: string): string {
     switch (status?.toLowerCase()) {
-      case 'confirmed': 
-        return 'badge-success';
-      case 'completed':
-        return 'badge-active';
-      case 'cancelled': 
-      case 'rejected':
-        return 'badge-error';
-      case 'pending': 
-        return 'badge-warning';
-      default: 
-        return 'badge-active';
+      case 'confirmed': return 'bg-primary/5 text-primary border-primary/20';
+      case 'completed': return 'badge-completed';
+      case 'cancelled':
+      case 'rejected': return 'bg-error-bg text-error-text border-error-text/10';
+      case 'pending': return 'bg-accent/5 text-accent border-accent/20';
+      default: return 'bg-neutral-bg text-neutral-secondary border-neutral-border';
     }
   }
 }

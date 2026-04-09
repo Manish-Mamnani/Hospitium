@@ -18,6 +18,7 @@ namespace Hospitium.HotelService.Services
         {
             var query = _context.Hotels
                 .Include(h => h.Rooms)
+                .Include(h => h.Images)
                 .AsQueryable();
 
             //Only approved hotels
@@ -34,7 +35,7 @@ namespace Hospitium.HotelService.Services
             if (!string.IsNullOrWhiteSpace(queryParams.City))
             {
                 var city = queryParams.City.ToLower();
-                query = query.Where(h => h.City.ToLower() == city);
+                query = query.Where(h => h.City.ToLower().Contains(city));
             }
 
             // Price filter
@@ -74,7 +75,13 @@ namespace Hospitium.HotelService.Services
                 City = h.City,
                 Status = h.Status,
                 Rating = h.AverageRating,
-                MinPrice = h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : 0
+                MinPrice = h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : 0,
+                Images = h.Images != null ? h.Images.Select(i => new HotelImageResponseDto 
+                { 
+                    ImageId = i.ImageId, 
+                    ImageUrl = i.ImageUrl, 
+                    IsPrimary = i.IsPrimary 
+                }).ToList() : new List<HotelImageResponseDto>()
             }).ToListAsync();
 
             return new PaginatedResult<HotelResponseDto>

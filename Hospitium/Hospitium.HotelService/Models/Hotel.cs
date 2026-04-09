@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospitium.HotelService.Models
 {
@@ -24,5 +24,7 @@ namespace Hospitium.HotelService.Models
         public string ManagerEmail { get; set; } = string.Empty;
 
         public List<Room> Rooms { get; set; } = new();
+
+        public List<HotelImage> Images { get; set; } = new();
     }
 }
