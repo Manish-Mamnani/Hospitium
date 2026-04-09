@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hospitium.Contracts")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+60c9f515e87e71b084d4570312e7ffee27766350")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b798027b11ab700120f635f9709a96c73907b77f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hospitium.Contracts")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hospitium.Contracts")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
