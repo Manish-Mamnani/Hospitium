@@ -39,14 +39,15 @@ namespace Hospitium.BookingService.Services
             if (dto.FromDate >= dto.ToDate)
                 throw new InvalidBookingDatesException();
 
-            // 🔴 Check overlapping bookings
-            var isOverlapping = await _context.Bookings.AnyAsync(b =>
-                b.RoomId == dto.RoomId &&
-                b.Status != "Cancelled" &&
-                dto.FromDate < b.ToDate &&
-                dto.ToDate > b.FromDate);
+            // 🔴 Check overlapping bookings and calculate total occupied rooms
+            var totalBookedDuringPeriod = await _context.Bookings
+                .Where(b => b.RoomId == dto.RoomId && 
+                            b.Status != "Cancelled" && 
+                            dto.FromDate < b.ToDate && 
+                            dto.ToDate > b.FromDate)
+                .SumAsync(b => b.NumberOfRooms);
 
-            if (isOverlapping)
+            if (totalBookedDuringPeriod + dto.NumberOfRooms > room.AvailableCount)
                 throw new BookingConflictException();
 
             var days = (dto.ToDate - dto.FromDate).Days;
@@ -152,8 +153,7 @@ namespace Hospitium.BookingService.Services
             if (booking.Status == "Cancelled")
                 throw new BookingAlreadyCancelledException(id);
 
-            // 🕒 Cancellation Policy Logic (Local timezone assumed as reference for check-in)
-            // Let's assume standard 12:00 PM check-in
+            // Cancellation Policy Logic (Local timezone assumed as reference for check-in)
             var checkInTime = booking.FromDate.Date.AddHours(12);
             var now = DateTime.UtcNow;
             var hoursUntilCheckIn = (checkInTime - now).TotalHours;
@@ -170,7 +170,7 @@ namespace Hospitium.BookingService.Services
             
             await _context.SaveChangesAsync();
 
-            // 📢 Publish Cancellation Event for Email notifications
+            // Publish Cancellation Event for Email notifications
             await _publish.Publish(new BookingCancelledEvent
             {
                 BookingId = booking.BookingId,

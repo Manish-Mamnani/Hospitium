@@ -1,4 +1,5 @@
 using Hospitium.AuthService.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hospitium.AuthService.Controllers
@@ -14,6 +15,7 @@ namespace Hospitium.AuthService.Controllers
             _authService = authService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("managers")]
         public async Task<IActionResult> GetManagers()
         {

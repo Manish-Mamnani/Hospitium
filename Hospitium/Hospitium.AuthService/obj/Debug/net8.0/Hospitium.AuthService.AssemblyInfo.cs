@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hospitium.AuthService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5fc2bbf5485c301f6190d32f79a1827aa63074d2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+08d3d48d3454e0b8898ee6f5aa327b07c3f43117")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hospitium.AuthService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hospitium.AuthService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
