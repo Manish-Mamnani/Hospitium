@@ -6,10 +6,17 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Hospitium.AuthService.Services
 {
+    /// <summary>
+    /// Service for generating and handling JSON Web Tokens (JWT) for authentication.
+    /// </summary>
     public class JwtService
     {
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JwtService"/> class.
+        /// </summary>
+        /// <param name="configuration">The application configuration.</param>
         public JwtService(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -17,6 +24,8 @@ namespace Hospitium.AuthService.Services
 
         public string GenerateToken(User user)
         {
+            // Prefer environment variable; fall back to appsettings
+            var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? _configuration["Jwt:Key"]!;
             var claims = new[]
             {
                 new Claim("UserId", user.UserId.ToString()),
@@ -29,7 +38,7 @@ namespace Hospitium.AuthService.Services
             };
 
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!)
+                Encoding.UTF8.GetBytes(jwtKey)
             );
 
             var credentials = new SigningCredentials(
