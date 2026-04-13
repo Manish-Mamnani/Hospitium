@@ -11,7 +11,21 @@ namespace Hospitium.Gateway
     {
         public static async Task Main(string[] args)
         {
+            // Load .env file into environment variables (ignored if file doesn't exist)
+            var envFile = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", ".env");
+            if (File.Exists(envFile))
+            {
+                foreach (var line in File.ReadAllLines(envFile))
+                {
+                    if (string.IsNullOrWhiteSpace(line) || line.StartsWith('#')) continue;
+                    var parts = line.Split('=', 2);
+                    if (parts.Length == 2)
+                        Environment.SetEnvironmentVariable(parts[0].Trim(), parts[1].Trim());
+                }
+            }
+
             var builder = WebApplication.CreateBuilder(args);
+            builder.Configuration.AddEnvironmentVariables();
 
             // Add services to the container.
 
@@ -38,7 +52,10 @@ namespace Hospitium.Gateway
             })
             .AddJwtBearer(options =>
             {
-                var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
+                // Read JWT key from environment variable first, then appsettings fallback
+                var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
+                             ?? builder.Configuration["Jwt:Key"]!;
+                var key = Encoding.UTF8.GetBytes(jwtKey);
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -71,7 +88,7 @@ namespace Hospitium.Gateway
                 app.UseSwaggerUI();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseCors();
 
