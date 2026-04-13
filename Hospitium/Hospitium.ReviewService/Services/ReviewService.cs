@@ -8,11 +8,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospitium.ReviewService.Services
 {
+    /// <summary>
+    /// Service implementation for managing hotel reviews and ratings, persisting data and publishing events to update hotel aggregate ratings.
+    /// </summary>
     public class ReviewService : IReviewService
     {
         private readonly ReviewDbContext _context;
         private readonly IPublishEndpoint _publish;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReviewService"/> class.
+        /// </summary>
+        /// <param name="context">The review database context.</param>
+        /// <param name="publish">The MassTransit publish endpoint for event publishing.</param>
         public ReviewService(ReviewDbContext context, IPublishEndpoint publish)
         {
             _context = context;

@@ -9,8 +9,10 @@ import { ConfirmService } from '../../../core/confirm.service';
 
 @Component({
   selector: 'app-global-bookings',
+  standalone: true,
   imports: [CommonModule, FormsModule, Sidebar],
   templateUrl: './global-bookings.html',
+  styleUrl: './global-bookings.css',
 })
 export class GlobalBookingsComponent implements OnInit {
   bookings: any[] = [];

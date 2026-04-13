@@ -9,12 +9,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospitium.AuthService.Services
 {
+    /// <summary>
+    /// Service implementation for handling user authentication, registration, and password management.
+    /// </summary>
     public class AuthService : IAuthService
     {
         private readonly AuthDbContext _context;
         private readonly JwtService _jwtService;
         private readonly IPublishEndpoint _publish;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthService"/> class.
+        /// </summary>
+        /// <param name="context">The database context.</param>
+        /// <param name="jwtService">The JWT service for token generation.</param>
+        /// <param name="publish">The MassTransit publish endpoint for event-driven communication.</param>
         public AuthService(AuthDbContext context, JwtService jwtService, IPublishEndpoint publish)
         {
             _context = context;

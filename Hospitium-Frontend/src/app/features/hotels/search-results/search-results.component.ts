@@ -64,13 +64,19 @@ export class SearchResultsComponent implements OnInit {
   searchHotels() {
     this.isLoading.set(true);
     this.errorMessage.set('');
+
+    // The backend expects separate 'sortBy' (name/price/rating) and 'order' (asc/desc)
+    // but the UI uses combined values like 'price_asc', 'rating_desc'
+    const [sortField, sortOrder] = this.filters.sortBy.split('_');
+
     const params: any = {
       city: this.filters.city,
       minPrice: this.filters.minPrice,
       maxPrice: this.filters.maxPrice,
       minRating: this.filters.minRating,
       availableOnly: this.filters.availableOnly,
-      sortBy: this.filters.sortBy,
+      sortBy: sortField,
+      order: sortOrder,
       page: this.filters.page,
       pageSize: this.filters.pageSize
     };

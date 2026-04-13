@@ -1,5 +1,8 @@
 namespace Hospitium.AuthService.DTOs
 {
+    /// <summary>
+    /// Data Transfer Object representing user information.
+    /// </summary>
     public class UserDto
     {
         public int UserId { get; set; }

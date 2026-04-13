@@ -1,5 +1,8 @@
 namespace Hospitium.BookingService.DTOs
 {
+    /// <summary>
+    /// Data Transfer Object for room details returned from the HotelService.
+    /// </summary>
     public class RoomResponseDto
     {
         public int RoomId { get; set; }

@@ -5,10 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospitium.HotelService.Services
 {
+    /// <summary>
+    /// Service for querying and searching approved hotels with filtering, sorting, and pagination support.
+    /// </summary>
     public class HotelQueryService : IHotelQueryService
     {
         private readonly HotelDbContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HotelQueryService"/> class.
+        /// </summary>
+        /// <param name="context">The hotel database context.</param>
         public HotelQueryService(HotelDbContext context)
         {
             _context = context;
@@ -104,7 +111,7 @@ namespace Hospitium.HotelService.Services
                     : query.OrderBy(h => h.Name),
 
                 "price" => isDescending
-                    ? query.OrderByDescending(h => h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : decimal.MaxValue)
+                    ? query.OrderByDescending(h => h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : decimal.MinValue)
                     : query.OrderBy(h => h.Rooms.Any() ? h.Rooms.Min(r => r.Price) : decimal.MaxValue),
 
                 "rating" => isDescending

@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hospitium.HotelService.Models
 {
+    /// <summary>
+    /// Represents a hotel entity with its status, manager information, rooms, images, and aggregate rating data.
+    /// </summary>
     public class Hotel
     {
         [Key]

@@ -4,6 +4,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace Hospitium.Testing.AuthService
 {
+    /// <summary>
+    /// Unit tests for the <see cref="JwtService"/> class, verifying JWT token generation,
+    /// claims content, expiry, and format validity.
+    /// </summary>
     [TestFixture]
     public class JwtServiceTests
     {

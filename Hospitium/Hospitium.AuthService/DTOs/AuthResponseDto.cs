@@ -1,5 +1,8 @@
 namespace Hospitium.AuthService.DTOs
 {
+    /// <summary>
+    /// Data Transfer Object for authentication responses, containing the JWT and user info.
+    /// </summary>
     public class AuthResponseDto
     {
         public string Message { get; set; } = string.Empty;

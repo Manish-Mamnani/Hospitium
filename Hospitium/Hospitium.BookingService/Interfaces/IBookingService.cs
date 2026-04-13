@@ -3,6 +3,9 @@ using Hospitium.BookingService.Models;
 
 namespace Hospitium.BookingService.Interfaces
 {
+    /// <summary>
+    /// Defines the contract for booking management operations.
+    /// </summary>
     public interface IBookingService
     {
         Task<BookingResponseDto> CreateBookingAsync(int userId,string email, CreateBookingDto dto);

@@ -21,53 +21,5 @@
   }
 }
 
-@layer components {
-  /* Redesigned Components */
-  .btn-primary {
-    @apply bg-primary hover:bg-primary-hover active:bg-primary-active text-white font-bold py-3 px-6 rounded-2xl transition-all shadow-lg shadow-primary/10 transform hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:transform-none;
-  }
-
-  .btn-accent {
-    @apply bg-accent hover:bg-accent/90 text-white font-bold py-3 px-6 rounded-2xl transition-all shadow-lg shadow-accent/10 transform hover:-translate-y-0.5 active:scale-95;
-  }
-
-  .card-premium {
-    @apply bg-neutral-surface border border-neutral-border rounded-[2rem] shadow-sm hover:shadow-md transition-all duration-300;
-  }
-
-  /* Status Badges - Refined Palette */
-  .badge-success {
-    @apply bg-success-bg text-success-text px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-success-text/10;
-  }
-
-  .badge-warning {
-    @apply bg-warning-bg text-warning-text px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-warning-text/10;
-  }
-
-  .badge-error {
-    @apply bg-error-bg text-error-text px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-error-text/10;
-  }
-
-  .badge-active {
-    @apply bg-booking-active-bg text-booking-active-text px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
-  }
-
-  .badge-cancelled {
-    @apply bg-booking-cancelled-bg text-booking-cancelled-text px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
-  }
-
-  .badge-completed {
-    background-color: rgba(91, 110, 140, 0.1);
-    color: #5B6E8C;
-    border: 1px solid rgba(91, 110, 140, 0.3);
-    @apply px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest;
-  }
-
-  .input-premium {
-    @apply w-full bg-neutral-bg border border-neutral-border rounded-xl px-4 py-3 text-neutral-primary focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all;
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 0.3s ease-out;
-  }
-}
+/* Global animations and components are now handled via the Tailwind config plugin 
+   for better compatibility across isolated component styles. */

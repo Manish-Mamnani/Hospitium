@@ -2,6 +2,9 @@ using Hospitium.AuthService.DTOs;
 
 namespace Hospitium.AuthService.Services.Interfaces
 {
+    /// <summary>
+    /// Defines the contract for authentication-related services.
+    /// </summary>
     public interface IAuthService
     {
         Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto);

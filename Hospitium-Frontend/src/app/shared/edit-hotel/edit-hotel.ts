@@ -9,8 +9,10 @@ import { ConfirmService } from '../../core/confirm.service';
 
 @Component({
   selector: 'app-edit-hotel',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './edit-hotel.html',
+  styleUrl: './edit-hotel.css',
 })
 export class EditHotelComponent implements OnInit {
   hotelId!: number;

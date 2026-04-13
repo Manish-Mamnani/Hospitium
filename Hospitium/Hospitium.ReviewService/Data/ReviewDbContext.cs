@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospitium.ReviewService.Data
 {
+    /// <summary>
+    /// Database context for the ReviewService, responsible for managing Review entities.
+    /// </summary>
     public class ReviewDbContext : DbContext
     {
         public ReviewDbContext(DbContextOptions<ReviewDbContext> options) : base(options) { }

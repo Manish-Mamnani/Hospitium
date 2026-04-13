@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hospitium.AuthService.DTOs
 {
+    /// <summary>
+    /// Data Transfer Object for user registration requests.
+    /// </summary>
     public class RegisterDto
     {
         [Required]

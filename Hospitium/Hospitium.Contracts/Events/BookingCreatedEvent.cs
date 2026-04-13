@@ -1,5 +1,8 @@
 namespace Hospitium.Contracts.Events
 {
+    /// <summary>
+    /// Represents an event triggered when a new booking is created.
+    /// </summary>
     public class BookingCreatedEvent
     {
         public int BookingId { get; set; }

@@ -14,12 +14,22 @@ using Hospitium.Contracts.Events;
 
 namespace Hospitium.BookingService.Services
 {
+    /// <summary>
+    /// Service implementation for managing the complete booking lifecycle, including availability checks,
+    /// conflict resolution, cancellation policies, and event publishing for notifications.
+    /// </summary>
     public class BookingService : IBookingService
     {
         private readonly BookingDbContext _context;
         private readonly IHotelClient _hotelClient;
         private readonly IPublishEndpoint _publish;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BookingService"/> class.
+        /// </summary>
+        /// <param name="context">The booking database context.</param>
+        /// <param name="hotelClient">The HTTP client for communicating with HotelService.</param>
+        /// <param name="publish">The MassTransit publish endpoint for event-driven notifications.</param>
         public BookingService(BookingDbContext context, IHotelClient hotelClient, IPublishEndpoint publish)
         {
             _context = context;

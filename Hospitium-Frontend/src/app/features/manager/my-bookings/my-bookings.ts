@@ -13,12 +13,28 @@ import { Sidebar } from '../../../shared/sidebar/sidebar';
   standalone: true,
   imports: [CommonModule, FormsModule, Sidebar],
   templateUrl: './my-bookings.html',
+  styleUrl: './my-bookings.css',
 })
 export class MyBookingsComponent implements OnInit {
   bookings: any[] = [];
   isLoading = false;
   cancellingId: number | null = null;
   completingId: number | null = null;
+  selectedStatus = '';
+  filterDate = '';
+
+  get filteredBookings(): any[] {
+    return this.bookings.filter(b => {
+      const statusMatch = !this.selectedStatus || b.status?.toLowerCase() === this.selectedStatus.toLowerCase();
+      const dateMatch = !this.filterDate || b.fromDate?.startsWith(this.filterDate) || b.toDate?.startsWith(this.filterDate);
+      return statusMatch && dateMatch;
+    });
+  }
+
+  resetFilters() {
+    this.selectedStatus = '';
+    this.filterDate = '';
+  }
 
   constructor(
     private apiService: ApiService,

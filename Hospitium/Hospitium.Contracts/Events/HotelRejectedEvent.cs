@@ -1,5 +1,8 @@
-﻿namespace Hospitium.Contracts.Events
+namespace Hospitium.Contracts.Events
 {
+    /// <summary>
+    /// Represents an event triggered when a hotel is rejected by an admin.
+    /// </summary>
     public class HotelRejectedEvent
     {
         public int HotelId { get; set; }

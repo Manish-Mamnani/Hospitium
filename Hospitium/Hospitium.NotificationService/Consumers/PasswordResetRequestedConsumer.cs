@@ -4,10 +4,17 @@ using Hospitium.NotificationService.Services;
 
 namespace Hospitium.NotificationService.Consumers
 {
+    /// <summary>
+    /// MassTransit consumer that handles <see cref="PasswordResetRequestedEvent"/> events by sending an OTP email to the user.
+    /// </summary>
     public class PasswordResetRequestedConsumer : IConsumer<PasswordResetRequestedEvent>
     {
         private readonly EmailService _email;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PasswordResetRequestedConsumer"/> class.
+        /// </summary>
+        /// <param name="email">The email service for sending notifications.</param>
         public PasswordResetRequestedConsumer(EmailService email)
         {
             _email = email;

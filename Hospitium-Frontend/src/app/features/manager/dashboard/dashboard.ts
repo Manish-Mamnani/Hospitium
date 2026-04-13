@@ -9,6 +9,7 @@ import { Sidebar } from '../../../shared/sidebar/sidebar';
   standalone: true,
   imports: [CommonModule, RouterLink, Sidebar],
   templateUrl: './dashboard.html',
+  styleUrl: './dashboard.css',
 })
 export class ManagerDashboardComponent implements OnInit {
   isLoading = signal(true);
@@ -47,9 +48,9 @@ export class ManagerDashboardComponent implements OnInit {
         this.recentBookings.set(_recentBookings);
         
         const _totalBookings = bookings?.length || 0;
-        const _activeReservations = (bookings || []).filter(b => b.status === 'Confirmed').length;
+        const _activeReservations = (bookings || []).filter(b => b.status === 'Completed').length;
         const _totalRevenue = (bookings || [])
-          .filter(b => b.status === 'Confirmed')
+          .filter(b => b.status === 'Completed')
           .reduce((sum, b) => sum + (b.totalPrice || 0), 0);
           
         this.stats.update(s => ({ 

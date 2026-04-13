@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hospitium.BookingService.Models
 {
+    /// <summary>
+    /// Represents a booking entity, tracking room reservations, dates, pricing, and cancellation details.
+    /// </summary>
     public class Booking
     {
         [Key]

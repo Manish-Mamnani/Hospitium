@@ -4,10 +4,17 @@ using Hospitium.NotificationService.Services;
 
 namespace Hospitium.NotificationService.Consumers
 {
+    /// <summary>
+    /// MassTransit consumer that handles <see cref="UserRegisteredEvent"/> events by sending a welcome email to the new user.
+    /// </summary>
     public class UserRegisteredConsumer : IConsumer<UserRegisteredEvent>
     {
         private readonly EmailService _email;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRegisteredConsumer"/> class.
+        /// </summary>
+        /// <param name="email">The email service for sending notifications.</param>
         public UserRegisteredConsumer(EmailService email)
         {
             _email = email;

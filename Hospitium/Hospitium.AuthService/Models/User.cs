@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hospitium.AuthService.Models
 {
+    /// <summary>
+    /// Represents a user entity within the authentication system.
+    /// </summary>
     public class User
     {
         [Key]

@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hospitium.HotelService.Models
 {
+    /// <summary>
+    /// Represents an image associated with a hotel, stored as a URL reference.
+    /// </summary>
     public class HotelImage
     {
         [Key]

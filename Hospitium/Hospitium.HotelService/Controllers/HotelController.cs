@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospitium.HotelService.Controllers
 {
+    /// <summary>
+    /// Controller for managing hotel and room operations, including CRUD, image uploads, and administrative approval workflows.
+    /// </summary>
     [ApiController]
     [Route("api/hotels")]
     public class HotelController : ControllerBase
@@ -15,6 +18,12 @@ namespace Hospitium.HotelService.Controllers
         private readonly IHotelQueryService _queryService;
         private readonly IWebHostEnvironment _environment;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HotelController"/> class.
+        /// </summary>
+        /// <param name="hotelService">The hotel management service.</param>
+        /// <param name="queryService">The hotel query and search service.</param>
+        /// <param name="environment">The web host environment for file storage operations.</param>
         public HotelController(
             IHotelService hotelService,
             IHotelQueryService queryService,

@@ -12,6 +12,7 @@ import { Sidebar } from '../../../shared/sidebar/sidebar';
   standalone: true,
   imports: [CommonModule, FormsModule, Sidebar],
   templateUrl: './add-hotel.html',
+  styleUrl: './add-hotel.css',
 })
 export class AddHotelComponent {
   hotel = {

@@ -5,11 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospitium.HotelService.Consumers
 {
+    /// <summary>
+    /// MassTransit consumer that handles <see cref="ReviewAddedEvent"/> events by updating the hotel's average rating and review count.
+    /// </summary>
     public class ReviewAddedConsumer : IConsumer<ReviewAddedEvent>
     {
         private readonly HotelDbContext _dbContext;
         private readonly ILogger<ReviewAddedConsumer> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReviewAddedConsumer"/> class.
+        /// </summary>
+        /// <param name="dbContext">The hotel database context.</param>
+        /// <param name="logger">The logger instance.</param>
         public ReviewAddedConsumer(HotelDbContext dbContext, ILogger<ReviewAddedConsumer> logger)
         {
             _dbContext = dbContext;

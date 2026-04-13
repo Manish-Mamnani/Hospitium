@@ -9,8 +9,33 @@
         
         <!-- Header -->
         <div class="mbk-header">
-          <h1 class="mbk-title">Property Bookings</h1>
-          <p class="mbk-subtitle">Review guest reservations across all your listed hotels.</p>
+          <div>
+            <h1 class="mbk-title">Property Bookings</h1>
+            <p class="mbk-subtitle">Review guest reservations across all your listed hotels.</p>
+          </div>
+          <!-- Filters -->
+          <div class="gbk-filters">
+            <!-- Status Filter -->
+            <div class="gbk-select-wrap">
+              <select [(ngModel)]="selectedStatus" class="gbk-select">
+                <option value="">All Statuses</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Pending">Pending</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Completed">Completed</option>
+              </select>
+              <div class="gbk-select-chevron">
+                <svg class="gbk-chevron-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+              </div>
+            </div>
+            <!-- Date Filter -->
+            <div class="relative">
+              <input type="date" [(ngModel)]="filterDate" class="gbk-date-input">
+            </div>
+            <button *ngIf="filterDate || selectedStatus" (click)="resetFilters()" class="gbk-reset-btn">
+              Reset
+            </button>
+          </div>
         </div>
 
         <!-- Content Area -->
@@ -53,7 +78,7 @@
                   </tr>
                 </thead>
                 <tbody class="mbk-tbody">
-                  <tr *ngFor="let b of bookings" class="mbk-tr">
+                  <tr *ngFor="let b of filteredBookings" class="mbk-tr">
                     <!-- Guest -->
                     <td class="mbk-td">
                       <div class="mbk-guest-row">
@@ -94,7 +119,8 @@
                             [ngClass]="{
                               'bg-primary/5 text-primary border-primary/20': b.status?.toLowerCase() === 'confirmed',
                               'bg-error-bg text-error-text border-error-text/10': b.status?.toLowerCase() === 'cancelled',
-                              'bg-accent/5 text-accent border-accent/20': b.status?.toLowerCase() === 'pending'
+                              'bg-accent/5 text-accent border-accent/20': b.status?.toLowerCase() === 'pending',
+                              'badge-completed border-0': b.status?.toLowerCase() === 'completed'
                             }">
                         {{ b.status }}
                       </span>
@@ -128,7 +154,7 @@
             <div *ngIf="bookings.length > 0" class="mbk-footer">
               <div class="mbk-footer-inner">
                 <p class="mbk-footer-text">
-                  Showing {{ bookings.length }} guest records from your properties
+                  Showing {{ filteredBookings.length }} of {{ bookings.length }} guest records from your properties
                 </p>
               </div>
             </div>

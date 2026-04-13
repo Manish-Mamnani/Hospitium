@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hospitium.ReviewService.Models
 {
+    /// <summary>
+    /// Represents a review entity submitted by a user for a hotel.
+    /// </summary>
     public class Review
     {
         [Key]

@@ -5,10 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospitium.HotelService.Consumers
 {
+    /// <summary>
+    /// MassTransit consumer that handles <see cref="BookingCreatedEvent"/> events by decrementing the available room count in the hotel inventory.
+    /// </summary>
     public class BookingCreatedConsumer : IConsumer<BookingCreatedEvent>
     {
         private readonly HotelDbContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BookingCreatedConsumer"/> class.
+        /// </summary>
+        /// <param name="context">The hotel database context.</param>
         public BookingCreatedConsumer(HotelDbContext context)
         {
             _context = context;

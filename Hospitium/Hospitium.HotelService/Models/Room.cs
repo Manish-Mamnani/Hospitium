@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospitium.HotelService.Models
 {
+    /// <summary>
+    /// Represents a room type within a hotel, including pricing and availability tracking.
+    /// </summary>
     public class Room
     {
         [Key]

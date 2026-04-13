@@ -3,6 +3,9 @@ using Hospitium.AuthService.Models;
 
 namespace Hospitium.AuthService.Data
 {
+    /// <summary>
+    /// Database context for the AuthService, responsible for managing User entities.
+    /// </summary>
     public class AuthDbContext : DbContext
     {
         public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)

@@ -12,6 +12,7 @@ import { Sidebar } from '../../../shared/sidebar/sidebar';
   standalone: true,
   imports: [CommonModule, FormsModule, Sidebar],
   templateUrl: './manage-rooms.html',
+  styleUrl: './manage-rooms.css',
 })
 export class ManageRoomsComponent implements OnInit {
   hotelId!: number;

@@ -4,12 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hospitium.AuthService.Controllers
 {
+    /// <summary>
+    /// Controller for handling authentication-related requests such as login, registration, and password resets.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthController"/> class.
+        /// </summary>
+        /// <param name="authService">The authentication service.</param>
         public AuthController(IAuthService authService)
         {
             _authService = authService;

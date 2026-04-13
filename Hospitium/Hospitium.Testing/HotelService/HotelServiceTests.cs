@@ -10,6 +10,10 @@ using Moq;
 
 namespace Hospitium.Testing.HotelService
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Hospitium.HotelService.Services.HotelService"/> class,
+    /// covering hotel creation, approval, rejection, room management, and image operations.
+    /// </summary>
     [TestFixture]
     public class HotelServiceTests
     {

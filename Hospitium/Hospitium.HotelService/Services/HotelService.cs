@@ -12,11 +12,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospitium.HotelService.Services
 {
+    /// <summary>
+    /// Service implementation for managing hotel and room state, including creation, approval, rejection,
+    /// image management, and publishing events for notifications and cross-service communication.
+    /// </summary>
     public class HotelService : IHotelService
     {
         private readonly HotelDbContext _context;
         private readonly IPublishEndpoint _publish;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HotelService"/> class.
+        /// </summary>
+        /// <param name="context">The hotel database context.</param>
+        /// <param name="publish">The MassTransit publish endpoint for event publishing.</param>
         public HotelService(HotelDbContext context, IPublishEndpoint publish)
         {
             _context = context;

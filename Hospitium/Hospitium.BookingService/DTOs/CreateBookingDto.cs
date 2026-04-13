@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hospitium.BookingService.DTOs
 {
+    /// <summary>
+    /// Data Transfer Object for creating a new booking request.
+    /// </summary>
     public class CreateBookingDto
     {
         [Required]

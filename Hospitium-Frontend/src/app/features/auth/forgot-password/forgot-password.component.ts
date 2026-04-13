@@ -8,8 +8,10 @@ type Step = 'email' | 'otp' | 'password' | 'done';
 
 @Component({
   selector: 'app-forgot-password',
+  standalone: true,
   imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './forgot-password.html',
+  styleUrl: './forgot-password.css',
 })
 export class ForgotPasswordComponent {
   step: Step = 'email';

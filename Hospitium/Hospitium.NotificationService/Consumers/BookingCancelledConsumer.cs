@@ -4,10 +4,18 @@ using Hospitium.NotificationService.Services;
 
 namespace Hospitium.NotificationService.Consumers
 {
+    /// <summary>
+    /// MassTransit consumer that handles <see cref="BookingCancelledEvent"/> events by sending a cancellation
+    /// confirmation email to the user, including refund and deduction details in IST timezone.
+    /// </summary>
     public class BookingCancelledConsumer : IConsumer<BookingCancelledEvent>
     {
         private readonly EmailService _email;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BookingCancelledConsumer"/> class.
+        /// </summary>
+        /// <param name="email">The email service for sending notifications.</param>
         public BookingCancelledConsumer(EmailService email)
         {
             _email = email;

@@ -42,3 +42,28 @@
 .home-dest-name { @apply text-2xl font-bold mb-1; }
 .home-dest-avail { @apply text-sm opacity-80 font-medium uppercase tracking-widest flex items-center; }
 .home-dest-check-icon { @apply w-4 h-4 ml-2 text-primary fill-current; }
+
+/* ─── About Section ──────────────────────────── */
+.home-about-section { @apply py-24 bg-neutral-sidebar border-y border-neutral-border/30; }
+.home-about-container { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+.home-about-grid { @apply grid grid-cols-1 lg:grid-cols-2 gap-16 items-center; }
+
+.home-about-contact-wrap { @apply card-premium p-10 bg-white/80 backdrop-blur-md flex flex-col items-center text-center shadow-xl shadow-primary/5; }
+.home-about-logo-wrap { @apply w-24 h-24 rounded-2xl bg-white shadow-inner flex items-center justify-center mb-8 p-4; }
+.home-about-logo { @apply w-full h-full object-contain; }
+
+.home-about-contact-info { @apply space-y-4 w-full; }
+.home-about-contact-item { @apply flex items-center justify-center gap-3 p-4 rounded-xl bg-primary/5 border border-primary/10 text-neutral-primary font-bold transition-all hover:bg-primary/10 hover:scale-[1.02]; }
+.home-about-contact-icon { @apply w-5 h-5 text-primary; }
+
+.home-about-badge { @apply inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest mb-6; }
+.home-about-title { @apply text-4xl font-bold mb-6 text-neutral-primary leading-tight; }
+.home-about-text { @apply text-neutral-secondary leading-relaxed mb-10 text-lg; }
+
+.home-about-features { @apply grid grid-cols-1 sm:grid-cols-2 gap-6; }
+.home-about-feature-item { @apply flex items-start p-4 rounded-2xl bg-white/60 border border-neutral-border/50 hover:shadow-lg hover:shadow-primary/5 transition-all; }
+.home-about-feature-icon { @apply w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 mr-4; }
+.home-about-feature-name { @apply font-bold text-neutral-primary mb-1; }
+.home-about-feature-desc { @apply text-xs text-neutral-secondary; }
+
+

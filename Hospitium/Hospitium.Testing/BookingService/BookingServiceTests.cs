@@ -10,6 +10,10 @@ using Moq;
 
 namespace Hospitium.Testing.BookingService
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Hospitium.BookingService.Services.BookingService"/> class,
+    /// covering booking creation, cancellation policies, availability conflict checks, and event publishing.
+    /// </summary>
     [TestFixture]
     public class BookingServiceTests
     {

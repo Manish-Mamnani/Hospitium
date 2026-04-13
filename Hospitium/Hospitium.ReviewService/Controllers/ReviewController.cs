@@ -5,12 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hospitium.ReviewService.Controllers
 {
+    /// <summary>
+    /// Controller for managing hotel reviews and ratings, allowing authenticated users to submit and retrieve reviews.
+    /// </summary>
     [ApiController]
     [Route("api/reviews")]
     public class ReviewController : ControllerBase
     {
         private readonly IReviewService _reviewService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReviewController"/> class.
+        /// </summary>
+        /// <param name="reviewService">The review service.</param>
         public ReviewController(IReviewService reviewService)
         {
             _reviewService = reviewService;

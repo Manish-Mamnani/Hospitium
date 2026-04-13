@@ -2,10 +2,17 @@ using Hospitium.Contracts.Events;
 using Hospitium.NotificationService.Services;
 using MassTransit;
 
+/// <summary>
+/// MassTransit consumer that handles <see cref="UserLoggedInEvent"/> events by sending a login alert email to the user.
+/// </summary>
 public class UserLoggedInConsumer : IConsumer<UserLoggedInEvent>
 {
     private readonly EmailService _email;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserLoggedInConsumer"/> class.
+    /// </summary>
+    /// <param name="email">The email service for sending notifications.</param>
     public UserLoggedInConsumer(EmailService email)
     {
         _email = email;

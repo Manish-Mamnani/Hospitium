@@ -11,6 +11,10 @@ using Moq;
 
 namespace Hospitium.Testing.AuthService
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Hospitium.AuthService.Services.AuthService"/> class,
+    /// covering registration, login, OTP verification, password reset, and manager retrieval.
+    /// </summary>
     [TestFixture]
     public class AuthServiceTests
     {

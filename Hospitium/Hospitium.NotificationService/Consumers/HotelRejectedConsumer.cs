@@ -2,10 +2,17 @@ using Hospitium.Contracts.Events;
 using Hospitium.NotificationService.Services;
 using MassTransit;
 
+/// <summary>
+/// MassTransit consumer that handles <see cref="HotelRejectedEvent"/> events by sending a rejection notification email to the hotel manager.
+/// </summary>
 public class HotelRejectedConsumer : IConsumer<HotelRejectedEvent>
 {
     private readonly EmailService _email;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="HotelRejectedConsumer"/> class.
+    /// </summary>
+    /// <param name="email">The email service for sending notifications.</param>
     public HotelRejectedConsumer(EmailService email)
     {
         _email = email;

@@ -8,6 +8,7 @@ import { Sidebar } from '../../../shared/sidebar/sidebar';
   standalone: true,
   imports: [CommonModule, Sidebar],
   templateUrl: './admin-managers.html',
+  styleUrl: './admin-managers.css',
 })
 export class AdminManagersComponent implements OnInit {
   managers: any[] = [];

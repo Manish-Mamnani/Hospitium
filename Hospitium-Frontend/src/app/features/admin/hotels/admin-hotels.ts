@@ -8,8 +8,10 @@ import { Sidebar } from '../../../shared/sidebar/sidebar';
 
 @Component({
   selector: 'app-admin-hotels',
+  standalone: true,
   imports: [CommonModule, RouterLink, FormsModule, Sidebar],
   templateUrl: './admin-hotels.html',
+  styleUrl: './admin-hotels.css',
 })
 export class AdminHotelsComponent implements OnInit {
   hotels: any[] = [];

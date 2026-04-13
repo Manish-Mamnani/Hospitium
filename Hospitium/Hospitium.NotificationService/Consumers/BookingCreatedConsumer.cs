@@ -2,10 +2,17 @@ using Hospitium.Contracts.Events;
 using Hospitium.NotificationService.Services;
 using MassTransit;
 
+/// <summary>
+/// MassTransit consumer that handles <see cref="BookingCreatedEvent"/> events by sending a booking confirmation email to the user.
+/// </summary>
 public class BookingCreatedConsumer : IConsumer<BookingCreatedEvent>
 {
     private readonly EmailService _email;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BookingCreatedConsumer"/> class.
+    /// </summary>
+    /// <param name="email">The email service for sending notifications.</param>
     public BookingCreatedConsumer(EmailService email)
     {
         _email = email;

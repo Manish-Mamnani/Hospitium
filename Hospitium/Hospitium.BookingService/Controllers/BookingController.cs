@@ -5,12 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hospitium.BookingService.Controllers
 {
+    /// <summary>
+    /// Controller for managing hotel booking operations, including creation, retrieval, cancellation, and completion.
+    /// </summary>
     [ApiController]
     [Route("api/bookings")]
     public class BookingController : ControllerBase
     {
         private readonly IBookingService _service;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BookingController"/> class.
+        /// </summary>
+        /// <param name="service">The booking service.</param>
         public BookingController(IBookingService service)
         {
             _service = service;
@@ -21,7 +28,7 @@ namespace Hospitium.BookingService.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBooking(CreateBookingDto dto)
         {
-            // 🧠 Extract UserId from JWT
+            //  Extract UserId from JWT
             var userIdClaim = User.FindFirst("UserId");
             var email = User.FindFirst("Email")!.Value;
 

@@ -9,6 +9,10 @@ using Moq;
 
 namespace Hospitium.Testing.ReviewService
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Hospitium.ReviewService.Services.ReviewService"/> class,
+    /// covering review and rating submission, event publishing, and retrieval with ordering.
+    /// </summary>
     [TestFixture]
     public class ReviewServiceTests
     {

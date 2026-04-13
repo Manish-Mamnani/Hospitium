@@ -1,5 +1,8 @@
 namespace Hospitium.BookingService.DTOs
 {
+    /// <summary>
+    /// Data Transfer Object for returning booking details in API responses.
+    /// </summary>
     public class BookingResponseDto
     {
         public int BookingId { get; set; }

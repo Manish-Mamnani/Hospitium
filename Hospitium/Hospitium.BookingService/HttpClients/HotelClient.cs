@@ -5,11 +5,19 @@ using Hospitium.BookingService.DTOs;
 
 namespace Hospitium.BookingService.HttpClients
 {
+    /// <summary>
+    /// HTTP client implementation for interacting with the HotelService, forwarding JWT auth headers.
+    /// </summary>
     public class HotelClient : IHotelClient
     {
         private readonly HttpClient _httpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HotelClient"/> class.
+        /// </summary>
+        /// <param name="httpClient">The underlying HTTP client configured for the HotelService base address.</param>
+        /// <param name="httpContextAccessor">Accessor for the current HTTP context to forward the Authorization header.</param>
         public HotelClient(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
@@ -70,7 +78,6 @@ namespace Hospitium.BookingService.HttpClients
             }
             catch (Exception ex)
             {
-                // In a production environment, you would log the exception here.
                 return null; 
             }
         }

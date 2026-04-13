@@ -1,5 +1,8 @@
 namespace Hospitium.Contracts.Events
 {
+    /// <summary>
+    /// Represents an event triggered when a booking is cancelled.
+    /// </summary>
     public class BookingCancelledEvent
     {
         public int BookingId { get; set; }

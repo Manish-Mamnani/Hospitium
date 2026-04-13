@@ -1,3 +1,2 @@
-/* register.css — shares auth-page, auth-card etc from login.css semantics */
-/* Additional classes specific to register page */
+/* Authentication layout classes are now globally handled in tailwind.config.js */
 .reg-role-select { @apply input-premium bg-white cursor-pointer appearance-none; }
