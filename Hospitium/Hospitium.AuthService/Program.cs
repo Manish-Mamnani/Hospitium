@@ -90,7 +90,8 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
+    var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? builder.Configuration["Jwt:Key"]!;
+    var key = Encoding.UTF8.GetBytes(jwtKey);
 
     options.TokenValidationParameters = new TokenValidationParameters
     {
