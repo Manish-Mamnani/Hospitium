@@ -10,7 +10,8 @@
         }
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "SwaggerKey": "auth"
     },
     {
       "DownstreamPathTemplate": "/api/users/managers",
@@ -22,7 +23,8 @@
         }
       ],
       "UpstreamPathTemplate": "/users/managers",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "auth"
     },
     {
       "DownstreamPathTemplate": "/api/reviews",
@@ -37,7 +39,8 @@
       "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "review"
     },
     {
       "DownstreamPathTemplate": "/api/reviews/hotel/{id}",
@@ -49,7 +52,8 @@
         }
       ],
       "UpstreamPathTemplate": "/hotels/{id}/reviews",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "review"
     },
     {
       "DownstreamPathTemplate": "/api/hotels",
@@ -61,7 +65,8 @@
           "Host": "localhost",
           "Port": 5002
         }
-      ]
+      ],
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/hotels",
@@ -76,7 +81,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/hotels/approved",
@@ -91,7 +97,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/hotels/pending",
@@ -106,7 +113,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/hotels/my",
@@ -121,7 +129,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/hotels/rooms",
@@ -136,7 +145,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/hotels/rooms/{roomId}",
@@ -148,7 +158,8 @@
           "Host": "localhost",
           "Port": 5002
         }
-      ]
+      ],
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/hotels/rooms/{roomId}",
@@ -163,7 +174,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/reviews/rate?hotelId={id}",
@@ -178,7 +190,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "review"
     },
     {
       "DownstreamPathTemplate": "/api/hotels/{id}/approve",
@@ -193,7 +206,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/hotels/{id}/reject",
@@ -208,7 +222,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/hotels/{id}/images",
@@ -223,7 +238,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/hotels/{id}/rooms",
@@ -235,7 +251,8 @@
           "Host": "localhost",
           "Port": 5002
         }
-      ]
+      ],
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/hotels/{id}",
@@ -247,7 +264,8 @@
           "Host": "localhost",
           "Port": 5002
         }
-      ]
+      ],
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/hotels/{id}",
@@ -262,7 +280,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "hotel"
     },
     {
       "DownstreamPathTemplate": "/api/bookings",
@@ -277,7 +296,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "booking"
     },
     {
       "DownstreamPathTemplate": "/api/bookings/{everything}",
@@ -292,7 +312,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      }
+      },
+      "SwaggerKey": "booking"
     },
     {
       "DownstreamPathTemplate": "/images/{everything}",
@@ -304,10 +325,53 @@
         }
       ],
       "UpstreamPathTemplate": "/images/{everything}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "hotel"
     }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5000"
-  }
+  },
+  "SwaggerEndPoints": [
+    {
+      "Key": "auth",
+      "Config": [
+        {
+          "Name": "Auth Service",
+          "Version": "v1",
+          "Url": "http://localhost:5001/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "hotel",
+      "Config": [
+        {
+          "Name": "Hotel Service",
+          "Version": "v1",
+          "Url": "http://localhost:5002/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "booking",
+      "Config": [
+        {
+          "Name": "Booking Service",
+          "Version": "v1",
+          "Url": "http://localhost:5003/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "review",
+      "Config": [
+        {
+          "Name": "Review Service",
+          "Version": "v1",
+          "Url": "http://localhost:5005/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
 }
