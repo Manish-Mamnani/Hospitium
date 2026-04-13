@@ -64,33 +64,39 @@
       ]
     },
     {
-      "DownstreamPathTemplate": "/api/hotels/{id}",
-      "UpstreamPathTemplate": "/hotels/{id}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5002
-        }
-      ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/hotels/{id}/rooms",
-      "UpstreamPathTemplate": "/hotels/{id}/rooms",
-      "UpstreamHttpMethod": [ "GET" ],
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5002
-        }
-      ]
-    },
-    {
       "DownstreamPathTemplate": "/api/hotels",
       "UpstreamPathTemplate": "/hotels",
       "UpstreamHttpMethod": [ "POST" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/hotels/approved",
+      "UpstreamPathTemplate": "/hotels/approved",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/hotels/pending",
+      "UpstreamPathTemplate": "/hotels/pending",
+      "UpstreamHttpMethod": [ "GET" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -175,39 +181,10 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/hotels/approved",
-      "UpstreamPathTemplate": "/hotels/approved",
-      "UpstreamHttpMethod": [ "GET" ],
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5002
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
-      }
-    },
-    {
-      "DownstreamPathTemplate": "/api/hotels/pending",
-      "UpstreamPathTemplate": "/hotels/pending",
-      "UpstreamHttpMethod": [ "GET" ],
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5002
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
-      }
-    },
-    {
       "DownstreamPathTemplate": "/api/hotels/{id}/approve",
       "UpstreamPathTemplate": "/hotels/{id}/approve",
       "UpstreamHttpMethod": [ "PUT" ],
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -222,20 +199,6 @@
       "DownstreamPathTemplate": "/api/hotels/{id}/reject",
       "UpstreamPathTemplate": "/hotels/{id}/reject",
       "UpstreamHttpMethod": [ "PUT" ],
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5002
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
-      }
-    },
-    {
-      "DownstreamPathTemplate": "/api/hotels/{id}",
-      "UpstreamPathTemplate": "/hotels/{id}",
-      "UpstreamHttpMethod": [ "PUT", "DELETE" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -251,6 +214,45 @@
       "DownstreamPathTemplate": "/api/hotels/{id}/images",
       "UpstreamPathTemplate": "/hotels/{id}/images",
       "UpstreamHttpMethod": [ "POST", "DELETE" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/hotels/{id}/rooms",
+      "UpstreamPathTemplate": "/hotels/{id}/rooms",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/hotels/{id}",
+      "UpstreamPathTemplate": "/hotels/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/hotels/{id}",
+      "UpstreamPathTemplate": "/hotels/{id}",
+      "UpstreamHttpMethod": [ "PUT", "DELETE" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
