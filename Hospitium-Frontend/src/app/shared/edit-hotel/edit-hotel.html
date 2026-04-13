@@ -1,102 +1,102 @@
-<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-    <div class="mb-10 flex items-center justify-between">
+<div class="edit-hotel-container">
+    <div class="edit-hotel-header">
     <div>
-      <h1 class="text-4xl font-display font-semibold text-neutral-primary tracking-tight">Edit Hotel</h1>
-      <p class="text-neutral-secondary mt-3 text-lg leading-relaxed">Update your property profile or manage its listing.</p>
+      <h1 class="edit-hotel-title">Edit Hotel</h1>
+      <p class="edit-hotel-subtitle">Update your property profile or manage its listing.</p>
     </div>
-    <button (click)="goBack()" class="flex items-center text-sm font-medium text-neutral-secondary hover:text-neutral-primary transition-colors">
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+    <button (click)="goBack()" class="edit-hotel-back-btn">
+      <svg class="edit-hotel-back-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
       Back to List
     </button>
   </div>
 
-  <div *ngIf="isLoading" class="flex justify-center items-center py-20">
-    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+  <div *ngIf="isLoading" class="edit-hotel-loading">
+    <div class="edit-hotel-spinner"></div>
   </div>
 
-  <div *ngIf="!isLoading" class="bg-white rounded-3xl shadow-xl border border-neutral-border overflow-hidden ring-1 ring-black/5 animate-fade-in group">
-    <div class="p-8 sm:p-12">
-      <form (ngSubmit)="updateHotel()" #hotelForm="ngForm" class="space-y-8">
+  <div *ngIf="!isLoading" class="edit-hotel-card">
+    <div class="edit-hotel-card-body">
+      <form (ngSubmit)="updateHotel()" #hotelForm="ngForm" class="edit-hotel-form">
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="edit-hotel-form-grid">
           <!-- Name -->
-          <div class="space-y-2">
-            <label class="block text-sm font-semibold text-neutral-secondary ml-1">Hotel Name</label>
+          <div class="edit-hotel-input-group">
+            <label class="edit-hotel-label">Hotel Name</label>
             <input type="text" name="name" [(ngModel)]="hotel.name" required
-                   class="w-full px-5 py-4 rounded-2xl border border-neutral-border bg-neutral-bg/50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-neutral-primary font-medium">
+                   class="edit-hotel-input">
           </div>
 
           <!-- City -->
-          <div class="space-y-2">
-            <label class="block text-sm font-semibold text-neutral-secondary ml-1">City</label>
+          <div class="edit-hotel-input-group">
+            <label class="edit-hotel-label">City</label>
             <input type="text" name="city" [(ngModel)]="hotel.city" required
-                   class="w-full px-5 py-4 rounded-2xl border border-neutral-border bg-neutral-bg/50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-neutral-primary font-medium tracking-wide">
+                   class="edit-hotel-input">
           </div>
         </div>
 
         <!-- Description -->
-        <div class="space-y-2">
-          <label class="block text-sm font-semibold text-neutral-secondary ml-1">Description</label>
+        <div class="edit-hotel-input-group">
+          <label class="edit-hotel-label">Description</label>
           <textarea name="description" [(ngModel)]="hotel.description" rows="5" maxlength="500"
                     [class.border-rose-500]="descriptionError"
-                    class="w-full px-5 py-4 rounded-2xl border border-neutral-border bg-neutral-bg/50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-neutral-primary font-medium resize-none leading-relaxed"></textarea>
-          <p *ngIf="descriptionError" class="text-xs font-bold text-rose-600 mt-1 ml-1">{{ descriptionError }}</p>
+                    class="edit-hotel-textarea"></textarea>
+          <p *ngIf="descriptionError" class="edit-hotel-error-text">{{ descriptionError }}</p>
         </div>
 
         <!-- Image Gallery -->
-        <div class="space-y-4 pt-6 border-t border-neutral-border mt-8">
-          <label class="block text-sm font-semibold text-neutral-secondary ml-1">Property Images</label>
+        <div class="edit-hotel-gallery-container">
+          <label class="edit-hotel-label">Property Images</label>
           
-          <div *ngIf="hotel.images?.length > 0" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
-             <div *ngFor="let img of hotel.images" class="relative group aspect-square rounded-xl overflow-hidden bg-neutral-bg border border-neutral-border/50 shadow-sm">
-                <img [src]="getPrimaryImageUrl(img.imageUrl)" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                   <button type="button" (click)="deleteImage(img.imageId)" class="bg-rose-500 text-white p-2.5 rounded-full hover:bg-rose-600 shadow-xl transform hover:scale-110 focus:ring-4 focus:ring-rose-500/30 transition-all">
-                      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+          <div *ngIf="hotel.images?.length > 0" class="edit-hotel-gallery-grid">
+             <div *ngFor="let img of hotel.images" class="edit-hotel-image-card">
+                <img [src]="getPrimaryImageUrl(img.imageUrl)" class="edit-hotel-image">
+                <div class="edit-hotel-image-overlay">
+                   <button type="button" (click)="deleteImage(img.imageId)" class="edit-hotel-image-delete-btn">
+                      <svg class="edit-hotel-image-delete-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                    </button>
                 </div>
-                <div *ngIf="img.isPrimary" class="absolute top-2 left-2 bg-primary text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest shadow-md">
+                <div *ngIf="img.isPrimary" class="edit-hotel-image-primary-badge">
                    Primary
                 </div>
              </div>
           </div>
 
-          <div class="p-6 border-2 border-dashed border-neutral-border/80 rounded-2xl bg-neutral-bg/30 text-center transition-colors hover:bg-neutral-bg/50 hover:border-neutral-primary/20">
+          <div class="edit-hotel-upload-area">
              <input type="file" multiple accept=".jpg,.jpeg,.png" (change)="onFileSelected($event)" class="hidden" #fileInput>
-             <button type="button" (click)="fileInput.click()" class="px-6 py-3 bg-white border border-neutral-border rounded-xl text-sm font-bold text-neutral-primary hover:bg-neutral-bg transition-colors shadow-sm mb-3 focus:ring-4 focus:ring-neutral-200 outline-none">
+             <button type="button" (click)="fileInput.click()" class="edit-hotel-upload-btn">
                  Select Photos
              </button>
-             <p class="text-xs text-neutral-secondary font-medium">Add up to {{ 10 - (hotel.images?.length || 0) }} more photos (max 5MB each)</p>
+             <p class="edit-hotel-upload-hint">Add up to {{ 10 - (hotel.images?.length || 0) }} more photos (max 5MB each)</p>
              
-             <div *ngIf="selectedFiles.length > 0" class="mt-6 text-left animate-fade-in p-4 bg-white rounded-xl border border-neutral-border shadow-sm">
-                <h4 class="text-[10px] font-black text-neutral-secondary uppercase tracking-widest mb-3">Ready to upload</h4>
-                <div class="flex flex-wrap gap-2 mb-4">
-                   <span *ngFor="let file of selectedFiles; let i = index" class="inline-flex items-center bg-neutral-bg px-3 py-1.5 rounded-lg text-xs font-semibold text-neutral-primary shadow-sm border border-neutral-border/50">
-                     <span class="truncate max-w-[150px]">{{ file.name }}</span>
-                     <button type="button" (click)="removeSelectedFile(i)" class="ml-2 text-rose-500 hover:text-rose-700 transition-colors focus:outline-none">&times;</button>
+             <div *ngIf="selectedFiles.length > 0" class="edit-hotel-upload-preview">
+                <h4 class="edit-hotel-upload-preview-title">Ready to upload</h4>
+                <div class="edit-hotel-upload-tags">
+                   <span *ngFor="let file of selectedFiles; let i = index" class="edit-hotel-upload-tag">
+                     <span class="edit-hotel-upload-tag-text">{{ file.name }}</span>
+                     <button type="button" (click)="removeSelectedFile(i)" class="edit-hotel-upload-tag-remove">&times;</button>
                    </span>
                 </div>
-                <button type="button" (click)="uploadNewImages()" [disabled]="isSaving" class="px-6 py-2.5 bg-neutral-primary text-white rounded-xl text-xs font-bold hover:bg-neutral-800 transition-all disabled:opacity-50 flex items-center focus:ring-4 focus:ring-neutral-primary/20 outline-none shadow-md">
-                   <svg *ngIf="isSaving" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                <button type="button" (click)="uploadNewImages()" [disabled]="isSaving" class="edit-hotel-upload-confirm-btn">
+                   <svg *ngIf="isSaving" class="edit-hotel-btn-spinner" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                    Upload Selected Photos
-                </button>
+                 </button>
              </div>
           </div>
         </div>
 
-        <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-neutral-border mt-12">
+        <div class="edit-hotel-actions">
           <!-- Delete Action -->
           <button type="button" (click)="deleteHotel()" [disabled]="isDeleting || isSaving"
-                  class="px-8 py-4 rounded-2xl text-accent font-semibold hover:bg-accent-soft transition-all disabled:opacity-50 flex items-center gap-3">
-             <svg *ngIf="!isDeleting" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-             <div *ngIf="isDeleting" class="animate-spin rounded-full h-5 w-5 border-b-2 border-accent"></div>
+                  class="edit-hotel-delete-btn">
+             <svg *ngIf="!isDeleting" class="edit-hotel-delete-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+             <div *ngIf="isDeleting" class="edit-hotel-delete-btn-spinner"></div>
              Delete Hotel
           </button>
 
           <!-- Update Action -->
           <button type="submit" [disabled]="!hotelForm.valid || isSaving || isDeleting"
-                  class="w-full sm:w-auto px-12 py-4 bg-primary shadow-lg shadow-primary/20 hover:bg-primary-hover text-white rounded-2xl font-bold transition-all transform hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:transform-none flex items-center justify-center gap-3">
-             <div *ngIf="isSaving" class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  class="edit-hotel-update-btn">
+             <div *ngIf="isSaving" class="edit-hotel-update-btn-spinner"></div>
              {{ isSaving ? 'Saving Changes...' : 'Update Property' }}
           </button>
         </div>
@@ -106,27 +106,27 @@
 
 
   <!-- Additional Management Info -->
-  <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div class="bg-amber-50 rounded-3xl p-8 border border-amber-100/50">
-      <div class="flex items-center gap-4 mb-4">
-        <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-amber-600 shadow-sm">
-           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+  <div class="edit-hotel-info-grid">
+    <div class="edit-hotel-warning-card">
+      <div class="edit-hotel-info-card-header">
+        <div class="edit-hotel-warning-icon-wrapper">
+           <svg class="edit-hotel-warning-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
         </div>
-        <h4 class="text-amber-800 font-bold text-lg tracking-tight">Warning Zone</h4>
+        <h4 class="edit-hotel-warning-title">Warning Zone</h4>
       </div>
-      <p class="text-sm font-medium text-amber-700/80 leading-relaxed">
+      <p class="edit-hotel-warning-text">
         Deleting a hotel will mark it as "Deleted". New bookings will be disabled, but existing bookings will remain visible in historical reports.
       </p>
     </div>
 
-    <div class="bg-indigo-50 rounded-3xl p-8 border border-indigo-100/50">
-      <div class="flex items-center gap-4 mb-4">
-        <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-indigo-600 shadow-sm">
-           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    <div class="edit-hotel-status-card">
+      <div class="edit-hotel-info-card-header">
+        <div class="edit-hotel-status-icon-wrapper">
+           <svg class="edit-hotel-status-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
         </div>
-        <h4 class="text-indigo-800 font-bold text-lg tracking-tight">Status Note</h4>
+        <h4 class="edit-hotel-status-title">Status Note</h4>
       </div>
-      <p class="text-sm font-medium text-indigo-700/80 leading-relaxed">
+      <p class="edit-hotel-status-text">
         Modifying basic hotel information (Name, City) will take effect immediately for all pending and future bookings.
       </p>
     </div>

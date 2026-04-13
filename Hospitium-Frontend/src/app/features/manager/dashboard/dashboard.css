@@ -1,0 +1,54 @@
+/* ─── Manager Dashboard ──────────────────────── */
+.mdash-page { @apply flex min-h-screen bg-neutral-bg font-sans text-neutral-primary; }
+.mdash-content { @apply flex-1 flex flex-col min-w-0; }
+.mdash-main { @apply p-8 lg:p-12; }
+.mdash-inner { @apply max-w-7xl mx-auto; }
+.mdash-header { @apply mb-10 animate-fade-in font-display; }
+.mdash-title { @apply text-4xl font-black tracking-tight text-neutral-primary mb-3; }
+.mdash-subtitle { @apply text-neutral-secondary font-medium max-w-2xl leading-relaxed; }
+
+/* ─── Loading ────────────────────────────────── */
+.mdash-loading { @apply flex flex-col justify-center items-center py-24 space-y-4 animate-fade-in; }
+.mdash-spinner-ring { @apply relative w-12 h-12; }
+.mdash-spinner-track { @apply absolute inset-0 border-4 border-primary/20 rounded-full; }
+.mdash-spinner { @apply absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin; }
+.mdash-loading-label { @apply text-xs font-bold text-primary uppercase tracking-[0.2em]; }
+
+/* ─── Stats Grid ─────────────────────────────── */
+.mdash-stats { @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6; }
+.mdash-stat-primary { @apply card-premium p-6 border-l-4 border-primary; }
+.mdash-stat-accent { @apply card-premium p-6 border-l-4 border-accent; }
+.mdash-stat-muted { @apply card-premium p-6 border-l-4 border-primary/40; }
+.mdash-stat-revenue { @apply card-premium p-6 bg-primary text-white border-none shadow-xl shadow-primary/30; }
+.mdash-stat-row { @apply flex items-center justify-between mb-4; }
+.mdash-stat-icon-primary { @apply w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary; }
+.mdash-stat-icon-accent { @apply w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent; }
+.mdash-stat-icon-muted { @apply w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary/80; }
+.mdash-stat-icon-revenue { @apply w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white; }
+.mdash-stat-icon { @apply w-6 h-6; }
+.mdash-stat-live-badge { @apply text-[10px] font-bold text-primary bg-primary/5 px-2.5 py-1 rounded-full uppercase tracking-tighter; }
+.mdash-stat-pulse { @apply w-2 h-2 rounded-full bg-accent animate-pulse; }
+.mdash-stat-label { @apply text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em] mb-1; }
+.mdash-stat-label-white { @apply text-[10px] font-bold text-white/70 uppercase tracking-[0.2em] mb-1; }
+.mdash-stat-value { @apply text-3xl font-black text-neutral-primary tracking-tight; }
+.mdash-stat-value-white { @apply text-3xl font-black tracking-tight tracking-tighter; }
+
+/* ─── Reservations Table ─────────────────────── */
+.mdash-table-section { @apply space-y-6; }
+.mdash-table-header { @apply flex items-center justify-between; }
+.mdash-table-title { @apply text-2xl font-bold tracking-tight; }
+.mdash-view-all { @apply text-xs font-bold text-primary hover:underline uppercase tracking-widest; }
+.mdash-table-card { @apply card-premium overflow-hidden; }
+.mdash-table-scroll { @apply overflow-x-auto; }
+.mdash-table { @apply w-full text-left; }
+.mdash-thead { @apply bg-neutral-bg/50 border-b border-neutral-border; }
+.mdash-th { @apply px-6 py-4 text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em]; }
+.mdash-tbody { @apply divide-y divide-neutral-border; }
+.mdash-tr { @apply hover:bg-neutral-bg/30 transition-all; }
+.mdash-td { @apply px-6 py-4; }
+.mdash-guest-email { @apply text-sm font-bold truncate; }
+.mdash-booking-id { @apply text-[9px] text-neutral-secondary uppercase tracking-widest mt-1; }
+.mdash-dates { @apply text-xs font-bold; }
+.mdash-revenue { @apply text-sm font-black italic tracking-tighter; }
+.mdash-status-badge { @apply inline-flex items-center px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border; }
+.mdash-empty-row { @apply p-12 text-center text-neutral-secondary italic text-sm; }

@@ -1,0 +1,43 @@
+/* ─── My Hotels Layout ───────────────────────── */
+.mh-page { @apply flex bg-neutral-bg min-h-screen; }
+.mh-content { @apply flex-1 overflow-auto; }
+.mh-inner { @apply max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 animate-fade-in; }
+.mh-header { @apply flex items-center justify-between mb-10; }
+.mh-title { @apply text-3xl font-bold tracking-tight; }
+.mh-subtitle { @apply text-neutral-secondary mt-1; }
+
+/* ─── Loading Skeleton ───────────────────────── */
+.mh-skeleton-grid { @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8; }
+.mh-skeleton-card { @apply animate-pulse card-premium p-4; }
+.mh-skeleton-img { @apply bg-neutral-bg h-48 rounded-xl mb-4; }
+.mh-skeleton-body { @apply space-y-3; }
+.mh-skeleton-line-1 { @apply h-6 bg-neutral-bg rounded w-3/4; }
+.mh-skeleton-line-2 { @apply h-4 bg-neutral-bg rounded w-1/2; }
+
+/* ─── Hotels Grid ────────────────────────────── */
+.mh-grid { @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8; }
+.mh-card { @apply card-premium; }
+.mh-card-img-wrap { @apply p-3; }
+.mh-card-img-container { @apply h-48 rounded-xl overflow-hidden bg-neutral-bg relative; }
+.mh-card-img { @apply w-full h-full object-cover transition-transform duration-500; }
+.mh-card:hover .mh-card-img { @apply scale-105; }
+.mh-badge-group { @apply absolute top-3 left-3 flex flex-col gap-1.5; }
+.mh-sample-badge { @apply absolute bottom-2 right-2 bg-black/70 text-white text-[9px] font-black px-2 py-0.5 rounded backdrop-blur-md border border-white/20 shadow-sm tracking-widest uppercase; }
+.mh-card-body { @apply p-6 pt-2 flex-1 flex flex-col; }
+.mh-hotel-name { @apply text-xl font-bold text-neutral-primary transition-colors truncate; }
+.mh-card:hover .mh-hotel-name { @apply text-primary; }
+.mh-city-row { @apply text-sm text-neutral-secondary mt-1 flex items-center; }
+.mh-city-icon { @apply w-4 h-4 mr-1 opacity-70; }
+.mh-description { @apply text-sm text-neutral-secondary/80 mt-4 line-clamp-2 italic; }
+.mh-actions { @apply mt-6 flex flex-wrap gap-2 border-t border-neutral-border pt-4; }
+.mh-btn-primary { @apply flex-[2] px-3 py-2 bg-primary text-white border border-primary rounded-lg text-xs font-bold hover:bg-primary-hover transition-all flex items-center justify-center gap-2; }
+.mh-btn-primary-icon { @apply w-3.5 h-3.5; }
+.mh-btn-secondary { @apply flex-1 px-3 py-2 bg-neutral-bg border border-neutral-border text-neutral-primary rounded-lg text-xs font-bold hover:bg-neutral-border transition-all; }
+.mh-btn-view { @apply flex-1 px-3 py-2 bg-neutral-bg border border-neutral-border text-neutral-secondary rounded-lg text-xs font-bold hover:bg-neutral-border transition-all; }
+
+/* ─── Empty State ────────────────────────────── */
+.mh-empty { @apply card-premium p-16 text-center; }
+.mh-empty-icon-wrap { @apply w-20 h-20 bg-neutral-bg rounded-full flex items-center justify-center mx-auto mb-6; }
+.mh-empty-icon { @apply w-10 h-10 text-neutral-secondary; }
+.mh-empty-title { @apply text-xl font-bold; }
+.mh-empty-text { @apply text-neutral-secondary mt-2 max-w-xs mx-auto; }

@@ -1,0 +1,3 @@
+/* register.css — shares auth-page, auth-card etc from login.css semantics */
+/* Additional classes specific to register page */
+.reg-role-select { @apply input-premium bg-white cursor-pointer appearance-none; }

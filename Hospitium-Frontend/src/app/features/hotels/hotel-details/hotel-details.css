@@ -1,0 +1,87 @@
+/* ─── Hotel Details Layout ───────────────────── */
+.hd-page { @apply max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8; }
+.hd-header { @apply mb-8; }
+.hd-title { @apply text-4xl font-bold tracking-tight text-neutral-primary; }
+.hd-location { @apply text-neutral-secondary mt-2 flex items-center text-lg; }
+.hd-location-icon { @apply w-5 h-5 mr-2 opacity-70; }
+.hd-grid { @apply grid grid-cols-1 lg:grid-cols-3 gap-10; }
+.hd-main { @apply lg:col-span-2 space-y-8; }
+
+/* ─── Image Gallery ──────────────────────────── */
+.hd-image-wrap { @apply space-y-4; }
+.hd-active-image { @apply card-premium h-96 overflow-hidden relative; }
+.hd-active-img { @apply w-full h-full object-cover transition-transform duration-700 hover:scale-105; }
+.hd-sample-badge { @apply absolute bottom-6 left-6 bg-black/70 text-white text-[10px] font-black px-3 py-1.5 rounded-lg backdrop-blur-md border border-white/20 shadow-md tracking-widest uppercase; }
+.hd-rating-badge { @apply absolute top-6 right-6 bg-white/90 backdrop-blur px-4 py-2 rounded-2xl shadow-xl border border-white/20 flex items-center; }
+.hd-rating-star { @apply w-5 h-5 text-yellow-400 mr-2; }
+.hd-rating-value { @apply text-xl font-black text-neutral-primary; }
+.hd-rating-max { @apply text-neutral-secondary ml-1 font-bold; }
+.hd-thumbnails { @apply flex items-center gap-3 overflow-x-auto pb-2; }
+.hd-thumb { @apply w-24 h-20 shrink-0 rounded-xl overflow-hidden cursor-pointer border-2 transition-all; }
+.hd-thumb-active { @apply border-primary shadow-md; }
+.hd-thumb-inactive { @apply border-transparent opacity-70 hover:opacity-100; }
+.hd-thumb-img { @apply w-full h-full object-cover; }
+
+/* ─── About ──────────────────────────────────── */
+.hd-about { @apply space-y-4; }
+.hd-about-title { @apply text-2xl font-bold; }
+.hd-about-text { @apply text-neutral-secondary leading-relaxed text-lg; }
+
+/* ─── Rooms ──────────────────────────────────── */
+.hd-rooms { @apply pt-8; }
+.hd-rooms-title { @apply text-2xl font-bold mb-6; }
+.hd-rooms-grid { @apply grid grid-cols-1 md:grid-cols-2 gap-6; }
+.hd-room-card { @apply card-premium p-6 hover:border-primary/30 transition-all; }
+.hd-room-name { @apply text-xl font-bold text-neutral-primary; }
+.hd-room-row { @apply mt-4 flex items-center justify-between; }
+.hd-room-price { @apply text-2xl font-black text-primary; }
+.hd-room-per-night { @apply text-neutral-secondary text-sm ml-1; }
+
+/* ─── Booking Panel ──────────────────────────── */
+.hd-booking { @apply lg:col-span-1; }
+.hd-booking-card { @apply card-premium p-8 sticky top-24 shadow-xl border-t-4 border-t-primary; }
+.hd-booking-title { @apply text-2xl font-bold mb-6; }
+.hd-booking-form { @apply space-y-6; }
+.hd-booking-label { @apply block text-sm font-bold text-neutral-secondary mb-2 uppercase tracking-widest; }
+.hd-booking-select { @apply w-full bg-neutral-bg border border-neutral-border rounded-xl px-4 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20; }
+.hd-dates-grid { @apply grid grid-cols-2 gap-4; }
+.hd-booking-input { @apply w-full bg-neutral-bg border border-neutral-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20; }
+.hd-price-total { @apply pt-4 border-t border-neutral-border; }
+.hd-price-row { @apply flex justify-between items-end mb-2; }
+.hd-price-label { @apply text-sm font-bold text-neutral-secondary uppercase tracking-widest; }
+.hd-price-value { @apply text-3xl font-black text-primary font-display; }
+.hd-price-note { @apply text-[10px] text-neutral-secondary text-right italic font-medium; }
+.hd-booking-error { @apply p-4 bg-error-bg text-error-text rounded-2xl text-xs font-bold border border-error-text/10 flex items-center; }
+.hd-booking-error-icon { @apply w-4 h-4 mr-2; }
+.hd-book-note { @apply text-xs text-neutral-secondary text-center; }
+
+/* ─── Reviews ────────────────────────────────── */
+.hd-reviews { @apply lg:col-span-2 mt-12 pt-12 border-t border-neutral-border; }
+.hd-reviews-header { @apply flex items-center justify-between mb-10; }
+.hd-reviews-title { @apply text-2xl font-bold; }
+.hd-stars-row { @apply flex items-center mt-2 cursor-pointer; }
+.hd-stars { @apply flex space-x-1; }
+.hd-stars-label { @apply ml-3 text-sm font-bold text-neutral-primary; }
+.hd-review-form-card { @apply card-premium p-8 bg-neutral-bg/30 mb-12; }
+.hd-review-form-title { @apply text-lg font-bold mb-6; }
+.hd-review-form { @apply space-y-6; }
+.hd-rating-row { @apply flex items-center space-x-4; }
+.hd-rating-label { @apply text-sm font-bold text-neutral-secondary; }
+.hd-rating-stars { @apply flex space-x-2; }
+.hd-star-btn { @apply focus:outline-none transform hover:scale-110 transition-transform; }
+.hd-review-textarea { @apply w-full bg-white border border-neutral-border rounded-2xl px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all; }
+.hd-review-submit-row { @apply flex justify-end; }
+.hd-review-list { @apply space-y-8; }
+.hd-review-item { @apply flex space-x-6 pb-8 border-b border-neutral-border last:border-0; }
+.hd-reviewer-avatar { @apply w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shrink-0; }
+.hd-review-content { @apply flex-1; }
+.hd-review-meta { @apply flex items-center justify-between mb-2; }
+.hd-reviewer-name { @apply font-bold text-neutral-primary; }
+.hd-review-date { @apply text-xs text-neutral-secondary; }
+.hd-review-stars { @apply flex space-x-0.5 mb-3; }
+.hd-review-text { @apply text-neutral-secondary text-sm leading-relaxed; }
+.hd-no-reviews { @apply text-center py-10; }
+.hd-no-reviews-text { @apply text-neutral-secondary italic; }
+.hd-loading { @apply flex flex-col items-center justify-center py-40; }
+.hd-spinner { @apply animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4; }
+.hd-loading-text { @apply text-neutral-secondary font-medium; }

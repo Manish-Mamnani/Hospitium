@@ -35,11 +35,11 @@ namespace Hospitium.BookingService.Services
             if (room == null || room.AvailableCount < dto.NumberOfRooms)
                 throw new RoomNotAvailableException(dto.RoomId);
 
-            // 🔴 Validate Dates
+            // Validate Dates
             if (dto.FromDate >= dto.ToDate)
                 throw new InvalidBookingDatesException();
 
-            // 🔴 Check overlapping bookings and calculate total occupied rooms
+            // Check overlapping bookings and calculate total occupied rooms
             var totalBookedDuringPeriod = await _context.Bookings
                 .Where(b => b.RoomId == dto.RoomId && 
                             b.Status != "Cancelled" && 

@@ -1,0 +1,99 @@
+/* ─── Search Results Layout ──────────────────── */
+.sr-page { @apply max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8; }
+.sr-layout { @apply flex flex-col lg:flex-row gap-10; }
+
+/* ─── Filter Sidebar ─────────────────────────── */
+.sr-aside { @apply w-full lg:w-72 flex-shrink-0 animate-fade-in; }
+.sr-filter-card { @apply card-premium p-8 sticky top-24 bg-white/80 backdrop-blur-sm; }
+.sr-filter-header { @apply flex items-center justify-between mb-8; }
+.sr-filter-title { @apply text-xl font-bold; }
+.sr-filter-reset { @apply text-xs font-bold text-primary hover:underline uppercase tracking-widest; }
+.sr-filters { @apply space-y-8; }
+.sr-filter-label { @apply block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-[0.2em]; }
+.sr-filter-input { @apply w-full bg-neutral-bg border border-neutral-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all; }
+.sr-price-row { @apply flex items-center gap-2; }
+.sr-price-sep { @apply text-neutral-secondary text-xs font-bold; }
+.sr-price-input { @apply w-full bg-neutral-bg border border-neutral-border rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 outline-none; }
+.sr-rating-grid { @apply grid grid-cols-1 gap-2; }
+.sr-rating-btn { @apply w-full text-left px-4 py-2.5 rounded-xl text-xs font-bold border transition-all flex items-center justify-between; }
+.sr-rating-btn-active { @apply bg-primary text-white border-primary; }
+.sr-rating-btn-inactive { @apply bg-white text-neutral-primary border-neutral-border hover:border-primary; }
+.sr-rating-star-active { @apply w-3.5 h-3.5 fill-current text-white; }
+.sr-rating-star-inactive { @apply w-3.5 h-3.5 fill-current text-accent; }
+.sr-avail-section { @apply pt-4 border-t border-neutral-border; }
+.sr-avail-label { @apply flex items-center cursor-pointer; }
+.sr-toggle-wrap { @apply relative; }
+.sr-toggle-input { @apply sr-only; }
+.sr-toggle-track { @apply block w-10 h-6 rounded-full transition-colors; }
+.sr-toggle-dot { @apply absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform; }
+.sr-avail-text { @apply ml-3 text-xs font-bold text-neutral-primary uppercase tracking-widest; }
+
+/* ─── Results Main ───────────────────────────── */
+.sr-main { @apply flex-1; }
+.sr-sort-row { @apply flex items-center justify-between mb-8 px-2; }
+.sr-found-text { @apply text-sm text-neutral-secondary font-medium; }
+.sr-found-count { @apply text-neutral-primary font-bold; }
+.sr-found-city { @apply text-primary font-bold; }
+.sr-sort-right { @apply flex items-center gap-3; }
+.sr-sort-label { @apply text-xs font-bold text-neutral-secondary uppercase tracking-widest; }
+.sr-sort-select { @apply bg-transparent text-sm font-bold border-0 focus:ring-0 cursor-pointer text-primary; }
+
+/* ─── Skeleton ───────────────────────────────── */
+.sr-skeleton-grid { @apply grid grid-cols-1 md:grid-cols-2 gap-8; }
+.sr-skeleton-card { @apply animate-pulse card-premium p-3; }
+.sr-skeleton-img { @apply bg-neutral-bg h-64 rounded-[2rem] mb-4; }
+.sr-skeleton-body { @apply px-4 py-2 space-y-4; }
+.sr-skeleton-line-1 { @apply h-6 bg-neutral-bg rounded w-3/4; }
+.sr-skeleton-line-2 { @apply h-4 bg-neutral-bg rounded w-1/2; }
+.sr-skeleton-footer { @apply flex justify-between items-center pt-4 border-t border-neutral-border; }
+.sr-skeleton-btn-a { @apply h-10 bg-neutral-bg rounded w-24; }
+.sr-skeleton-btn-b { @apply h-10 bg-neutral-bg rounded w-32; }
+
+/* ─── Error State ────────────────────────────── */
+.sr-error { @apply card-premium p-12 bg-error-bg/10 border-error-text/20 text-center animate-fade-in; }
+.sr-error-icon-wrap { @apply w-16 h-16 bg-error-bg rounded-full flex items-center justify-center mx-auto mb-6 text-error-text; }
+.sr-error-icon { @apply w-8 h-8; }
+.sr-error-title { @apply text-xl font-bold text-neutral-primary mb-2; }
+.sr-error-text { @apply text-neutral-secondary mb-6; }
+
+/* ─── Hotels Grid ────────────────────────────── */
+.sr-hotels-grid { @apply grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-in; }
+.sr-hotel-card { @apply card-premium flex flex-col; }
+.sr-hotel-img-wrap { @apply relative p-3; }
+.sr-hotel-img-container { @apply h-64 rounded-[2rem] overflow-hidden bg-neutral-bg relative; }
+.sr-hotel-img { @apply w-full h-full object-cover transition-transform duration-700; }
+.sr-hotel-card:hover .sr-hotel-img { @apply scale-110; }
+.sr-hotel-sample-badge { @apply absolute top-4 right-4 bg-black/70 text-white text-[9px] font-black px-2.5 py-1 rounded backdrop-blur-md border border-white/20 shadow-sm tracking-widest uppercase; }
+.sr-hotel-overlay { @apply absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/60 to-transparent; }
+.sr-hotel-rating-badge { @apply flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/20; }
+.sr-hotel-rating-star { @apply w-3.5 h-3.5 text-accent fill-current; }
+.sr-hotel-rating-value { @apply text-white text-xs font-bold; }
+.sr-hotel-body { @apply p-8 pt-2 flex-1 flex flex-col; }
+.sr-hotel-name-wrap { @apply mb-6; }
+.sr-hotel-name { @apply text-2xl font-bold text-neutral-primary transition-colors mb-2 truncate; }
+.sr-hotel-card:hover .sr-hotel-name { @apply text-primary; }
+.sr-hotel-city { @apply text-sm text-neutral-secondary font-medium flex items-center; }
+.sr-hotel-city-icon { @apply w-4 h-4 mr-1.5 opacity-60; }
+.sr-hotel-footer { @apply mt-auto flex items-end justify-between border-t border-neutral-border pt-6; }
+.sr-hotel-from-label { @apply text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em] block mb-1; }
+.sr-hotel-price-wrap { @apply flex items-baseline gap-1; }
+.sr-hotel-price { @apply text-2xl font-black text-neutral-primary tracking-tight; }
+.sr-hotel-per-night { @apply text-xs text-neutral-secondary font-bold; }
+
+/* ─── Pagination ─────────────────────────────── */
+.sr-pagination { @apply mt-12 flex items-center justify-center gap-2 animate-fade-in pb-10; }
+.sr-page-prev-btn { @apply flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-neutral-secondary hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all; }
+.sr-page-next-btn { @apply flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-neutral-secondary hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all; }
+.sr-page-nav-icon { @apply w-4 h-4; }
+.sr-page-btns { @apply flex items-center gap-1; }
+.sr-page-btn-active { @apply w-10 h-10 rounded-xl text-xs font-bold border bg-primary text-white shadow-lg shadow-primary/20 transition-all; }
+.sr-page-btn-inactive { @apply w-10 h-10 rounded-xl text-xs font-bold border bg-white text-neutral-secondary border-neutral-border hover:border-primary hover:text-primary transition-all; }
+
+/* ─── Empty State ────────────────────────────── */
+.sr-empty { @apply card-premium p-24 text-center flex flex-col items-center animate-fade-in bg-white/50; }
+.sr-empty-icon-wrap { @apply w-24 h-24 bg-neutral-bg rounded-full flex items-center justify-center mb-8 relative; }
+.sr-empty-ping { @apply absolute inset-0 bg-primary/5 rounded-full animate-ping; }
+.sr-empty-icon { @apply w-12 h-12 text-neutral-secondary relative z-10; }
+.sr-empty-title { @apply text-3xl font-bold text-neutral-primary mb-4; }
+.sr-empty-text { @apply text-neutral-secondary max-w-sm mb-10 leading-relaxed font-medium; }
+.sr-empty-city { @apply text-primary; }

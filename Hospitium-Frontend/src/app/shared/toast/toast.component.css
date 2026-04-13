@@ -1,0 +1,37 @@
+.toast-wrapper {
+  @apply fixed top-24 right-5 z-[9999] flex flex-col gap-3 pointer-events-none;
+  min-width: 320px;
+  max-width: 420px;
+}
+
+.toast-item {
+  @apply flex items-start gap-3 px-4 py-3 bg-white rounded-xl shadow-2xl pointer-events-auto animate-fade-in border-l-4;
+}
+
+.toast-icon-container {
+  @apply flex-shrink-0 mt-0.5;
+}
+
+.toast-icon-success {
+  @apply h-5 w-5 text-green-500;
+}
+
+.toast-icon-error {
+  @apply h-5 w-5 text-red-500;
+}
+
+.toast-icon-info {
+  @apply h-5 w-5 text-blue-500;
+}
+
+.toast-message {
+  @apply flex-1 text-sm font-medium text-gray-800 leading-snug;
+}
+
+.toast-close-btn {
+  @apply flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors mt-0.5;
+}
+
+.toast-close-icon {
+  @apply h-4 w-4;
+}

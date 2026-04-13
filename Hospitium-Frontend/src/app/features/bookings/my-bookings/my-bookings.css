@@ -1,0 +1,50 @@
+/* ─── My Bookings Layout ─────────────────────── */
+.mybk-page { @apply max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8 mt-4; }
+.mybk-title { @apply text-4xl font-display font-semibold text-neutral-primary mb-8 tracking-tight; }
+
+/* ─── Tabs ────────────────────────────────────── */
+.mybk-tab-bar { @apply mb-10; }
+.mybk-tab-wrap { @apply inline-flex bg-gray-50 p-1 rounded-xl shadow-inner border border-gray-100; }
+.mybk-tab { @apply px-6 py-2.5 text-sm font-semibold rounded-lg transition-all focus:outline-none; }
+.mybk-tab-active { @apply bg-white text-neutral-primary shadow-sm; }
+.mybk-tab-inactive { @apply text-gray-500 hover:text-gray-700; }
+
+/* ─── Loading ────────────────────────────────── */
+.mybk-loading { @apply flex justify-center items-center py-12; }
+.mybk-spinner { @apply animate-spin rounded-full h-10 w-10 border-b-2 border-primary; }
+
+/* ─── Empty State ────────────────────────────── */
+.mybk-empty { @apply bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm; }
+.mybk-empty-text { @apply text-gray-500 text-lg; }
+
+/* ─── Active List ────────────────────────────── */
+.mybk-list { @apply space-y-5; }
+.mybk-active-item { @apply bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col sm:flex-row sm:items-center gap-5 relative overflow-hidden; }
+
+/* ─── Active Icon ────────────────────────────── */
+.mybk-icon-wrap { @apply flex-shrink-0; }
+.mybk-icon-box-active { @apply w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary transition-transform; }
+.mybk-active-item:hover .mybk-icon-box-active { transform: scale(1.05); }
+.mybk-icon-box-past { @apply w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400; }
+.mybk-icon { @apply w-7 h-7; }
+
+/* ─── Center Info ────────────────────────────── */
+.mybk-info { @apply flex-1 min-w-0; }
+.mybk-hotel-name { @apply text-lg font-semibold text-neutral-primary truncate; }
+.mybk-hotel-name-past { @apply text-lg font-semibold text-gray-700 truncate; }
+.mybk-meta { @apply text-sm text-gray-500 mt-1 flex items-center; }
+.mybk-meta-dot { @apply mx-2 text-gray-300; }
+.mybk-meta-id { @apply font-mono text-xs; }
+.mybk-dates { @apply flex items-center text-sm text-gray-500 mt-2; }
+.mybk-dates-past { @apply flex items-center text-sm text-gray-400 mt-2; }
+.mybk-dates-icon { @apply w-4 h-4 mr-1.5 text-gray-400; }
+.mybk-dates-arrow { @apply mx-2; }
+
+/* ─── Right Side ─────────────────────────────── */
+.mybk-right { @apply flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-4 mt-4 sm:mt-0 pt-4 sm:pt-0 border-t border-gray-50 sm:border-0 w-full sm:w-auto; }
+.mybk-price-row { @apply flex items-center space-x-4; }
+.mybk-price-active { @apply text-2xl font-bold text-neutral-primary tracking-tight; }
+.mybk-price-past { @apply text-xl font-bold text-gray-600 tracking-tight; }
+.mybk-cancel-btn { @apply bg-rose-50 text-rose-600 hover:bg-rose-100 hover:text-rose-700 font-medium px-4 py-1.5 rounded-lg text-sm transition-colors cursor-pointer disabled:opacity-50; }
+.mybk-past-item { @apply bg-white opacity-80 p-5 rounded-2xl border border-gray-100 flex flex-col sm:flex-row sm:items-center gap-5; }
+.mybk-past-right { @apply flex items-center space-x-4 mt-4 sm:mt-0; }

@@ -1,0 +1,23 @@
+/* ─── Notification List (shared with dropdown CSS) ─ */
+.nl-page { @apply max-w-4xl mx-auto py-12 px-4 sm:px-6 mt-4; }
+.nl-title { @apply text-4xl font-display font-semibold text-neutral-primary mb-10 tracking-tight text-center sm:text-left; }
+.nl-list { @apply space-y-5; }
+.nl-item { @apply bg-white p-6 rounded-2xl border border-gray-100 shadow-sm transition-all hover:shadow-md flex items-start gap-5 cursor-default relative overflow-hidden; }
+.nl-item-read { @apply opacity-70; }
+.nl-icon-wrap { @apply flex-shrink-0; }
+.nl-icon-box { @apply w-14 h-14 rounded-2xl flex items-center justify-center; }
+.nl-icon-default { @apply bg-primary/10 text-primary; }
+.nl-icon-success { @apply bg-emerald-50 text-emerald-500; }
+.nl-icon-error { @apply bg-rose-50 text-rose-500; }
+.nl-icon { @apply w-7 h-7; }
+.nl-body { @apply flex-1 min-w-0 pt-1; }
+.nl-title-row { @apply flex items-center; }
+.nl-msg-title { @apply text-lg font-semibold text-gray-900 truncate mr-2; }
+.nl-unread-dot { @apply w-2.5 h-2.5 bg-primary rounded-full flex-shrink-0 animate-pulse; }
+.nl-msg-text { @apply text-gray-500 mt-1 mb-2; }
+.nl-date { @apply text-xs text-gray-400 font-medium; }
+.nl-action { @apply flex-shrink-0 ml-4 hidden sm:block; }
+.nl-mark-btn { @apply text-primary hover:text-primary-hover text-sm font-medium transition-colors px-3 py-1.5 rounded-lg hover:bg-primary/5; }
+.nl-empty { @apply text-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm mt-4; }
+.nl-empty-icon { @apply mx-auto w-12 h-12 text-gray-300 mb-4; }
+.nl-empty-text { @apply text-gray-500 text-lg; }

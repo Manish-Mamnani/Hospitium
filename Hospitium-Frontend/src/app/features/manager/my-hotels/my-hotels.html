@@ -1,13 +1,13 @@
-<div class="flex bg-neutral-bg min-h-screen">
+<div class="mh-page">
   <app-sidebar role="HotelManager"></app-sidebar>
 
-  <div class="flex-1 overflow-auto">
-    <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 animate-fade-in">
+  <div class="mh-content">
+    <div class="mh-inner">
       
-      <div class="flex items-center justify-between mb-10">
+      <div class="mh-header">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight">My Properties</h1>
-          <p class="text-neutral-secondary mt-1">Manage your hotel listings and bookings here.</p>
+          <h1 class="mh-title">My Properties</h1>
+          <p class="mh-subtitle">Manage your hotel listings and bookings here.</p>
         </div>
         <button (click)="addHotel()" class="btn-primary">
           <svg class="w-5 h-5 mr-2 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M12 4v16m8-8H4"/></svg>
@@ -16,65 +16,64 @@
       </div>
 
       <!-- Loading Skeleton -->
-      <div *ngIf="isLoading()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div *ngFor="let i of [1,2,3]" class="animate-pulse card-premium p-4">
-          <div class="bg-neutral-bg h-48 rounded-xl mb-4"></div>
-          <div class="space-y-3">
-            <div class="h-6 bg-neutral-bg rounded w-3/4"></div>
-            <div class="h-4 bg-neutral-bg rounded w-1/2"></div>
+      <div *ngIf="isLoading()" class="mh-skeleton-grid">
+        <div *ngFor="let i of [1,2,3]" class="mh-skeleton-card">
+          <div class="mh-skeleton-img"></div>
+          <div class="mh-skeleton-body">
+            <div class="mh-skeleton-line-1"></div>
+            <div class="mh-skeleton-line-2"></div>
           </div>
         </div>
       </div>
 
       <!-- Hotels Grid -->
-      <div *ngIf="!isLoading() && hotels().length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div *ngFor="let hotel of hotels()" class="card-premium group">
-          <div class="p-3">
-             <div class="h-48 rounded-xl overflow-hidden bg-neutral-bg relative">
+      <div *ngIf="!isLoading() && hotels().length > 0" class="mh-grid">
+        <div *ngFor="let hotel of hotels()" class="mh-card">
+          <div class="mh-card-img-wrap">
+             <div class="mh-card-img-container">
                 <img [src]="getPrimaryImageUrl(hotel)" 
-                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                     class="mh-card-img" 
                      onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
-                <div class="absolute top-3 left-3 flex flex-col gap-1.5">
+                <div class="mh-badge-group">
                    <span class="badge-success shadow-md" *ngIf="hotel.status === 'Approved'">Approved</span>
                    <span class="badge-error shadow-md" *ngIf="hotel.status === 'Deleted'">Deleted</span>
                    <span class="badge-warning shadow-md" *ngIf="hotel.status !== 'Approved' && hotel.status !== 'Deleted'">Pending Review</span>
                 </div>
-                <div *ngIf="!hotel.images || hotel.images.length === 0" class="absolute bottom-2 right-2 bg-black/70 text-white text-[9px] font-black px-2 py-0.5 rounded backdrop-blur-md border border-white/20 shadow-sm tracking-widest uppercase">Sample Image</div>
+                <div *ngIf="!hotel.images || hotel.images.length === 0" class="mh-sample-badge">Sample Image</div>
              </div>
           </div>
 
-          <div class="p-6 pt-2 flex-1 flex flex-col">
-            <h3 class="text-xl font-bold text-neutral-primary group-hover:text-primary transition-colors truncate">{{ hotel.name }}</h3>
-            <p class="text-sm text-neutral-secondary mt-1 flex items-center">
-               <svg class="w-4 h-4 mr-1 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+          <div class="mh-card-body">
+            <h3 class="mh-hotel-name">{{ hotel.name }}</h3>
+            <p class="mh-city-row">
+               <svg class="mh-city-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                {{ hotel.city }}
             </p>
 
-            <!-- Description summary -->
-            <p class="text-sm text-neutral-secondary/80 mt-4 line-clamp-2 italic">
+            <p class="mh-description">
                {{ hotel.description || 'Modern hotel with all amenities for a comfortable stay.' }}
             </p>
 
-             <div class="mt-6 flex flex-wrap gap-2 border-t border-neutral-border pt-4">
+             <div class="mh-actions">
                <button *ngIf="hotel.status === 'Approved'" (click)="manageRooms(hotel.hotelId)" 
-                       class="flex-[2] px-3 py-2 bg-primary text-white border border-primary rounded-lg text-xs font-bold hover:bg-primary-hover transition-all flex items-center justify-center gap-2">
-                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/></svg>
+                       class="mh-btn-primary">
+                 <svg class="mh-btn-primary-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/></svg>
                  Add Room
                </button>
-               <button *ngIf="hotel.status !== 'Deleted'" (click)="editHotel(hotel.hotelId)" class="flex-1 px-3 py-2 bg-neutral-bg border border-neutral-border text-neutral-primary rounded-lg text-xs font-bold hover:bg-neutral-border transition-all">Edit</button>
-               <button *ngIf="hotel.status !== 'Deleted'" [routerLink]="['/hotels', hotel.hotelId]" class="flex-1 px-3 py-2 bg-neutral-bg border border-neutral-border text-neutral-secondary rounded-lg text-xs font-bold hover:bg-neutral-border transition-all">View</button>
+               <button *ngIf="hotel.status !== 'Deleted'" (click)="editHotel(hotel.hotelId)" class="mh-btn-secondary">Edit</button>
+               <button *ngIf="hotel.status !== 'Deleted'" [routerLink]="['/hotels', hotel.hotelId]" class="mh-btn-view">View</button>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Empty State -->
-      <div *ngIf="!isLoading() && hotels().length === 0" class="card-premium p-16 text-center">
-         <div class="w-20 h-20 bg-neutral-bg rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg class="w-10 h-10 text-neutral-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+      <div *ngIf="!isLoading() && hotels().length === 0" class="mh-empty">
+         <div class="mh-empty-icon-wrap">
+            <svg class="mh-empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
          </div>
-         <h3 class="text-xl font-bold">No hotels registered</h3>
-         <p class="text-neutral-secondary mt-2 max-w-xs mx-auto">Get started by adding your first hotel property to the platform.</p>
+         <h3 class="mh-empty-title">No hotels registered</h3>
+         <p class="mh-empty-text">Get started by adding your first hotel property to the platform.</p>
          <button (click)="addHotel()" class="btn-primary mt-8">Add Your First Hotel</button>
       </div>
 

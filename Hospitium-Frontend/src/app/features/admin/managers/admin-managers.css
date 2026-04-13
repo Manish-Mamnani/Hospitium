@@ -1,0 +1,22 @@
+/* ─── Admin Managers Layout ──────────────────── */
+.am-page { @apply flex bg-neutral-bg min-h-screen; }
+.am-content { @apply flex-1 overflow-auto; }
+.am-inner { @apply max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 animate-fade-in; }
+.am-header { @apply mb-10; }
+.am-title { @apply text-3xl font-bold tracking-tight; }
+.am-subtitle { @apply text-neutral-secondary mt-1; }
+.am-table-card { @apply card-premium overflow-hidden; }
+.am-table-scroll { @apply overflow-x-auto; }
+.am-table { @apply w-full text-left border-collapse; }
+.am-thead-row { @apply text-xs font-bold text-neutral-secondary uppercase tracking-wider border-b border-neutral-border bg-neutral-bg/30; }
+.am-th { @apply px-6 py-4; }
+.am-th-right { @apply px-6 py-4 text-right; }
+.am-tbody { @apply divide-y divide-neutral-border; }
+.am-tr { @apply hover:bg-neutral-bg/20 transition-colors; }
+.am-td { @apply px-6 py-4; }
+.am-td-right { @apply px-6 py-4 text-right; }
+.am-manager-name { @apply text-sm font-bold text-neutral-primary; }
+.am-manager-email { @apply text-xs text-neutral-secondary; }
+.am-date { @apply text-xs text-neutral-secondary font-medium; }
+.am-loading { @apply p-20 flex justify-center bg-white/50 backdrop-blur-sm; }
+.am-spinner { @apply animate-spin rounded-full h-10 w-10 border-b-2 border-primary; }

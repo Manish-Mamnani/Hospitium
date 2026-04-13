@@ -1,83 +1,83 @@
-<div class="flex bg-neutral-bg min-h-screen">
+<div class="ah-page">
   <app-sidebar role="Admin"></app-sidebar>
 
-  <div class="flex-1 overflow-auto">
-    <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 animate-fade-in">
+  <div class="ah-content">
+    <div class="ah-inner">
       
-      <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
+      <div class="ah-header">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight">Hotel Management</h1>
-          <p class="text-neutral-secondary mt-1">Review, track, and manage all property listings on the platform.</p>
+          <h1 class="ah-title">Hotel Management</h1>
+          <p class="ah-subtitle">Review, track, and manage all property listings on the platform.</p>
         </div>
         
-        <div class="flex flex-wrap items-center gap-4">
+        <div class="ah-filters">
           <!-- Status Filter -->
-          <div class="relative min-w-[200px]">
+          <div class="ah-select-wrap">
             <select [(ngModel)]="selectedStatus" 
                     (change)="loadHotels()"
-                    class="w-full bg-white border border-neutral-border rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all appearance-none">
+                    class="ah-select">
               <option value="">All Statuses</option>
               <option value="Approved">Approved</option>
               <option value="Pending">Pending</option>
               <option value="Rejected">Rejected</option>
               <option value="Deleted">Deleted</option>
             </select>
-            <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+            <div class="ah-select-chevron">
+              <svg class="ah-chevron-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
             </div>
           </div>
 
           <!-- Search -->
           <div class="relative">
             <input type="text" [(ngModel)]="searchTerm" placeholder="Search hotels..." 
-                   class="bg-white border border-neutral-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all min-w-[240px]">
+                   class="ah-search">
           </div>
         </div>
       </div>
 
-      <div class="card-premium overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse">
+      <div class="ah-table-card">
+        <div class="ah-table-scroll">
+          <table class="ah-table">
             <thead>
-              <tr class="text-xs font-bold text-neutral-secondary uppercase tracking-wider border-b border-neutral-border bg-neutral-bg/30">
-                <th class="px-6 py-4">Hotel Details</th>
-                <th class="px-6 py-4">Location</th>
-                <th class="px-6 py-4">Rating</th>
-                <th class="px-6 py-4">Status</th>
-                <th class="px-6 py-4 text-right">Actions</th>
+              <tr class="ah-thead-row">
+                <th class="ah-th">Hotel Details</th>
+                <th class="ah-th">Location</th>
+                <th class="ah-th">Rating</th>
+                <th class="ah-th">Status</th>
+                <th class="ah-th-right">Actions</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-neutral-border">
-              <tr *ngFor="let h of filteredHotels" class="hover:bg-neutral-bg/20 transition-colors group">
-                <td class="px-6 py-4">
-                  <div class="text-sm font-bold text-neutral-primary">{{ h.name }}</div>
-                  <div class="text-xs text-neutral-secondary truncate max-w-xs">{{ h.managerEmail }}</div>
+            <tbody class="ah-tbody">
+              <tr *ngFor="let h of filteredHotels" class="ah-tr">
+                <td class="ah-td">
+                  <div class="ah-hotel-name">{{ h.name }}</div>
+                  <div class="ah-hotel-email">{{ h.managerEmail }}</div>
                 </td>
-                <td class="px-6 py-4">
-                  <div class="text-sm text-neutral-primary flex items-center">
-                    <svg class="w-3.5 h-3.5 mr-1 text-neutral-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                <td class="ah-td">
+                  <div class="ah-city-row">
+                    <svg class="ah-city-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                     {{ h.city }}
                   </div>
                 </td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center text-sm font-bold text-accent">
-                    <svg class="w-4 h-4 mr-1 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <td class="ah-td">
+                  <div class="ah-rating-row">
+                    <svg class="ah-star-icon" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                     {{ h.rating || 0 | number:'1.1-1' }}
                   </div>
                 </td>
-                <td class="px-6 py-4">
+                <td class="ah-td">
                   <span [class]="getStatusClass(h.status)">{{ h.status }}</span>
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="ah-td ah-th-right">
                   <a *ngIf="h.status !== 'Deleted'" [routerLink]="['/admin/hotels', h.hotelId, 'edit']"
-                     class="px-4 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-bold hover:bg-primary/20 transition-all opacity-0 group-hover:opacity-100">
+                     class="ah-manage-btn">
                     Manage
                   </a>
                 </td>
               </tr>
               
               <tr *ngIf="filteredHotels.length === 0 && !isLoading">
-                <td colspan="5" class="px-6 py-20 text-center text-neutral-secondary italic">
+                <td colspan="5" class="ah-td text-center text-neutral-secondary italic py-20">
                   No properties found matching your criteria.
                 </td>
               </tr>
@@ -86,8 +86,8 @@
         </div>
 
         <!-- Loading -->
-        <div *ngIf="isLoading" class="p-20 flex justify-center bg-white/50 backdrop-blur-sm">
-          <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+        <div *ngIf="isLoading" class="ah-loading">
+          <div class="ah-spinner"></div>
         </div>
       </div>
     </div>

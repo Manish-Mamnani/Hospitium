@@ -1,0 +1,223 @@
+.edit-hotel-container {
+  @apply max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8;
+}
+
+.edit-hotel-header {
+  @apply mb-10 flex items-center justify-between;
+}
+
+.edit-hotel-title {
+  @apply text-4xl font-display font-semibold text-neutral-primary tracking-tight;
+}
+
+.edit-hotel-subtitle {
+  @apply text-neutral-secondary mt-3 text-lg leading-relaxed;
+}
+
+.edit-hotel-back-btn {
+  @apply flex items-center text-sm font-medium text-neutral-secondary hover:text-neutral-primary transition-colors;
+}
+
+.edit-hotel-back-icon {
+  @apply w-5 h-5 mr-2;
+}
+
+.edit-hotel-loading {
+  @apply flex justify-center items-center py-20;
+}
+
+.edit-hotel-spinner {
+  @apply animate-spin rounded-full h-12 w-12 border-b-2 border-primary;
+}
+
+.edit-hotel-card {
+  @apply bg-white rounded-3xl shadow-xl border border-neutral-border overflow-hidden ring-1 ring-black/5 animate-fade-in;
+}
+
+.edit-hotel-card-body {
+  @apply p-8 sm:p-12;
+}
+
+.edit-hotel-form {
+  @apply space-y-8;
+}
+
+.edit-hotel-form-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-8;
+}
+
+.edit-hotel-input-group {
+  @apply space-y-2;
+}
+
+.edit-hotel-label {
+  @apply block text-sm font-semibold text-neutral-secondary ml-1;
+}
+
+.edit-hotel-input {
+  @apply w-full px-5 py-4 rounded-2xl border border-neutral-border bg-neutral-bg/50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-neutral-primary font-medium tracking-wide;
+}
+
+.edit-hotel-textarea {
+  @apply w-full px-5 py-4 rounded-2xl border border-neutral-border bg-neutral-bg/50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-neutral-primary font-medium resize-none leading-relaxed;
+}
+
+.edit-hotel-error-text {
+  @apply text-xs font-bold text-rose-600 mt-1 ml-1;
+}
+
+.edit-hotel-gallery-container {
+  @apply space-y-4 pt-6 border-t border-neutral-border mt-8;
+}
+
+.edit-hotel-gallery-grid {
+  @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4;
+}
+
+.edit-hotel-image-card {
+  @apply relative aspect-square rounded-xl overflow-hidden bg-neutral-bg border border-neutral-border/50 shadow-sm;
+}
+
+.edit-hotel-image {
+  @apply w-full h-full object-cover transition-transform duration-500;
+}
+
+.edit-hotel-image-card:hover .edit-hotel-image {
+  @apply scale-110;
+}
+
+.edit-hotel-image-overlay {
+  @apply absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px];
+}
+
+.edit-hotel-image-card:hover .edit-hotel-image-overlay {
+  @apply opacity-100;
+}
+
+.edit-hotel-image-delete-btn {
+  @apply bg-rose-500 text-white p-2.5 rounded-full hover:bg-rose-600 shadow-xl transform hover:scale-110 focus:ring-4 focus:ring-rose-500/30 transition-all;
+}
+
+.edit-hotel-image-delete-icon {
+  @apply w-5 h-5;
+}
+
+.edit-hotel-image-primary-badge {
+  @apply absolute top-2 left-2 bg-primary text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest shadow-md;
+}
+
+.edit-hotel-upload-area {
+  @apply p-6 border-2 border-dashed border-neutral-border/80 rounded-2xl bg-neutral-bg/30 text-center transition-colors hover:bg-neutral-bg/50 hover:border-neutral-primary/20;
+}
+
+.edit-hotel-upload-btn {
+  @apply px-6 py-3 bg-white border border-neutral-border rounded-xl text-sm font-bold text-neutral-primary hover:bg-neutral-bg transition-colors shadow-sm mb-3 focus:ring-4 focus:ring-neutral-200 outline-none;
+}
+
+.edit-hotel-upload-hint {
+  @apply text-xs text-neutral-secondary font-medium;
+}
+
+.edit-hotel-upload-preview {
+  @apply mt-6 text-left animate-fade-in p-4 bg-white rounded-xl border border-neutral-border shadow-sm;
+}
+
+.edit-hotel-upload-preview-title {
+  @apply text-[10px] font-black text-neutral-secondary uppercase tracking-widest mb-3;
+}
+
+.edit-hotel-upload-tags {
+  @apply flex flex-wrap gap-2 mb-4;
+}
+
+.edit-hotel-upload-tag {
+  @apply inline-flex items-center bg-neutral-bg px-3 py-1.5 rounded-lg text-xs font-semibold text-neutral-primary shadow-sm border border-neutral-border/50;
+}
+
+.edit-hotel-upload-tag-text {
+  @apply truncate max-w-[150px];
+}
+
+.edit-hotel-upload-tag-remove {
+  @apply ml-2 text-rose-500 hover:text-rose-700 transition-colors focus:outline-none;
+}
+
+.edit-hotel-upload-confirm-btn {
+  @apply px-6 py-2.5 bg-neutral-primary text-white rounded-xl text-xs font-bold hover:bg-neutral-800 transition-all disabled:opacity-50 flex items-center focus:ring-4 focus:ring-neutral-primary/20 outline-none shadow-md;
+}
+
+.edit-hotel-btn-spinner {
+  @apply animate-spin -ml-1 mr-2 h-4 w-4 text-white;
+}
+
+.edit-hotel-actions {
+  @apply pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-neutral-border mt-12;
+}
+
+.edit-hotel-delete-btn {
+  @apply px-8 py-4 rounded-2xl text-accent font-semibold hover:bg-accent-soft transition-all disabled:opacity-50 flex items-center gap-3;
+}
+
+.edit-hotel-delete-btn-spinner {
+  @apply animate-spin rounded-full h-5 w-5 border-b-2 border-accent;
+}
+
+.edit-hotel-delete-icon {
+  @apply w-5 h-5;
+}
+
+.edit-hotel-update-btn {
+  @apply w-full sm:w-auto px-12 py-4 bg-primary shadow-lg shadow-primary/20 hover:bg-primary-hover text-white rounded-2xl font-bold transition-all transform hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:transform-none flex items-center justify-center gap-3;
+}
+
+.edit-hotel-update-btn-spinner {
+  @apply animate-spin rounded-full h-5 w-5 border-b-2 border-white;
+}
+
+.edit-hotel-info-grid {
+  @apply mt-12 grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+.edit-hotel-warning-card {
+  @apply bg-amber-50 rounded-3xl p-8 border border-amber-100/50;
+}
+
+.edit-hotel-info-card-header {
+  @apply flex items-center gap-4 mb-4;
+}
+
+.edit-hotel-warning-icon-wrapper {
+  @apply w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-amber-600 shadow-sm;
+}
+
+.edit-hotel-warning-icon {
+  @apply w-6 h-6;
+}
+
+.edit-hotel-warning-title {
+  @apply text-amber-800 font-bold text-lg tracking-tight;
+}
+
+.edit-hotel-warning-text {
+  @apply text-sm font-medium text-amber-700/80 leading-relaxed;
+}
+
+.edit-hotel-status-card {
+  @apply bg-indigo-50 rounded-3xl p-8 border border-indigo-100/50;
+}
+
+.edit-hotel-status-icon-wrapper {
+  @apply w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-indigo-600 shadow-sm;
+}
+
+.edit-hotel-status-icon {
+  @apply w-6 h-6;
+}
+
+.edit-hotel-status-title {
+  @apply text-indigo-800 font-bold text-lg tracking-tight;
+}
+
+.edit-hotel-status-text {
+  @apply text-sm font-medium text-indigo-700/80 leading-relaxed;
+}

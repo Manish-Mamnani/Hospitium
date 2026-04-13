@@ -1,0 +1,83 @@
+/* ─── Manage Rooms Layout ────────────────────── */
+.mr-page { @apply flex min-h-screen bg-neutral-bg font-sans text-neutral-primary; }
+.mr-content { @apply flex-1 flex flex-col min-w-0; }
+.mr-main { @apply p-8 lg:p-12; }
+.mr-inner { @apply max-w-5xl mx-auto; }
+
+/* ─── Back Navigation ────────────────────────── */
+.mr-nav { @apply flex items-center gap-4 mb-8; }
+.mr-back-btn { @apply w-10 h-10 rounded-full bg-white border border-neutral-border flex items-center justify-center text-neutral-secondary hover:text-primary hover:border-primary transition-all shadow-sm; }
+.mr-back-icon { @apply w-5 h-5; }
+.mr-header-text { @apply font-display; }
+.mr-title { @apply text-3xl font-black tracking-tight text-neutral-primary; }
+.mr-subtitle { @apply text-sm text-neutral-secondary font-medium tracking-wide flex items-center gap-2; }
+.mr-hotel-name { @apply text-primary font-bold uppercase tracking-widest text-[10px]; }
+.mr-hotel-sep { @apply opacity-20; }
+
+/* ─── Add Room Section ───────────────────────── */
+.mr-add-section { @apply mb-10 animate-fade-in; }
+.mr-add-header { @apply flex justify-between items-center mb-6; }
+.mr-inventory-title { @apply text-xl font-bold tracking-tight; }
+.mr-toggle-btn-primary { @apply btn-primary px-8 text-sm font-bold flex items-center gap-2; }
+.mr-toggle-btn-secondary { @apply btn-secondary text-error-text text-sm font-bold flex items-center gap-2; }
+.mr-toggle-icon { @apply w-5 h-5 transition-transform duration-300; }
+.mr-toggle-icon-rotated { @apply rotate-45; }
+
+/* ─── Add Room Form ──────────────────────────── */
+.mr-add-form { @apply card-premium p-8 border-2 border-primary/20 bg-primary/[0.02] shadow-2xl shadow-primary/5 animate-slide-up mb-10; }
+.mr-form-grid { @apply grid grid-cols-1 md:grid-cols-3 gap-8 mb-8; }
+.mr-label { @apply block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest; }
+.mr-price-wrap { @apply relative; }
+.mr-price-prefix { @apply absolute left-4 top-1/2 -translate-y-1/2 text-neutral-secondary font-bold; }
+.mr-form-footer { @apply flex items-center justify-between pt-6 border-t border-primary/10; }
+.mr-form-error { @apply text-xs font-bold text-rose-600 italic; }
+.mr-submit-btn { @apply btn-primary py-3 px-12; }
+.mr-submit-spinner { @apply animate-spin mr-2 h-4 w-4 border-2 border-white/30 border-t-white rounded-full; }
+.mr-submit-icon { @apply w-4 h-4 ml-2 transition-transform inline-block; }
+.mr-submit-btn:hover .mr-submit-icon { @apply translate-x-1; }
+
+/* ─── Room List ──────────────────────────────── */
+.mr-list { @apply space-y-6 animate-fade-in; }
+.mr-skeleton-wrap { @apply space-y-6; }
+.mr-skeleton-card { @apply card-premium p-8 animate-pulse flex items-center gap-8; }
+.mr-skeleton-icon { @apply w-16 h-16 bg-neutral-bg rounded-2xl; }
+.mr-skeleton-body { @apply flex-1 space-y-3; }
+.mr-skeleton-line-1 { @apply h-6 bg-neutral-bg rounded w-1/4; }
+.mr-skeleton-line-2 { @apply h-4 bg-neutral-bg rounded w-1/2; }
+
+/* ─── Room Card ──────────────────────────────── */
+.mr-card { @apply card-premium hover:border-primary/30 transition-all duration-300; }
+.mr-view-mode { @apply p-8 flex items-center gap-8; }
+.mr-icon-wrap { @apply w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary transition-all; }
+.mr-card:hover .mr-icon-wrap { @apply bg-primary text-white; }
+.mr-room-icon { @apply w-8 h-8; }
+.mr-room-info { @apply flex-1 min-w-0; }
+.mr-room-name { @apply text-2xl font-black text-neutral-primary tracking-tight mb-2; }
+.mr-room-stats { @apply flex items-center gap-6; }
+.mr-stat-col { @apply flex flex-col; }
+.mr-stat-label { @apply text-[9px] font-bold text-neutral-secondary uppercase tracking-[0.2em] mb-1; }
+.mr-stat-price { @apply text-lg font-black text-primary; }
+.mr-stat-count { @apply text-sm font-bold text-neutral-primary; }
+.mr-stat-avail-ok { @apply text-xs font-black text-emerald-600; }
+.mr-stat-avail-none { @apply text-xs font-black text-rose-600; }
+.mr-stat-divider { @apply h-10 w-px bg-neutral-border; }
+.mr-edit-btn { @apply px-6 py-3 rounded-xl border border-neutral-border text-xs font-bold text-neutral-secondary hover:text-primary hover:border-primary transition-all; }
+
+/* ─── Edit Mode ──────────────────────────────── */
+.mr-edit-mode { @apply p-8 bg-neutral-bg/30; }
+.mr-edit-header { @apply mb-6 flex items-center justify-between; }
+.mr-edit-title { @apply text-lg font-bold text-neutral-primary tracking-tight; }
+.mr-edit-live { @apply text-[10px] font-bold text-primary uppercase tracking-[0.2em]; }
+.mr-edit-grid { @apply grid grid-cols-2 gap-8 mb-8; }
+.mr-edit-actions { @apply flex justify-end gap-3 pt-6 border-t border-neutral-border; }
+.mr-cancel-btn { @apply px-6 py-3 rounded-xl text-xs font-bold text-neutral-secondary hover:bg-white transition-all; }
+.mr-update-btn { @apply btn-primary py-3 px-10; }
+.mr-update-spinner { @apply animate-spin mr-2 h-3 w-3 border-2 border-white/30 border-t-white rounded-full; }
+
+/* ─── Empty State ────────────────────────────── */
+.mr-empty { @apply card-premium p-24 text-center bg-white/50; }
+.mr-empty-icon-wrap { @apply w-20 h-20 bg-neutral-bg rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-inner relative; }
+.mr-empty-ping { @apply absolute inset-0 bg-primary/5 rounded-3xl animate-ping; }
+.mr-empty-icon { @apply w-10 h-10 text-neutral-secondary relative z-10; }
+.mr-empty-title { @apply text-3xl font-black text-neutral-primary mb-4 tracking-tighter; }
+.mr-empty-text { @apply text-neutral-secondary max-w-sm mx-auto leading-relaxed font-medium; }

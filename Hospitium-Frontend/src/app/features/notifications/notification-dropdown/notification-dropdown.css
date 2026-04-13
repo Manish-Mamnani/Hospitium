@@ -1,0 +1,47 @@
+/* ─── Notification Dropdown ──────────────────── */
+.nd-wrap { @apply relative; }
+.nd-trigger { @apply relative p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary rounded-md; }
+.nd-icon { @apply w-6 h-6; }
+.nd-badge { @apply absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center; }
+.nd-dropdown { @apply absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50; }
+.nd-list { @apply py-1; }
+.nd-list-header { @apply px-4 py-2 border-b border-gray-200; }
+.nd-list-title { @apply text-sm font-medium text-gray-900; }
+.nd-list-body { @apply max-h-64 overflow-y-auto; }
+.nd-item { @apply px-4 py-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-50; }
+.nd-item-row { @apply flex justify-between items-start; }
+.nd-item-left { @apply flex-1 min-w-0; }
+.nd-item-msg { @apply text-sm text-gray-900 truncate; }
+.nd-item-date { @apply text-xs text-gray-500 mt-1; }
+.nd-item-right { @apply flex items-center space-x-2 ml-2; }
+.nd-type-badge { @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium; }
+.nd-type-booking { @apply bg-blue-100 text-blue-800; }
+.nd-type-approval { @apply bg-green-100 text-green-800; }
+.nd-type-other { @apply bg-gray-100 text-gray-800; }
+.nd-mark-read { @apply text-primary hover:text-primary-hover text-xs; }
+.nd-footer { @apply px-4 py-2 border-t border-gray-200; }
+.nd-view-all { @apply text-sm text-primary hover:text-primary-hover font-medium; }
+
+/* ─── Notification List ──────────────────────── */
+.nl-page { @apply max-w-4xl mx-auto py-12 px-4 sm:px-6 mt-4; }
+.nl-title { @apply text-4xl font-display font-semibold text-neutral-primary mb-10 tracking-tight text-center sm:text-left; }
+.nl-list { @apply space-y-5; }
+.nl-item { @apply bg-white p-6 rounded-2xl border border-gray-100 shadow-sm transition-all hover:shadow-md flex items-start gap-5 cursor-default relative overflow-hidden; }
+.nl-item-read { @apply opacity-70; }
+.nl-icon-wrap { @apply flex-shrink-0; }
+.nl-icon-box { @apply w-14 h-14 rounded-2xl flex items-center justify-center; }
+.nl-icon-default { @apply bg-primary/10 text-primary; }
+.nl-icon-success { @apply bg-emerald-50 text-emerald-500; }
+.nl-icon-error { @apply bg-rose-50 text-rose-500; }
+.nl-icon { @apply w-7 h-7; }
+.nl-body { @apply flex-1 min-w-0 pt-1; }
+.nl-title-row { @apply flex items-center; }
+.nl-msg-title { @apply text-lg font-semibold text-gray-900 truncate mr-2; }
+.nl-unread-dot { @apply w-2.5 h-2.5 bg-primary rounded-full flex-shrink-0 animate-pulse; }
+.nl-msg-text { @apply text-gray-500 mt-1 mb-2; }
+.nl-date { @apply text-xs text-gray-400 font-medium; }
+.nl-action { @apply flex-shrink-0 ml-4 hidden sm:block; }
+.nl-mark-btn { @apply text-primary hover:text-primary-hover text-sm font-medium transition-colors px-3 py-1.5 rounded-lg hover:bg-primary/5; }
+.nl-empty { @apply text-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm mt-4; }
+.nl-empty-icon { @apply mx-auto w-12 h-12 text-gray-300 mb-4; }
+.nl-empty-text { @apply text-gray-500 text-lg; }

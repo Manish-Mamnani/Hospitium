@@ -1,0 +1,95 @@
+.animate-zoom-in {
+  animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.cancellation-modal-overlay {
+  @apply fixed inset-0 z-[10000] flex items-center justify-center p-4;
+}
+
+.cancellation-modal-backdrop {
+  @apply absolute inset-0 bg-black/40 backdrop-blur-sm animate-fade-in;
+}
+
+.cancellation-modal-body {
+  @apply relative bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg overflow-hidden animate-zoom-in border border-white/20;
+}
+
+.cancellation-modal-content {
+  @apply px-10 pt-12 pb-10;
+}
+
+.cancellation-modal-header {
+  @apply flex items-start gap-6 mb-8;
+}
+
+.cancellation-modal-icon-container {
+  @apply w-16 h-16 rounded-3xl bg-error-bg text-error-text flex items-center justify-center shrink-0 shadow-sm;
+}
+
+.cancellation-modal-icon {
+  @apply w-8 h-8;
+}
+
+.cancellation-modal-title {
+  @apply text-2xl font-black text-neutral-primary tracking-tight;
+}
+
+.cancellation-modal-message {
+  @apply text-neutral-secondary font-medium mt-1 leading-relaxed;
+}
+
+.cancellation-modal-policy-card {
+  @apply bg-neutral-bg/40 border border-neutral-border rounded-3xl p-6 mb-8;
+}
+
+.cancellation-modal-policy-header {
+  @apply flex items-center gap-3 text-sm font-bold text-neutral-primary mb-6 uppercase tracking-widest opacity-80;
+}
+
+.cancellation-modal-policy-icon {
+  @apply w-4 h-4;
+}
+
+.cancellation-modal-policy-text {
+  @apply text-neutral-primary font-semibold text-base flex items-center gap-3;
+}
+
+.cancellation-modal-policy-dot {
+  @apply w-2 h-2 rounded-full bg-error-text;
+}
+
+.cancellation-modal-amounts-grid {
+  @apply grid grid-cols-2 gap-4 mt-8 pt-6 border-t border-neutral-border/50;
+}
+
+.cancellation-modal-amount-label {
+  @apply text-[10px] font-black text-neutral-secondary uppercase tracking-widest mb-1;
+}
+
+.cancellation-modal-amount-refundable {
+  @apply text-2xl font-black text-primary;
+}
+
+.cancellation-modal-amount-deduction {
+  @apply text-2xl font-black text-error-text;
+}
+
+.cancellation-modal-warning {
+  @apply text-xs text-neutral-secondary italic text-center px-4 mb-4;
+}
+
+.cancellation-modal-actions {
+  @apply bg-neutral-bg/30 px-10 py-8 flex gap-4 border-t border-neutral-border;
+}
+
+.cancellation-modal-btn-cancel {
+  @apply flex-1 px-6 py-4 bg-white border border-neutral-border text-neutral-secondary rounded-2xl text-sm font-bold hover:bg-neutral-bg transition-all shadow-sm;
+}
+
+.cancellation-modal-btn-confirm {
+  @apply flex-1 px-6 py-4 bg-error-text text-white rounded-2xl text-sm font-bold transition-all shadow-lg shadow-error-text/20 hover:scale-[1.02] active:scale-[0.98];
+}

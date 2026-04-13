@@ -1,0 +1,41 @@
+/* ─── Auth Pages Shared Layout ───────────────── */
+.auth-page { @apply min-h-screen flex items-center justify-center bg-neutral-bg px-4 py-12; }
+.auth-card-wrap { @apply w-full max-w-md; }
+.auth-card { @apply card-premium px-8 py-10; }
+
+/* ─── Header ─────────────────────────────────── */
+.auth-header { @apply text-center mb-10; }
+.auth-header-sm { @apply text-center mb-8; }
+.auth-icon-wrap { @apply inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary mb-6 shadow-lg shadow-primary/20; }
+.auth-icon { @apply w-8 h-8 text-white; }
+.auth-title { @apply text-3xl font-bold text-neutral-primary tracking-tight font-display; }
+.auth-subtitle { @apply text-neutral-secondary mt-2 font-medium; }
+
+/* ─── Form ────────────────────────────────────── */
+.auth-form { @apply space-y-6; }
+.auth-form-sm { @apply space-y-5; }
+.auth-field { }
+.auth-label { @apply block text-xs font-bold text-neutral-secondary uppercase tracking-widest mb-2; }
+.auth-label-row { @apply flex items-center justify-between mb-2; }
+.auth-forgot-link { @apply text-xs text-primary hover:text-primary-hover font-bold transition-colors; }
+.auth-input-wrap { @apply relative; }
+.auth-toggle-pwd { @apply absolute right-4 top-1/2 -translate-y-1/2 text-neutral-secondary hover:text-neutral-primary transition-colors; }
+.auth-toggle-icon { @apply w-5 h-5 opacity-70; }
+.auth-error-text { @apply mt-2 text-xs text-error-text font-bold flex items-center gap-1.5; }
+.auth-error-icon { @apply w-3.5 h-3.5; }
+.auth-error-text-simple { @apply mt-2 text-xs text-error-text font-bold; }
+
+/* ─── Password Hint ───────────────────────────── */
+.auth-pwd-hint { @apply mt-4 p-4 bg-primary/5 rounded-xl border border-primary/10 text-[11px] text-primary/80 leading-relaxed font-bold; }
+.auth-pwd-hint-title { @apply uppercase tracking-widest mb-2 opacity-100; }
+.auth-pwd-hint-grid { @apply grid grid-cols-2 gap-2; }
+
+/* ─── Error Banner ───────────────────────────── */
+.auth-error-banner { @apply bg-error-bg text-error-text rounded-xl px-4 py-4 text-sm flex items-start gap-3 border border-error-text/10 shadow-sm animate-fade-in; }
+.auth-error-banner-icon { @apply w-5 h-5 flex-shrink-0; }
+.auth-error-banner-simple { @apply bg-error-bg text-error-text rounded-xl px-4 py-4 text-sm font-bold border border-error-text/10 shadow-sm animate-fade-in; }
+
+/* ─── Submit Button ───────────────────────────── */
+.auth-spinner { @apply animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2; }
+.auth-footer-text { @apply text-center text-sm text-neutral-secondary font-medium; }
+.auth-footer-link { @apply text-primary hover:text-primary-hover font-bold transition-colors; }

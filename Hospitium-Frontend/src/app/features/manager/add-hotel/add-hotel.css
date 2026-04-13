@@ -1,0 +1,50 @@
+/* ─── Add Hotel Layout ───────────────────────── */
+.ah-page { @apply flex min-h-screen bg-neutral-bg font-sans text-neutral-primary; }
+.ah-content { @apply flex-1 flex flex-col min-w-0; }
+.ah-main { @apply p-8 lg:p-12; }
+.ah-inner { @apply max-w-4xl mx-auto; }
+.ah-header { @apply mb-10 animate-fade-in font-display; }
+.ah-title { @apply text-4xl font-black tracking-tight text-neutral-primary mb-3; }
+.ah-subtitle { @apply text-neutral-secondary font-medium max-w-xl leading-relaxed; }
+.ah-grid { @apply grid grid-cols-1 lg:grid-cols-3 gap-10; }
+.ah-form-col { @apply lg:col-span-2; }
+.ah-form-card { @apply card-premium p-10 bg-white; }
+.ah-form { @apply space-y-8; }
+.ah-fields { @apply space-y-6; }
+
+/* ─── Form Fields ────────────────────────────── */
+.ah-label { @apply block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest; }
+.ah-required { @apply text-rose-500; }
+.ah-field-icon-wrap { @apply relative; }
+.ah-field-icon { @apply absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-secondary opacity-50; }
+.ah-error-text { @apply mt-2 text-[10px] font-bold text-rose-600 uppercase tracking-tight; }
+.ah-file-hint { @apply mt-2 text-[10px] font-medium text-neutral-secondary; }
+.ah-file-tags { @apply mt-4 flex flex-wrap gap-2; }
+.ah-file-tag { @apply inline-flex items-center bg-neutral-bg px-3 py-1 rounded-full text-xs font-medium text-neutral-primary border border-neutral-border; }
+.ah-file-tag-remove { @apply ml-2 text-rose-500 hover:text-rose-700 font-bold focus:outline-none; }
+
+/* ─── Form Actions ───────────────────────────── */
+.ah-actions { @apply flex items-center justify-between pt-8 border-t border-neutral-border; }
+.ah-cancel-btn { @apply px-8 py-4 rounded-xl text-xs font-bold text-neutral-secondary hover:bg-neutral-bg transition-all uppercase tracking-widest; }
+.ah-submit-btn { @apply btn-primary py-4 px-12 flex items-center justify-center min-w-[200px]; }
+.ah-submit-spinner { @apply animate-spin mr-3 h-4 w-4 border-2 border-white/30 border-t-white rounded-full; }
+.ah-submit-icon { @apply w-4 h-4 ml-2 transition-transform; }
+.ah-submit-btn:hover .ah-submit-icon { @apply translate-x-1; }
+.ah-form-error { @apply text-xs font-bold text-rose-600 italic mt-4; }
+
+/* ─── Helper Column ──────────────────────────── */
+.ah-helper-col { @apply space-y-6; }
+.ah-info-card { @apply card-premium p-8 bg-primary/5 border-primary/20 border shadow-inner; }
+.ah-info-icon-wrap { @apply w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white mb-6; }
+.ah-info-icon { @apply w-7 h-7; }
+.ah-info-title { @apply text-lg font-black text-neutral-primary tracking-tight mb-3; }
+.ah-info-text { @apply text-sm text-neutral-secondary leading-relaxed mb-6 font-medium; }
+.ah-info-accent { @apply text-primary font-bold; }
+.ah-steps { @apply space-y-4; }
+.ah-step { @apply flex items-center gap-3; }
+.ah-step-num { @apply w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary text-[10px] font-bold; }
+.ah-step-label { @apply text-xs font-bold text-neutral-primary; }
+.ah-eta-card { @apply card-premium p-8 bg-accent/5 border-accent/20 border border-dotted; }
+.ah-eta-label { @apply text-[10px] font-bold text-accent uppercase tracking-widest mb-2; }
+.ah-eta-value { @apply text-2xl font-black text-neutral-primary tracking-tighter; }
+.ah-eta-text { @apply text-xs text-neutral-secondary mt-2 leading-relaxed; }

@@ -1,96 +1,96 @@
-<div class="flex min-h-screen bg-neutral-bg font-sans text-neutral-primary">
+<div class="mbk-page">
   <!-- Sidebar -->
   <app-sidebar role="HotelManager"></app-sidebar>
 
   <!-- Main Content -->
-  <div class="flex-1 flex flex-col min-w-0">
-    <main class="p-8 lg:p-12">
-      <div class="max-w-7xl mx-auto">
+  <div class="mbk-content">
+    <main class="mbk-main">
+      <div class="mbk-inner">
         
         <!-- Header -->
-        <div class="mb-10 animate-fade-in font-display">
-          <h1 class="text-4xl font-black tracking-tight text-neutral-primary mb-3">Property Bookings</h1>
-          <p class="text-neutral-secondary font-medium max-w-2xl leading-relaxed">Review guest reservations across all your listed hotels.</p>
+        <div class="mbk-header">
+          <h1 class="mbk-title">Property Bookings</h1>
+          <p class="mbk-subtitle">Review guest reservations across all your listed hotels.</p>
         </div>
 
         <!-- Content Area -->
-        <div class="relative min-h-[400px]">
+        <div class="mbk-area">
           
           <!-- Loading State -->
-          <div *ngIf="isLoading" class="flex flex-col justify-center items-center py-24 space-y-4 animate-fade-in">
-            <div class="relative w-12 h-12">
-              <div class="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
-              <div class="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+          <div *ngIf="isLoading" class="mbk-loading">
+            <div class="mbk-spinner-ring">
+              <div class="mbk-spinner-track"></div>
+              <div class="mbk-spinner"></div>
             </div>
-            <span class="text-xs font-bold text-primary uppercase tracking-[0.2em]">Loading reservations...</span>
+            <span class="mbk-loading-label">Loading reservations...</span>
           </div>
 
           <!-- Content Card -->
-          <div *ngIf="!isLoading" class="card-premium animate-fade-in">
+          <div *ngIf="!isLoading" class="mbk-card">
             
             <!-- Empty State -->
-            <div *ngIf="bookings.length === 0" class="p-24 text-center">
-              <div class="w-20 h-20 bg-neutral-bg rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-inner">
-                <svg class="w-10 h-10 text-neutral-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div *ngIf="bookings.length === 0" class="mbk-empty-state">
+              <div class="mbk-empty-icon-wrap">
+                <svg class="mbk-empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
               </div>
-              <h3 class="text-2xl font-bold text-neutral-primary mb-2">No guest bookings yet</h3>
-              <p class="text-neutral-secondary font-medium max-w-sm mx-auto leading-relaxed">When guests book your rooms, they will appear here with all the details.</p>
+              <h3 class="mbk-empty-title">No guest bookings yet</h3>
+              <p class="mbk-empty-text">When guests book your rooms, they will appear here with all the details.</p>
             </div>
 
             <!-- Table -->
-            <div *ngIf="bookings.length > 0" class="overflow-x-auto">
-              <table class="w-full text-left">
+            <div *ngIf="bookings.length > 0" class="mbk-table-scroll">
+              <table class="mbk-table">
                 <thead>
-                  <tr class="bg-neutral-bg/50 border-b border-neutral-border">
-                    <th class="px-6 py-5 text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em]">Guest</th>
-                    <th class="px-6 py-5 text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em]">Hotel / Room</th>
-                    <th class="px-6 py-5 text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em]">Stay Dates</th>
-                    <th class="px-6 py-5 text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em]">Revenue</th>
-                    <th class="px-6 py-5 text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em]">Status</th>
-                    <th class="px-6 py-5 text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em]">Action</th>
+                  <tr class="mbk-thead-row">
+                    <th class="mbk-th">Guest</th>
+                    <th class="mbk-th">Hotel / Room</th>
+                    <th class="mbk-th">Stay Dates</th>
+                    <th class="mbk-th">Revenue</th>
+                    <th class="mbk-th">Status</th>
+                    <th class="mbk-th">Action</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-neutral-border">
-                  <tr *ngFor="let b of bookings" class="hover:bg-neutral-bg/30 transition-all group">
+                <tbody class="mbk-tbody">
+                  <tr *ngFor="let b of bookings" class="mbk-tr">
                     <!-- Guest -->
-                    <td class="px-6 py-5">
-                      <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-xs font-black text-primary border border-primary/20">
+                    <td class="mbk-td">
+                      <div class="mbk-guest-row">
+                        <div class="mbk-avatar">
                           {{ b.userEmail.charAt(0).toUpperCase() }}
                         </div>
-                        <div class="min-w-0">
-                          <p class="text-sm font-bold text-neutral-primary truncate">{{ b.userEmail }}</p>
-                          <p class="text-[10px] text-neutral-secondary font-mono tracking-widest mt-0.5 truncate uppercase">#{{ b.bookingId }}</p>
+                        <div class="mbk-guest-info">
+                          <p class="mbk-guest-email">{{ b.userEmail }}</p>
+                          <p class="mbk-booking-id">#{{ b.bookingId }}</p>
                         </div>
                       </div>
                     </td>
 
                     <!-- Hotel/Room -->
-                    <td class="px-6 py-5">
-                      <p class="text-sm font-bold text-neutral-primary truncate">{{ b.hotelName || 'Property #' + b.hotelId }}</p>
-                      <p class="text-xs text-neutral-secondary font-medium mt-0.5">{{ b.roomType }} · {{ b.numberOfRooms }} room(s)</p>
+                    <td class="mbk-td">
+                      <p class="mbk-hotel-name">{{ b.hotelName || 'Property #' + b.hotelId }}</p>
+                      <p class="mbk-room-info">{{ b.roomType }} · {{ b.numberOfRooms }} room(s)</p>
                     </td>
 
                     <!-- Dates -->
-                    <td class="px-6 py-5">
-                      <div class="text-sm font-bold text-neutral-primary tracking-tight">{{ b.fromDate | date:'MMM d, y' }}</div>
-                      <div class="text-[10px] text-neutral-secondary font-bold uppercase tracking-widest mt-0.5 flex items-center gap-1.5">
+                    <td class="mbk-td">
+                      <div class="mbk-date-from">{{ b.fromDate | date:'MMM d, y' }}</div>
+                      <div class="mbk-date-to">
                         <span>TO</span>
                         <span>{{ b.toDate | date:'MMM d, y' }}</span>
                       </div>
                     </td>
 
                     <!-- Revenue -->
-                    <td class="px-6 py-5">
-                      <div class="text-lg font-black text-neutral-primary tracking-tighter">₹{{ b.totalPrice | number }}</div>
-                      <div class="text-[9px] text-primary font-bold uppercase tracking-[0.1em]">Payment Expected</div>
+                    <td class="mbk-td">
+                      <div class="mbk-revenue">₹{{ b.totalPrice | number }}</div>
+                      <div class="mbk-payment-label">Payment Expected</div>
                     </td>
 
                     <!-- Status -->
-                    <td class="px-6 py-5">
-                      <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border"
+                    <td class="mbk-td">
+                      <span class="mbk-status-badge"
                             [ngClass]="{
                               'bg-primary/5 text-primary border-primary/20': b.status?.toLowerCase() === 'confirmed',
                               'bg-error-bg text-error-text border-error-text/10': b.status?.toLowerCase() === 'cancelled',
@@ -101,20 +101,20 @@
                     </td>
 
                     <!-- Action -->
-                    <td class="px-6 py-5 text-right">
-                      <div class="flex items-center justify-end gap-4" *ngIf="b.status?.toLowerCase() === 'confirmed'">
+                    <td class="mbk-td mbk-td-right">
+                      <div class="mbk-actions-row" *ngIf="b.status?.toLowerCase() === 'confirmed'">
                          <button (click)="completeBooking(b.bookingId)"
                                  [disabled]="completingId === b.bookingId || cancellingId === b.bookingId"
-                                 class="inline-flex items-center gap-2 text-[10px] font-black text-[#5B6E8C] uppercase tracking-widest hover:text-[#4A5B73] transition-colors disabled:opacity-30">
-                           <span *ngIf="completingId === b.bookingId" class="w-3 h-3 border-2 border-[#5B6E8C] border-t-transparent rounded-full animate-spin"></span>
-                           <svg *ngIf="completingId !== b.bookingId" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
+                                 class="mbk-complete-btn">
+                           <span *ngIf="completingId === b.bookingId" class="mbk-complete-spinner"></span>
+                           <svg *ngIf="completingId !== b.bookingId" class="mbk-complete-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
                            {{ completingId === b.bookingId ? 'Completing' : 'Complete' }}
                          </button>
 
                          <button (click)="cancelBooking(b.bookingId)"
                                  [disabled]="cancellingId === b.bookingId || completingId === b.bookingId"
-                                 class="inline-flex items-center gap-2 text-[10px] font-black text-rose-600 uppercase tracking-widest hover:text-rose-700 transition-colors disabled:opacity-30">
-                           <span *ngIf="cancellingId === b.bookingId" class="w-3 h-3 border-2 border-rose-600 border-t-transparent rounded-full animate-spin"></span>
+                                 class="mbk-cancel-btn">
+                           <span *ngIf="cancellingId === b.bookingId" class="mbk-cancel-spinner"></span>
                            {{ cancellingId === b.bookingId ? 'Cancelling' : 'Cancel' }}
                          </button>
                       </div>
@@ -125,9 +125,9 @@
             </div>
 
             <!-- Footer -->
-            <div *ngIf="bookings.length > 0" class="px-6 py-5 bg-neutral-bg/20 border-t border-neutral-border">
-              <div class="flex items-center justify-between">
-                <p class="text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em] italic">
+            <div *ngIf="bookings.length > 0" class="mbk-footer">
+              <div class="mbk-footer-inner">
+                <p class="mbk-footer-text">
                   Showing {{ bookings.length }} guest records from your properties
                 </p>
               </div>

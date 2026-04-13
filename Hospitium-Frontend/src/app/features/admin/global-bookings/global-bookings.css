@@ -1,0 +1,48 @@
+/* ─── Global Bookings Layout ─────────────────── */
+.gbk-page { @apply flex bg-neutral-bg min-h-screen; }
+.gbk-content { @apply flex-1 overflow-auto; }
+.gbk-inner { @apply max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 animate-fade-in; }
+
+/* ─── Header ─────────────────────────────────── */
+.gbk-header { @apply flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6; }
+.gbk-title { @apply text-3xl font-bold tracking-tight; }
+.gbk-subtitle { @apply text-neutral-secondary mt-1; }
+.gbk-filters { @apply flex flex-wrap items-center gap-4; }
+
+/* ─── Filters ────────────────────────────────── */
+.gbk-select-wrap { @apply relative min-w-[160px]; }
+.gbk-select { @apply w-full bg-white border border-neutral-border rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all appearance-none; }
+.gbk-select-chevron { @apply absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50; }
+.gbk-chevron-icon { @apply w-4 h-4; }
+.gbk-date-input { @apply bg-white border border-neutral-border rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all; }
+.gbk-reset-btn { @apply px-4 py-2.5 rounded-xl border border-neutral-border text-neutral-secondary text-sm hover:bg-neutral-bg transition-colors font-bold; }
+
+/* ─── Table Card ─────────────────────────────── */
+.gbk-table-card { @apply card-premium overflow-hidden; }
+.gbk-table-scroll { @apply overflow-x-auto; }
+.gbk-table { @apply w-full text-left border-collapse; }
+.gbk-thead-row { @apply text-xs font-bold text-neutral-secondary uppercase tracking-wider border-b border-neutral-border bg-neutral-bg/30; }
+.gbk-th { @apply px-6 py-4; }
+.gbk-th-right { @apply px-6 py-4 text-right; }
+.gbk-tbody { @apply divide-y divide-neutral-border; }
+.gbk-tr { @apply hover:bg-neutral-bg/20 transition-colors; }
+.gbk-td { @apply px-6 py-4; }
+.gbk-td-right { @apply px-6 py-4 text-right; }
+.gbk-booking-id { @apply font-mono text-xs text-neutral-secondary; }
+.gbk-guest-name { @apply text-sm font-bold text-neutral-primary; }
+.gbk-guest-email { @apply text-xs text-neutral-secondary; }
+.gbk-hotel-name { @apply text-sm font-medium text-neutral-primary; }
+.gbk-room-type { @apply text-xs text-neutral-secondary; }
+.gbk-date-from { @apply text-xs font-medium text-neutral-primary; }
+.gbk-date-to { @apply text-[10px] text-neutral-secondary uppercase tracking-widest; }
+.gbk-status-badge { @apply inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border; }
+.gbk-cancel-btn { @apply text-error-text font-bold text-xs hover:underline uppercase tracking-widest disabled:opacity-50; }
+.gbk-empty-row td { @apply px-6 py-20 text-center text-neutral-secondary italic; }
+
+/* ─── Loading ────────────────────────────────── */
+.gbk-loading { @apply p-20 flex justify-center bg-white/50 backdrop-blur-sm; }
+.gbk-spinner { @apply animate-spin rounded-full h-10 w-10 border-b-2 border-primary; }
+
+/* ─── Summary ────────────────────────────────── */
+.gbk-summary { @apply mt-6 flex justify-between items-center px-4; }
+.gbk-summary-text { @apply text-sm text-neutral-secondary uppercase tracking-widest font-bold; }

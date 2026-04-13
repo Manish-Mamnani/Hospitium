@@ -1,0 +1,44 @@
+/* ─── Home Hero ───────────────────────────────── */
+.home-hero { @apply relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-neutral-bg; }
+.home-bg { @apply absolute inset-0 z-0; }
+.home-bg-blob-1 { @apply absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]; }
+.home-bg-blob-2 { @apply absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/5 rounded-full blur-[120px]; }
+.home-hero-content { @apply relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center; }
+.home-hero-inner { @apply animate-fade-in; }
+.home-badge { @apply inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6; }
+.home-title { @apply text-5xl md:text-7xl font-bold text-neutral-primary mb-8 leading-tight; }
+.home-title-accent { @apply text-primary italic font-serif; }
+.home-subtitle { @apply max-w-2xl mx-auto text-lg text-neutral-secondary mb-12 leading-relaxed; }
+
+/* ─── Search Bar ─────────────────────────────── */
+.home-search-wrap { @apply max-w-5xl mx-auto; }
+.home-search-form { @apply card-premium p-4 md:p-2 bg-white/80 backdrop-blur-md flex flex-col md:flex-row items-stretch gap-4 md:gap-2 shadow-2xl shadow-primary/10; }
+.home-search-city { @apply flex-1 relative; }
+.home-search-icon-wrap { @apply absolute left-4 top-1/2 -translate-y-1/2 text-neutral-secondary transition-colors; }
+.home-search-city:focus-within .home-search-icon-wrap { @apply text-primary; }
+.home-search-icon { @apply w-5 h-5; }
+.home-search-input { @apply w-full bg-transparent border-0 pl-12 pr-4 py-4 text-sm font-bold text-neutral-primary focus:outline-none placeholder:text-neutral-secondary/50; }
+.home-search-divider { @apply hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-8 bg-neutral-border; }
+.home-dates-wrap { @apply flex-1 flex gap-2; }
+.home-date-field { @apply flex-1 relative; }
+.home-date-input { @apply w-full bg-transparent border-0 px-4 py-4 text-xs font-bold text-neutral-primary focus:outline-none cursor-pointer; }
+.home-date-divider { @apply hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-8 bg-neutral-border; }
+.home-date-error { @apply mt-4 text-error-text text-sm font-bold animate-fade-in flex items-center justify-center; }
+.home-date-error-icon { @apply w-4 h-4 mr-2; }
+
+/* ─── Destinations ───────────────────────────── */
+.home-dest-section { @apply max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8; }
+.home-dest-header { @apply flex items-end justify-between mb-12; }
+.home-dest-title { @apply text-3xl font-bold mb-2; }
+.home-dest-subtitle { @apply text-neutral-secondary; }
+.home-dest-link { @apply text-primary hover:text-primary-hover font-bold transition-colors; }
+.home-dest-grid { @apply grid grid-cols-1 md:grid-cols-3 gap-8; }
+.home-dest-card { @apply card-premium h-64 relative cursor-pointer overflow-hidden border-0; }
+.home-dest-img { @apply absolute inset-0 w-full h-full object-cover transition-transform duration-700; }
+.home-dest-card:hover .home-dest-img { @apply scale-110; }
+.home-dest-gradient { @apply absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent; }
+.home-dest-sample-badge { @apply absolute top-4 right-4 bg-black/70 text-white text-[9px] font-black px-2.5 py-1 rounded backdrop-blur-md border border-white/20 shadow-sm tracking-widest uppercase z-10; }
+.home-dest-info { @apply absolute bottom-6 left-6 text-white z-10; }
+.home-dest-name { @apply text-2xl font-bold mb-1; }
+.home-dest-avail { @apply text-sm opacity-80 font-medium uppercase tracking-widest flex items-center; }
+.home-dest-check-icon { @apply w-4 h-4 ml-2 text-primary fill-current; }

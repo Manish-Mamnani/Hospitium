@@ -1,0 +1,31 @@
+/* ─── Admin Hotels Layout ────────────────────── */
+.ah-page { @apply flex bg-neutral-bg min-h-screen; }
+.ah-content { @apply flex-1 overflow-auto; }
+.ah-inner { @apply max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 animate-fade-in; }
+.ah-header { @apply flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6; }
+.ah-title { @apply text-3xl font-bold tracking-tight; }
+.ah-subtitle { @apply text-neutral-secondary mt-1; }
+.ah-filters { @apply flex flex-wrap items-center gap-4; }
+.ah-select-wrap { @apply relative min-w-[200px]; }
+.ah-select { @apply w-full bg-white border border-neutral-border rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all appearance-none; }
+.ah-select-chevron { @apply absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50; }
+.ah-chevron-icon { @apply w-4 h-4; }
+.ah-search { @apply bg-white border border-neutral-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all min-w-[240px]; }
+.ah-table-card { @apply card-premium overflow-hidden; }
+.ah-table-scroll { @apply overflow-x-auto; }
+.ah-table { @apply w-full text-left border-collapse; }
+.ah-thead-row { @apply text-xs font-bold text-neutral-secondary uppercase tracking-wider border-b border-neutral-border bg-neutral-bg/30; }
+.ah-th { @apply px-6 py-4; }
+.ah-th-right { @apply px-6 py-4 text-right; }
+.ah-tbody { @apply divide-y divide-neutral-border; }
+.ah-tr { @apply hover:bg-neutral-bg/20 transition-colors; }
+.ah-td { @apply px-6 py-4; }
+.ah-hotel-name { @apply text-sm font-bold text-neutral-primary; }
+.ah-hotel-email { @apply text-xs text-neutral-secondary truncate max-w-xs; }
+.ah-city-row { @apply text-sm text-neutral-primary flex items-center; }
+.ah-city-icon { @apply w-3.5 h-3.5 mr-1 text-neutral-secondary; }
+.ah-rating-row { @apply flex items-center text-sm font-bold text-accent; }
+.ah-star-icon { @apply w-4 h-4 mr-1 fill-current; }
+.ah-loading { @apply p-20 flex justify-center bg-white/50 backdrop-blur-sm; }
+.ah-spinner { @apply animate-spin rounded-full h-10 w-10 border-b-2 border-primary; }
+.ah-manage-btn { @apply px-4 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-bold hover:bg-primary/20 transition-all; }

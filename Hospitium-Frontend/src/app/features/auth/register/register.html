@@ -1,64 +1,64 @@
-<div class="min-h-screen flex items-center justify-center bg-neutral-bg px-4 py-12">
-  <div class="w-full max-w-md">
+<div class="auth-page">
+  <div class="auth-card-wrap">
 
     <!-- Card -->
-    <div class="card-premium px-8 py-10">
+    <div class="auth-card">
 
       <!-- Header -->
-      <div class="text-center mb-8">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary mb-6 shadow-lg shadow-primary/20">
-          <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div class="auth-header-sm">
+        <div class="auth-icon-wrap">
+          <svg class="auth-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
         </div>
-        <h1 class="text-3xl font-bold text-neutral-primary tracking-tight font-display">Create Account</h1>
-        <p class="text-neutral-secondary mt-2 font-medium">Join our community of travelers and hosts.</p>
+        <h1 class="auth-title">Create Account</h1>
+        <p class="auth-subtitle">Join our community of travelers and hosts.</p>
       </div>
 
-      <form (ngSubmit)="onSubmit()" novalidate class="space-y-5">
+      <form (ngSubmit)="onSubmit()" novalidate class="auth-form-sm">
 
         <!-- Full Name -->
-        <div>
-          <label for="name" class="block text-xs font-bold text-neutral-secondary uppercase tracking-widest mb-2">Full Name</label>
+        <div class="auth-field">
+          <label for="name" class="auth-label">Full Name</label>
           <input id="name" name="name" type="text" autocomplete="name"
                  [(ngModel)]="user.name"
                  (blur)="touch('name')"
                  [class.border-error-text]="nameError"
                  class="input-premium"
                  placeholder="John Doe">
-          <p *ngIf="nameError" class="mt-2 text-xs text-error-text font-bold flex items-center gap-1.5 font-bold">
+          <p *ngIf="nameError" class="auth-error-text-simple">
             {{ nameError }}
           </p>
         </div>
 
         <!-- Email -->
-        <div>
-          <label for="email" class="block text-xs font-bold text-neutral-secondary uppercase tracking-widest mb-2">Email Address</label>
+        <div class="auth-field">
+          <label for="email" class="auth-label">Email Address</label>
           <input id="email" name="email" type="email" autocomplete="email"
                  [(ngModel)]="user.email"
                  (blur)="touch('email')"
                  [class.border-error-text]="emailError"
                  class="input-premium"
                  placeholder="you@example.com">
-          <p *ngIf="emailError" class="mt-2 text-xs text-error-text font-bold">
+          <p *ngIf="emailError" class="auth-error-text-simple">
             {{ emailError }}
           </p>
         </div>
 
         <!-- Role -->
-        <div>
-          <label for="role" class="block text-xs font-bold text-neutral-secondary uppercase tracking-widest mb-2">I am a</label>
+        <div class="auth-field">
+          <label for="role" class="auth-label">I am a</label>
           <select id="role" name="role" [(ngModel)]="user.role"
-                  class="input-premium bg-white cursor-pointer appearance-none">
+                  class="reg-role-select input-premium">
             <option value="User">Guest / Traveler</option>
             <option value="HotelManager">Hotel Manager</option>
           </select>
         </div>
 
         <!-- Password -->
-        <div>
-          <label for="password" class="block text-xs font-bold text-neutral-secondary uppercase tracking-widest mb-2">Password</label>
-          <div class="relative">
+        <div class="auth-field">
+          <label for="password" class="auth-label">Password</label>
+          <div class="auth-input-wrap">
             <input id="password" name="password"
                    [type]="showPassword ? 'text' : 'password'"
                    autocomplete="new-password"
@@ -67,19 +67,18 @@
                    [class.border-error-text]="passwordError"
                    class="input-premium pr-12"
                    placeholder="Create a strong password">
-            <button type="button" (click)="showPassword = !showPassword"
-                    class="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-secondary hover:text-neutral-primary">
-              <svg *ngIf="!showPassword" class="w-5 h-5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button type="button" (click)="showPassword = !showPassword" class="auth-toggle-pwd">
+              <svg *ngIf="!showPassword" class="auth-toggle-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
               </svg>
             </button>
           </div>
 
-          <!-- Password rules hint (Styled to match design) -->
-          <div *ngIf="!user.password" class="mt-4 p-4 bg-primary/5 rounded-xl border border-primary/10 text-[11px] text-primary/80 leading-relaxed font-bold">
-            <p class="uppercase tracking-widest mb-2 opacity-100">Requirements:</p>
-            <div class="grid grid-cols-2 gap-2">
+          <!-- Password rules hint -->
+          <div *ngIf="!user.password" class="auth-pwd-hint">
+            <p class="auth-pwd-hint-title">Requirements:</p>
+            <div class="auth-pwd-hint-grid">
               <span>• 8+ characters</span>
               <span>• 1 Uppercase</span>
               <span>• 1 Number</span>
@@ -87,26 +86,26 @@
             </div>
           </div>
           
-          <p *ngIf="passwordError" class="mt-2 text-xs text-error-text font-bold">
+          <p *ngIf="passwordError" class="auth-error-text-simple">
             {{ passwordError }}
           </p>
         </div>
 
         <!-- Server error -->
-        <div *ngIf="errorMessage" class="bg-error-bg text-error-text rounded-xl px-4 py-4 text-sm font-bold border border-error-text/10 shadow-sm animate-fade-in">
+        <div *ngIf="errorMessage" class="auth-error-banner-simple">
           {{ errorMessage }}
         </div>
 
         <!-- Submit -->
         <button type="submit" [disabled]="isLoading"
                 class="btn-primary w-full py-4 text-base shadow-lg shadow-primary/20 mt-4">
-          <span *ngIf="isLoading" class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
+          <span *ngIf="isLoading" class="auth-spinner"></span>
           {{ isLoading ? 'Creating account...' : 'Create Account' }}
         </button>
 
-        <p class="text-center text-sm text-neutral-secondary font-medium">
+        <p class="auth-footer-text">
           Already have an account?
-          <a routerLink="/auth/login" class="text-primary hover:text-primary-hover font-bold transition-colors">Sign In</a>
+          <a routerLink="/auth/login" class="auth-footer-link">Sign In</a>
         </p>
 
       </form>

@@ -1,0 +1,51 @@
+.animate-zoom-in {
+  animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.confirm-modal-overlay {
+  @apply fixed inset-0 z-[999999] flex items-center justify-center p-4 pointer-events-auto overflow-y-auto overflow-x-hidden;
+}
+
+.confirm-modal-backdrop {
+  @apply absolute inset-0 bg-black/60 backdrop-blur-md animate-fade-in;
+}
+
+.confirm-modal-body {
+  @apply relative bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-zoom-in border border-white/20;
+}
+
+.confirm-modal-content {
+  @apply px-8 pt-10 pb-8 text-center;
+}
+
+.confirm-modal-icon-container {
+  @apply w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm;
+}
+
+.confirm-modal-icon {
+  @apply w-10 h-10;
+}
+
+.confirm-modal-title {
+  @apply text-2xl font-bold text-neutral-primary mb-3;
+}
+
+.confirm-modal-message {
+  @apply text-neutral-secondary font-medium leading-relaxed px-4;
+}
+
+.confirm-modal-actions {
+  @apply bg-neutral-bg/30 px-8 py-6 flex gap-3 border-t border-neutral-border;
+}
+
+.confirm-modal-btn-cancel {
+  @apply flex-1 px-4 py-3.5 bg-white border border-neutral-border text-neutral-secondary rounded-2xl text-sm font-bold hover:bg-neutral-bg transition-all shadow-sm;
+}
+
+.confirm-modal-btn-confirm {
+  @apply flex-1 px-4 py-3.5 text-white rounded-2xl text-sm font-bold transition-all shadow-lg active:scale-[0.98];
+}

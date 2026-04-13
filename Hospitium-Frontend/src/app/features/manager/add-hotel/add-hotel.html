@@ -1,124 +1,122 @@
-<div class="flex min-h-screen bg-neutral-bg font-sans text-neutral-primary">
+<div class="ah-page">
   <!-- Sidebar -->
   <app-sidebar role="HotelManager"></app-sidebar>
 
   <!-- Main Content -->
-  <div class="flex-1 flex flex-col min-w-0">
-    <main class="p-8 lg:p-12">
-      <div class="max-w-4xl mx-auto">
+  <div class="ah-content">
+    <main class="ah-main">
+      <div class="ah-inner">
         
         <!-- Header -->
-        <div class="mb-10 animate-fade-in font-display">
-          <h1 class="text-4xl font-black tracking-tight text-neutral-primary mb-3">List New Property</h1>
-          <p class="text-neutral-secondary font-medium max-w-xl leading-relaxed">Expand your portfolio. Once submitted, our team will review your property within 24 hours.</p>
+        <div class="ah-header">
+          <h1 class="ah-title">List New Property</h1>
+          <p class="ah-subtitle">Expand your portfolio. Once submitted, our team will review your property within 24 hours.</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div class="ah-grid">
           
           <!-- Form Section -->
-          <div class="lg:col-span-2">
-            <div class="card-premium p-10 bg-white">
-              <form (ngSubmit)="onSubmit()" novalidate class="space-y-8">
+          <div class="ah-form-col">
+            <div class="ah-form-card">
+              <form (ngSubmit)="onSubmit()" novalidate class="ah-form">
                 
-                <div class="space-y-6">
+                <div class="ah-fields">
                   <!-- Hotel Name -->
                   <div>
-                    <label class="block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest">Property Name <span class="text-rose-500">*</span></label>
+                    <label class="ah-label">Property Name <span class="ah-required">*</span></label>
                     <input type="text" [(ngModel)]="hotel.name" name="name" (blur)="touch('name')"
                            [class.border-rose-500]="nameError"
                            class="input-premium py-4 text-base"
                            placeholder="e.g. The Grand Palace Mumbai">
-                    <p *ngIf="nameError" class="mt-2 text-[10px] font-bold text-rose-600 uppercase tracking-tight">{{ nameError }}</p>
+                    <p *ngIf="nameError" class="ah-error-text">{{ nameError }}</p>
                   </div>
 
                   <!-- City -->
                   <div>
-                    <label class="block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest">Location / City <span class="text-rose-500">*</span></label>
-                    <div class="relative">
-                      <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-secondary opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                    <label class="ah-label">Location / City <span class="ah-required">*</span></label>
+                    <div class="ah-field-icon-wrap">
+                      <svg class="ah-field-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
                       <input type="text" [(ngModel)]="hotel.city" name="city" (blur)="touch('city')"
                              [class.border-rose-500]="cityError"
                              class="input-premium py-4 pl-12 text-base"
                              placeholder="e.g. Jaipur">
                     </div>
-                    <p *ngIf="cityError" class="mt-2 text-[10px] font-bold text-rose-600 uppercase tracking-tight">{{ cityError }}</p>
+                    <p *ngIf="cityError" class="ah-error-text">{{ cityError }}</p>
                   </div>
 
                   <!-- Description -->
                   <div>
-                    <label class="block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest">Property Description</label>
+                    <label class="ah-label">Property Description</label>
                     <textarea [(ngModel)]="hotel.description" name="description" rows="5" maxlength="500" (blur)="touch('description')"
                               [class.border-rose-500]="descriptionError"
                               class="input-premium py-4 text-sm leading-relaxed"
                               placeholder="Highlight the architectural beauty, amenities, and guest experiences..."></textarea>
-                    <p *ngIf="descriptionError" class="mt-2 text-[10px] font-bold text-rose-600 uppercase tracking-tight">{{ descriptionError }}</p>
+                    <p *ngIf="descriptionError" class="ah-error-text">{{ descriptionError }}</p>
                   </div>
 
                   <!-- Images -->
                   <div>
-                    <label class="block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest">Image Gallery (Up to 10)</label>
+                    <label class="ah-label">Image Gallery (Up to 10)</label>
                     <input type="file" multiple accept=".jpg,.jpeg,.png" (change)="onFileSelected($event)"
                            class="input-premium py-4 text-sm w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all">
-                    <p class="mt-2 text-[10px] font-medium text-neutral-secondary">Recommended: 5-6 appealing photos (Max 5MB each)</p>
-                    <div *ngIf="selectedFiles.length > 0" class="mt-4 flex flex-wrap gap-2">
-                       <span *ngFor="let file of selectedFiles; let i = index" class="inline-flex items-center bg-neutral-bg px-3 py-1 rounded-full text-xs font-medium text-neutral-primary border border-neutral-border">
+                    <p class="ah-file-hint">Recommended: 5-6 appealing photos (Max 5MB each)</p>
+                    <div *ngIf="selectedFiles.length > 0" class="ah-file-tags">
+                       <span *ngFor="let file of selectedFiles; let i = index" class="ah-file-tag">
                          {{ file.name }}
-                         <button type="button" (click)="removeFile(i)" class="ml-2 text-rose-500 hover:text-rose-700 font-bold focus:outline-none">&times;</button>
+                         <button type="button" (click)="removeFile(i)" class="ah-file-tag-remove">&times;</button>
                        </span>
                     </div>
                   </div>
                 </div>
 
                 <!-- Actions -->
-                <div class="flex items-center justify-between pt-8 border-t border-neutral-border">
-                  <button type="button" (click)="router.navigate(['/manager'])"
-                          class="px-8 py-4 rounded-xl text-xs font-bold text-neutral-secondary hover:bg-neutral-bg transition-all uppercase tracking-widest">
+                <div class="ah-actions">
+                  <button type="button" (click)="router.navigate(['/manager'])" class="ah-cancel-btn">
                     Cancel
                   </button>
-                  <button type="submit" [disabled]="isLoading" 
-                          class="btn-primary py-4 px-12 group flex items-center justify-center min-w-[200px]">
-                    <span *ngIf="isLoading" class="animate-spin mr-3 h-4 w-4 border-2 border-white/30 border-t-white rounded-full"></span>
+                  <button type="submit" [disabled]="isLoading" class="ah-submit-btn">
+                    <span *ngIf="isLoading" class="ah-submit-spinner"></span>
                     {{ isLoading ? 'Submitting...' : 'Register Property' }}
-                    <svg *ngIf="!isLoading" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-width="2"/></svg>
+                    <svg *ngIf="!isLoading" class="ah-submit-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-width="2"/></svg>
                   </button>
                 </div>
 
-                <p *ngIf="errorMessage" class="text-xs font-bold text-rose-600 italic mt-4">{{ errorMessage }}</p>
+                <p *ngIf="errorMessage" class="ah-form-error">{{ errorMessage }}</p>
               </form>
             </div>
           </div>
 
           <!-- Helper Column -->
-          <div class="space-y-6">
+          <div class="ah-helper-col">
             <!-- Room Management Notice -->
-            <div class="card-premium p-8 bg-primary/5 border-primary/20 border shadow-inner">
-               <div class="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white mb-6">
-                 <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <div class="ah-info-card">
+               <div class="ah-info-icon-wrap">
+                 <svg class="ah-info-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                </div>
-               <h3 class="text-lg font-black text-neutral-primary tracking-tight mb-3">Room Management</h3>
-               <p class="text-sm text-neutral-secondary leading-relaxed mb-6 font-medium">To maintain accuracy, room inventory and pricing are configured <span class="text-primary font-bold">after</span> the property is approved.</p>
+               <h3 class="ah-info-title">Room Management</h3>
+               <p class="ah-info-text">To maintain accuracy, room inventory and pricing are configured <span class="ah-info-accent">after</span> the property is approved.</p>
                
-               <div class="space-y-4">
-                 <div class="flex items-center gap-3">
-                   <div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary text-[10px] font-bold">1</div>
-                   <span class="text-xs font-bold text-neutral-primary">Admin Verification</span>
+               <div class="ah-steps">
+                 <div class="ah-step">
+                   <div class="ah-step-num">1</div>
+                   <span class="ah-step-label">Admin Verification</span>
                  </div>
-                 <div class="flex items-center gap-3">
-                   <div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary text-[10px] font-bold">2</div>
-                   <span class="text-xs font-bold text-neutral-primary">Enable "Manage Rooms"</span>
+                 <div class="ah-step">
+                   <div class="ah-step-num">2</div>
+                   <span class="ah-step-label">Enable "Manage Rooms"</span>
                  </div>
-                 <div class="flex items-center gap-3">
-                   <div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary text-[10px] font-bold">3</div>
-                   <span class="text-xs font-bold text-neutral-primary">Define Suite Rates</span>
+                 <div class="ah-step">
+                   <div class="ah-step-num">3</div>
+                   <span class="ah-step-label">Define Suite Rates</span>
                  </div>
                </div>
             </div>
 
             <!-- Approval Notice -->
-            <div class="card-premium p-8 bg-accent/5 border-accent/20 border border-dotted">
-               <p class="text-[10px] font-bold text-accent uppercase tracking-widest mb-2">Estimated Time</p>
-               <h4 class="text-2xl font-black text-neutral-primary tracking-tighter">24h Response</h4>
-               <p class="text-xs text-neutral-secondary mt-2 leading-relaxed">Our curation team reviews each property to ensure high-quality standards across Hospitium.</p>
+            <div class="ah-eta-card">
+               <p class="ah-eta-label">Estimated Time</p>
+               <h4 class="ah-eta-value">24h Response</h4>
+               <p class="ah-eta-text">Our curation team reviews each property to ensure high-quality standards across Hospitium.</p>
             </div>
           </div>
 

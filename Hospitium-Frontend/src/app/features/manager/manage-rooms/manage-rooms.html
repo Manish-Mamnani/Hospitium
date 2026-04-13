@@ -1,36 +1,34 @@
-<div class="flex min-h-screen bg-neutral-bg font-sans text-neutral-primary">
+<div class="mr-page">
   <!-- Sidebar -->
   <app-sidebar role="HotelManager"></app-sidebar>
 
   <!-- Main Content -->
-  <div class="flex-1 flex flex-col min-w-0">
-    <main class="p-8 lg:p-12">
-      <div class="max-w-5xl mx-auto">
+  <div class="mr-content">
+    <main class="mr-main">
+      <div class="mr-inner">
         
         <!-- Header & Navigation Back -->
-        <div class="flex items-center gap-4 mb-8">
-          <button (click)="router.navigate(['/manager'])" 
-                  class="w-10 h-10 rounded-full bg-white border border-neutral-border flex items-center justify-center text-neutral-secondary hover:text-primary hover:border-primary transition-all shadow-sm">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        <div class="mr-nav">
+          <button (click)="router.navigate(['/manager'])" class="mr-back-btn">
+            <svg class="mr-back-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
           </button>
-          <div class="font-display">
-            <h1 class="text-3xl font-black tracking-tight text-neutral-primary">Manage Rooms</h1>
-            <p class="text-sm text-neutral-secondary font-medium tracking-wide flex items-center gap-2">
-              <span class="text-primary font-bold uppercase tracking-widest text-[10px]">{{ hotel?.name || 'Loading...' }}</span>
-              <span class="opacity-20">•</span>
+          <div class="mr-header-text">
+            <h1 class="mr-title">Manage Rooms</h1>
+            <p class="mr-subtitle">
+              <span class="mr-hotel-name">{{ hotel?.name || 'Loading...' }}</span>
+              <span class="mr-hotel-sep">•</span>
               <span>{{ hotel?.city }}</span>
             </p>
           </div>
         </div>
 
         <!-- Add Room Section -->
-        <div class="mb-10 animate-fade-in">
-          <div class="flex justify-between items-center mb-6">
-             <h2 class="text-xl font-bold tracking-tight">Room Inventory</h2>
+        <div class="mr-add-section">
+          <div class="mr-add-header">
+             <h2 class="mr-inventory-title">Room Inventory</h2>
              <button (click)="toggleAddForm()" 
-                     [class]="showAddForm ? 'btn-secondary text-error-text' : 'btn-primary px-8'"
-                     class="text-sm font-bold flex items-center gap-2">
-               <svg class="w-5 h-5" [class.rotate-45]="showAddForm" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="transition-transform duration-300">
+                     [class]="showAddForm ? 'mr-toggle-btn-secondary' : 'mr-toggle-btn-primary'">
+               <svg class="mr-toggle-icon" [class.mr-toggle-icon-rotated]="showAddForm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                </svg>
                {{ showAddForm ? 'Cancel' : 'Add New Room Category' }}
@@ -38,105 +36,104 @@
           </div>
 
           <!-- Add Room Form -->
-          <div *ngIf="showAddForm" class="card-premium p-8 border-2 border-primary/20 bg-primary/[0.02] shadow-2xl shadow-primary/5 animate-slide-up mb-10">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div *ngIf="showAddForm" class="mr-add-form">
+            <div class="mr-form-grid">
               <div>
-                <label class="block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest">Category</label>
+                <label class="mr-label">Category</label>
                 <select [(ngModel)]="newRoom.type" name="roomType" class="input-premium py-3">
                   <option value="">Select Category</option>
                   <option *ngFor="let t of roomTypes" [value]="t">{{ t }}</option>
                 </select>
               </div>
               <div>
-                <label class="block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest">Rate (₹ / Night)</label>
-                <div class="relative">
-                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-secondary font-bold">₹</span>
+                <label class="mr-label">Rate (₹ / Night)</label>
+                <div class="mr-price-wrap">
+                  <span class="mr-price-prefix">₹</span>
                   <input type="number" [(ngModel)]="newRoom.price" name="price" class="input-premium py-3 pl-8" placeholder="0.00">
                 </div>
               </div>
               <div>
-                <label class="block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest">Available Count</label>
+                <label class="mr-label">Available Count</label>
                 <input type="number" [(ngModel)]="newRoom.totalCount" name="totalCount" class="input-premium py-3" placeholder="0">
               </div>
             </div>
 
-            <div class="flex items-center justify-between pt-6 border-t border-primary/10">
-               <p *ngIf="addRoomError" class="text-xs font-bold text-rose-600 italic">{{ addRoomError }}</p>
+            <div class="mr-form-footer">
+               <p *ngIf="addRoomError" class="mr-form-error">{{ addRoomError }}</p>
                <div *ngIf="!addRoomError"></div>
-               <button (click)="submitAddRoom()" [disabled]="isAddingRoom" class="btn-primary py-3 px-12 group">
-                 <span *ngIf="isAddingRoom" class="animate-spin mr-2 h-4 w-4 border-2 border-white/30 border-t-white rounded-full"></span>
+               <button (click)="submitAddRoom()" [disabled]="isAddingRoom" class="mr-submit-btn">
+                 <span *ngIf="isAddingRoom" class="mr-submit-spinner"></span>
                  {{ isAddingRoom ? 'Saving...' : 'Confirm Room Entry' }}
-                 <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-width="2"/></svg>
+                 <svg class="mr-submit-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-width="2"/></svg>
                </button>
             </div>
           </div>
         </div>
 
         <!-- Rooms List -->
-        <div class="space-y-6 animate-fade-in">
+        <div class="mr-list">
           
-          <div *ngIf="isLoading" class="space-y-6">
-            <div *ngFor="let i of [1,2]" class="card-premium p-8 animate-pulse flex items-center gap-8">
-               <div class="w-16 h-16 bg-neutral-bg rounded-2xl"></div>
-               <div class="flex-1 space-y-3">
-                 <div class="h-6 bg-neutral-bg rounded w-1/4"></div>
-                 <div class="h-4 bg-neutral-bg rounded w-1/2"></div>
+          <div *ngIf="isLoading" class="mr-skeleton-wrap">
+            <div *ngFor="let i of [1,2]" class="mr-skeleton-card">
+               <div class="mr-skeleton-icon"></div>
+               <div class="mr-skeleton-body">
+                 <div class="mr-skeleton-line-1"></div>
+                 <div class="mr-skeleton-line-2"></div>
                </div>
             </div>
           </div>
 
-          <div *ngFor="let room of rooms" class="card-premium group hover:border-primary/30 transition-all duration-300">
+          <div *ngFor="let room of rooms" class="mr-card">
             
             <!-- View Mode -->
-            <div *ngIf="editingRoomId !== room.roomId" class="p-8 flex items-center gap-8">
-              <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
-                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            <div *ngIf="editingRoomId !== room.roomId" class="mr-view-mode">
+              <div class="mr-icon-wrap">
+                <svg class="mr-room-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
               </div>
-              <div class="flex-1 min-w-0">
-                <h3 class="text-2xl font-black text-neutral-primary tracking-tight mb-2">{{ room.type }} Suite</h3>
-                <div class="flex items-center gap-6">
-                   <div class="flex flex-col">
-                     <span class="text-[9px] font-bold text-neutral-secondary uppercase tracking-[0.2em] mb-1">Rate</span>
-                     <span class="text-lg font-black text-primary">₹{{ room.price | number }}</span>
+              <div class="mr-room-info">
+                <h3 class="mr-room-name">{{ room.type }} Suite</h3>
+                <div class="mr-room-stats">
+                   <div class="mr-stat-col">
+                     <span class="mr-stat-label">Rate</span>
+                     <span class="mr-stat-price">₹{{ room.price | number }}</span>
                    </div>
-                   <div class="h-10 w-px bg-neutral-border"></div>
-                   <div class="flex flex-col">
-                     <span class="text-[9px] font-bold text-neutral-secondary uppercase tracking-[0.2em] mb-1">Inventory</span>
-                     <span class="text-sm font-bold text-neutral-primary">{{ room.totalCount }} total units</span>
+                   <div class="mr-stat-divider"></div>
+                   <div class="mr-stat-col">
+                     <span class="mr-stat-label">Inventory</span>
+                     <span class="mr-stat-count">{{ room.totalCount }} total units</span>
                    </div>
-                   <div class="h-10 w-px bg-neutral-border"></div>
-                   <div class="flex flex-col font-display">
-                     <span class="text-[9px] font-bold text-neutral-secondary uppercase tracking-[0.2em] mb-1">Availability</span>
-                     <span class="text-xs font-black" [class]="room.availableCount > 0 ? 'text-emerald-600' : 'text-rose-600'">{{ room.availableCount }} currently available</span>
+                   <div class="mr-stat-divider"></div>
+                   <div class="mr-stat-col font-display">
+                     <span class="mr-stat-label">Availability</span>
+                     <span [class]="room.availableCount > 0 ? 'mr-stat-avail-ok' : 'mr-stat-avail-none'">{{ room.availableCount }} currently available</span>
                    </div>
                 </div>
               </div>
-              <button (click)="startEdit(room)" 
-                      class="px-6 py-3 rounded-xl border border-neutral-border text-xs font-bold text-neutral-secondary hover:text-primary hover:border-primary transition-all">
+              <button (click)="startEdit(room)" class="mr-edit-btn">
                  Modify Details
               </button>
             </div>
 
             <!-- Edit Mode -->
-            <div *ngIf="editingRoomId === room.roomId" class="p-8 bg-neutral-bg/30">
-               <div class="mb-6 flex items-center justify-between">
-                 <h3 class="text-lg font-bold text-neutral-primary tracking-tight">Editing {{ room.type }} Category</h3>
-                 <span class="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Live update</span>
+            <div *ngIf="editingRoomId === room.roomId" class="mr-edit-mode">
+               <div class="mr-edit-header">
+                 <h3 class="mr-edit-title">Editing {{ room.type }} Category</h3>
+                 <span class="mr-edit-live">Live update</span>
                </div>
-               <div class="grid grid-cols-2 gap-8 mb-8">
+               <div class="mr-edit-grid">
                  <div>
-                   <label class="block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest">Modified Rate (₹)</label>
+                   <label class="mr-label">Modified Rate (₹)</label>
                    <input type="number" [(ngModel)]="editRoom.price" class="input-premium">
                  </div>
                  <div>
-                   <label class="block text-[10px] font-bold text-neutral-secondary mb-3 uppercase tracking-widest">Total Unit Count</label>
+                   <label class="mr-label">Total Unit Count</label>
                    <input type="number" [(ngModel)]="editRoom.totalCount" class="input-premium">
                  </div>
                </div>
-               <div class="flex justify-end gap-3 pt-6 border-t border-neutral-border">
-                 <button (click)="cancelEdit()" class="px-6 py-3 rounded-xl text-xs font-bold text-neutral-secondary hover:bg-white transition-all">Cancel</button>
-                 <button (click)="saveEdit(room.roomId)" [disabled]="isUpdatingRoom" class="btn-primary py-3 px-10">
-                   <span *ngIf="isUpdatingRoom" class="animate-spin mr-2 h-3 w-3 border-2 border-white/30 border-t-white rounded-full"></span>
+               <div class="mr-edit-actions">
+                 <button (click)="cancelEdit()" class="mr-cancel-btn">Cancel</button>
+                 <button (click)="saveEdit(room.roomId)" [disabled]="isUpdatingRoom" class="mr-update-btn">
+                   <span *ngIf="isUpdatingRoom" class="mr-update-spinner"></span>
                    Update Inventory
                  </button>
                </div>
@@ -144,13 +141,13 @@
           </div>
 
           <!-- Empty Result -->
-          <div *ngIf="!isLoading && rooms.length === 0" class="card-premium p-24 text-center bg-white/50">
-             <div class="w-20 h-20 bg-neutral-bg rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-inner relative">
-                <div class="absolute inset-0 bg-primary/5 rounded-3xl animate-ping"></div>
-                <svg class="w-10 h-10 text-neutral-secondary relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          <div *ngIf="!isLoading && rooms.length === 0" class="mr-empty">
+             <div class="mr-empty-icon-wrap">
+                <div class="mr-empty-ping"></div>
+                <svg class="mr-empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
              </div>
-             <h3 class="text-3xl font-black text-neutral-primary mb-4 tracking-tighter">No room listings found</h3>
-             <p class="text-neutral-secondary max-w-sm mx-auto leading-relaxed font-medium">To start receiving bookings, define the types of rooms available in this property and their nightly rates.</p>
+             <h3 class="mr-empty-title">No room listings found</h3>
+             <p class="mr-empty-text">To start receiving bookings, define the types of rooms available in this property and their nightly rates.</p>
              <button (click)="toggleAddForm()" class="btn-primary mt-10 py-3 px-12">Submit Initial Room Entry</button>
           </div>
 

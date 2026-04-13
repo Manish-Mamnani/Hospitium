@@ -1,110 +1,110 @@
-<div class="flex min-h-screen bg-neutral-bg font-sans text-neutral-primary">
+<div class="mdash-page">
   <!-- Sidebar -->
   <app-sidebar role="HotelManager"></app-sidebar>
 
   <!-- Main Content -->
-  <div class="flex-1 flex flex-col min-w-0">
-    <main class="p-8 lg:p-12">
-      <div class="max-w-7xl mx-auto">
+  <div class="mdash-content">
+    <main class="mdash-main">
+      <div class="mdash-inner">
         
         <!-- Header -->
-        <div class="mb-10 animate-fade-in font-display">
-          <h1 class="text-4xl font-black tracking-tight text-neutral-primary mb-3">Manager Dashboard</h1>
-          <p class="text-neutral-secondary font-medium max-w-2xl leading-relaxed">Overview of your properties, performance, and recent activity.</p>
+        <div class="mdash-header">
+          <h1 class="mdash-title">Manager Dashboard</h1>
+          <p class="mdash-subtitle">Overview of your properties, performance, and recent activity.</p>
         </div>
 
         <!-- Loading State -->
-        <div *ngIf="isLoading()" class="flex flex-col justify-center items-center py-24 space-y-4 animate-fade-in">
-          <div class="relative w-12 h-12">
-            <div class="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
-            <div class="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <div *ngIf="isLoading()" class="mdash-loading">
+          <div class="mdash-spinner-ring">
+            <div class="mdash-spinner-track"></div>
+            <div class="mdash-spinner"></div>
           </div>
-          <span class="text-xs font-bold text-primary uppercase tracking-[0.2em]">Gathering analytics...</span>
+          <span class="mdash-loading-label">Gathering analytics...</span>
         </div>
 
         <div *ngIf="!isLoading()" class="space-y-10 animate-fade-in">
           
           <!-- Stats Grid -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="mdash-stats">
             <!-- Properties -->
-            <div class="card-premium p-6 border-l-4 border-primary">
-              <div class="flex items-center justify-between mb-4">
-                <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            <div class="mdash-stat-primary">
+              <div class="mdash-stat-row">
+                <div class="mdash-stat-icon-primary">
+                  <svg class="mdash-stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                 </div>
-                <span class="text-[10px] font-bold text-primary bg-primary/5 px-2.5 py-1 rounded-full uppercase tracking-tighter">Live</span>
+                <span class="mdash-stat-live-badge">Live</span>
               </div>
-              <p class="text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em] mb-1">Your Properties</p>
-              <h3 class="text-3xl font-black text-neutral-primary tracking-tight">{{ stats().totalHotels }}</h3>
+              <p class="mdash-stat-label">Your Properties</p>
+              <h3 class="mdash-stat-value">{{ stats().totalHotels }}</h3>
             </div>
 
             <!-- Total Bookings -->
-            <div class="card-premium p-6 border-l-4 border-accent">
-              <div class="flex items-center justify-between mb-4">
-                <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent">
-                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <div class="mdash-stat-accent">
+              <div class="mdash-stat-row">
+                <div class="mdash-stat-icon-accent">
+                  <svg class="mdash-stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
               </div>
-              <p class="text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em] mb-1">Total Bookings</p>
-              <h3 class="text-3xl font-black text-neutral-primary tracking-tight">{{ stats().totalBookings }}</h3>
+              <p class="mdash-stat-label">Total Bookings</p>
+              <h3 class="mdash-stat-value">{{ stats().totalBookings }}</h3>
             </div>
 
             <!-- Active Reservations -->
-            <div class="card-premium p-6 border-l-4 border-primary/40">
-              <div class="flex items-center justify-between mb-4">
-                <div class="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary/80">
-                   <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <div class="mdash-stat-muted">
+              <div class="mdash-stat-row">
+                <div class="mdash-stat-icon-muted">
+                   <svg class="mdash-stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
               </div>
-              <p class="text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em] mb-1">Confirmed</p>
-              <h3 class="text-3xl font-black text-neutral-primary tracking-tight">{{ stats().activeReservations }}</h3>
+              <p class="mdash-stat-label">Confirmed</p>
+              <h3 class="mdash-stat-value">{{ stats().activeReservations }}</h3>
             </div>
 
             <!-- Revenue -->
-            <div class="card-premium p-6 bg-primary text-white border-none shadow-xl shadow-primary/30 group">
-              <div class="flex items-center justify-between mb-4">
-                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white">
-                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div class="mdash-stat-revenue">
+              <div class="mdash-stat-row">
+                <div class="mdash-stat-icon-revenue">
+                  <svg class="mdash-stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
-                <div class="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
+                <div class="mdash-stat-pulse"></div>
               </div>
-              <p class="text-[10px] font-bold text-white/70 uppercase tracking-[0.2em] mb-1">Total Revenue</p>
-              <h3 class="text-3xl font-black tracking-tight tracking-tighter">₹{{ stats().totalRevenue | number }}</h3>
+              <p class="mdash-stat-label-white">Total Revenue</p>
+              <h3 class="mdash-stat-value-white">₹{{ stats().totalRevenue | number }}</h3>
             </div>
           </div>
 
           <!-- Recent Bookings Table -->
-          <div class="space-y-6">
-            <div class="flex items-center justify-between">
-              <h2 class="text-2xl font-bold tracking-tight">Recent Reservations</h2>
-              <a routerLink="/manager/bookings" class="text-xs font-bold text-primary hover:underline uppercase tracking-widest">View All</a>
+          <div class="mdash-table-section">
+            <div class="mdash-table-header">
+              <h2 class="mdash-table-title">Recent Reservations</h2>
+              <a routerLink="/manager/bookings" class="mdash-view-all">View All</a>
             </div>
 
-            <div class="card-premium overflow-hidden">
-               <div class="overflow-x-auto">
-                 <table class="w-full text-left">
-                   <thead class="bg-neutral-bg/50 border-b border-neutral-border">
+            <div class="mdash-table-card">
+               <div class="mdash-table-scroll">
+                 <table class="mdash-table">
+                   <thead class="mdash-thead">
                      <tr>
-                       <th class="px-6 py-4 text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em]">Guest</th>
-                       <th class="px-6 py-4 text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em]">Dates</th>
-                       <th class="px-6 py-4 text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em]">Revenue</th>
-                       <th class="px-6 py-4 text-[10px] font-bold text-neutral-secondary uppercase tracking-[0.2em]">Status</th>
+                       <th class="mdash-th">Guest</th>
+                       <th class="mdash-th">Dates</th>
+                       <th class="mdash-th">Revenue</th>
+                       <th class="mdash-th">Status</th>
                      </tr>
                    </thead>
-                   <tbody class="divide-y divide-neutral-border">
-                     <tr *ngFor="let b of recentBookings()" class="hover:bg-neutral-bg/30 transition-all">
-                       <td class="px-6 py-4">
-                         <p class="text-sm font-bold truncate">{{ b.userEmail }}</p>
-                         <p class="text-[9px] text-neutral-secondary uppercase tracking-widest mt-1">#{{ b.bookingId }}</p>
+                   <tbody class="mdash-tbody">
+                     <tr *ngFor="let b of recentBookings()" class="mdash-tr">
+                       <td class="mdash-td">
+                         <p class="mdash-guest-email">{{ b.userEmail }}</p>
+                         <p class="mdash-booking-id">#{{ b.bookingId }}</p>
                        </td>
-                       <td class="px-6 py-4">
-                         <p class="text-xs font-bold">{{ b.fromDate | date:'MMM d' }} – {{ b.toDate | date:'MMM d, y' }}</p>
+                       <td class="mdash-td">
+                         <p class="mdash-dates">{{ b.fromDate | date:'MMM d' }} – {{ b.toDate | date:'MMM d, y' }}</p>
                        </td>
-                       <td class="px-6 py-4">
-                         <p class="text-sm font-black italic tracking-tighter">₹{{ b.totalPrice | number }}</p>
+                       <td class="mdash-td">
+                         <p class="mdash-revenue">₹{{ b.totalPrice | number }}</p>
                        </td>
-                       <td class="px-6 py-4">
-                         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border"
+                       <td class="mdash-td">
+                         <span class="mdash-status-badge"
                                [ngClass]="getStatusClass(b.status)">
                            {{ b.status }}
                          </span>
@@ -113,7 +113,7 @@
                    </tbody>
                  </table>
                </div>
-               <div *ngIf="recentBookings().length === 0" class="p-12 text-center text-neutral-secondary italic text-sm">
+               <div *ngIf="recentBookings().length === 0" class="mdash-empty-row">
                  No recent reservations found.
                </div>
             </div>

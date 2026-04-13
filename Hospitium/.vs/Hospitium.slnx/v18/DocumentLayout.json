@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.authservice\\middleware\\exceptionhandlingmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\middleware\\exceptionhandlingmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.authservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{11DF4E49-C505-3C73-5C33-AD34720807B7}|Hospitium.ReviewService\\Hospitium.ReviewService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.reviewservice\\controllers\\reviewcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{11DF4E49-C505-3C73-5C33-AD34720807B7}|Hospitium.ReviewService\\Hospitium.ReviewService.csproj|solutionrelative:hospitium.reviewservice\\controllers\\reviewcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -29,10 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{18F9CC33-8025-44A6-8971-2B6536D62F4F}|Hospitium.BookingService\\Hospitium.BookingService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.bookingservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{18F9CC33-8025-44A6-8971-2B6536D62F4F}|Hospitium.BookingService\\Hospitium.BookingService.csproj|solutionrelative:hospitium.bookingservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.authservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0770063B-EAA9-BE21-74F9-B3C9E86B45AC}|Hospitium.AuthService\\Hospitium.AuthService.csproj|solutionrelative:hospitium.authservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D62E293E-77A7-4FC7-B177-F0A5DA7960E5}|Hospitium.NotificationService\\Hospitium.NotificationService.csproj|d:\\sprint documentation\\hospitium\\hospitium\\hospitium.notificationservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -71,19 +75,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ExceptionHandlingMiddleware.cs",
+              "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Middleware\\ExceptionHandlingMiddleware.cs",
+              "RelativeDocumentMoniker": "Hospitium.AuthService\\Middleware\\ExceptionHandlingMiddleware.cs",
+              "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Middleware\\ExceptionHandlingMiddleware.cs",
+              "RelativeToolTip": "Hospitium.AuthService\\Middleware\\ExceptionHandlingMiddleware.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-13T05:06:01.941Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "ReviewController.cs",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.ReviewService\\Controllers\\ReviewController.cs",
               "RelativeDocumentMoniker": "Hospitium.ReviewService\\Controllers\\ReviewController.cs",
               "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.ReviewService\\Controllers\\ReviewController.cs",
               "RelativeToolTip": "Hospitium.ReviewService\\Controllers\\ReviewController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAYwBEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-10T06:38:55.998Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "ocelot.json",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.Gateway\\ocelot.json",
               "RelativeDocumentMoniker": "Hospitium.Gateway\\ocelot.json",
@@ -95,7 +112,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "BookingService.cs",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.BookingService\\Services\\BookingService.cs",
               "RelativeDocumentMoniker": "Hospitium.BookingService\\Services\\BookingService.cs",
@@ -107,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "API_ENDPOINTS_QUICK_REFERENCE.md",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\API_ENDPOINTS_QUICK_REFERENCE.md",
               "RelativeDocumentMoniker": "API_ENDPOINTS_QUICK_REFERENCE.md",
@@ -119,7 +136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "REVIEW_SERVICE_SUMMARY.md",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\REVIEW_SERVICE_SUMMARY.md",
               "RelativeDocumentMoniker": "REVIEW_SERVICE_SUMMARY.md",
@@ -131,7 +148,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "API_ENDPOINTS.md",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\API_ENDPOINTS.md",
               "RelativeDocumentMoniker": "API_ENDPOINTS.md",
@@ -143,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Booking.cs",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.BookingService\\Models\\Booking.cs",
               "RelativeDocumentMoniker": "Hospitium.BookingService\\Models\\Booking.cs",
@@ -155,7 +172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.BookingService\\Program.cs",
               "RelativeDocumentMoniker": "Hospitium.BookingService\\Program.cs",
@@ -167,19 +184,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Program.cs",
               "RelativeDocumentMoniker": "Hospitium.AuthService\\Program.cs",
               "ToolTip": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Program.cs",
               "RelativeToolTip": "Hospitium.AuthService\\Program.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-30T06:35:31.786Z"
+              "WhenOpened": "2026-03-30T06:35:31.786Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.HotelService\\Program.cs",
               "RelativeDocumentMoniker": "Hospitium.HotelService\\Program.cs",
@@ -191,7 +209,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.NotificationService\\Program.cs",
               "RelativeDocumentMoniker": "Hospitium.NotificationService\\Program.cs",
@@ -203,7 +221,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "AuthService.cs",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Services\\AuthService.cs",
               "RelativeDocumentMoniker": "Hospitium.AuthService\\Services\\AuthService.cs",
@@ -215,7 +233,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\appsettings.json",
               "RelativeDocumentMoniker": "Hospitium.AuthService\\appsettings.json",
@@ -227,7 +245,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "JwtService.cs",
               "DocumentMoniker": "D:\\Sprint Documentation\\Hospitium\\Hospitium\\Hospitium.AuthService\\Services\\JwtService.cs",
               "RelativeDocumentMoniker": "Hospitium.AuthService\\Services\\JwtService.cs",

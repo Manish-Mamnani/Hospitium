@@ -1,0 +1,111 @@
+.navbar-wrapper {
+  @apply bg-primary/95 backdrop-blur-md border-b border-white/10 relative z-50 shadow-sm;
+}
+
+.navbar-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.navbar-content {
+  @apply flex justify-between h-20;
+}
+
+.navbar-left {
+  @apply flex items-center;
+}
+
+.navbar-logo-link {
+  @apply flex items-center space-x-3;
+}
+
+.navbar-logo-icon-parent {
+  @apply w-10 h-10 bg-white rounded-xl flex items-center justify-center border border-white/20 shadow-sm transition-transform overflow-hidden;
+}
+
+.navbar-logo-link:hover .navbar-logo-icon-parent {
+  transform: scale(1.05);
+}
+
+.navbar-logo-img {
+  @apply w-full h-full object-cover;
+}
+
+.navbar-title {
+  @apply text-2xl font-bold text-white tracking-tight font-display;
+}
+
+.navbar-center {
+  @apply hidden md:flex items-center space-x-8;
+}
+
+.navbar-link {
+  @apply text-white/80 hover:text-white px-1 py-2 text-base font-medium transition-all;
+}
+
+.navbar-right {
+  @apply flex items-center space-x-6;
+}
+
+.navbar-profile-btn {
+  @apply flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white font-medium py-2 px-4 rounded-full transition-all border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30;
+}
+
+.navbar-profile-avatar {
+  @apply w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px] font-bold;
+}
+
+.navbar-profile-name {
+  @apply max-w-[100px] truncate hidden sm:inline;
+}
+
+.navbar-profile-chevron {
+  @apply h-4 w-4 opacity-70;
+}
+
+.navbar-dropdown {
+  @apply absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-xl ring-1 ring-black/5 py-3 transform transition-all border border-neutral-border animate-fade-in;
+}
+
+.navbar-dropdown-header {
+  @apply px-5 py-2 mb-2 border-b border-neutral-border;
+}
+
+.navbar-dropdown-header-label {
+  @apply text-xs font-bold text-neutral-secondary uppercase tracking-widest;
+}
+
+.navbar-dropdown-header-name {
+  @apply text-sm font-bold text-neutral-primary truncate;
+}
+
+.navbar-dropdown-link {
+  @apply flex items-center px-5 py-4 text-sm text-neutral-primary hover:bg-neutral-bg transition-colors;
+}
+
+.navbar-dropdown-icon {
+  @apply mr-3 h-5 w-5 text-neutral-secondary;
+}
+
+.navbar-dropdown-link:hover .navbar-dropdown-icon {
+  @apply text-primary;
+}
+
+.navbar-dropdown-divider {
+  @apply my-2 border-neutral-border mx-4;
+}
+
+.navbar-dropdown-logout-btn {
+  @apply w-full text-left flex items-center px-5 py-4 text-sm text-error-text font-bold hover:bg-error-bg/10 transition-colors;
+}
+
+.navbar-dropdown-logout-icon {
+  @apply mr-3 h-5 w-5 opacity-70;
+}
+
+.navbar-dropdown-logout-btn:hover .navbar-dropdown-logout-icon {
+  @apply opacity-100;
+}
+
+.navbar-signin-btn {
+  @apply bg-white text-primary font-bold px-8 py-3 rounded-2xl text-sm hover:bg-white/90 transition-all shadow-lg shadow-black/5;
+}

@@ -1,0 +1,63 @@
+/* ─── Approval Queue Layout ─────────────────── */
+.aq-page { @apply flex min-h-screen bg-neutral-bg font-sans text-neutral-primary; }
+.aq-content { @apply flex-1 flex flex-col min-w-0; }
+.aq-main { @apply p-8 lg:p-12; }
+.aq-inner { @apply max-w-6xl mx-auto; }
+
+/* ─── Header ─────────────────────────────────── */
+.aq-header { @apply mb-12 animate-fade-in font-display; }
+.aq-title { @apply text-4xl font-black tracking-tight text-neutral-primary mb-3; }
+.aq-subtitle { @apply text-neutral-secondary font-medium max-w-2xl leading-relaxed; }
+
+/* ─── Content Area ───────────────────────────── */
+.aq-area { @apply relative min-h-[400px]; }
+
+/* ─── Loading ────────────────────────────────── */
+.aq-loading { @apply flex flex-col justify-center items-center py-24 space-y-4 animate-fade-in; }
+.aq-spinner-ring { @apply relative w-12 h-12; }
+.aq-spinner-track { @apply absolute inset-0 border-4 border-primary/20 rounded-full; }
+.aq-spinner { @apply absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin; }
+.aq-loading-label { @apply text-xs font-bold text-primary uppercase tracking-[0.2em]; }
+
+/* ─── Hotel List ─────────────────────────────── */
+.aq-list { @apply grid grid-cols-1 gap-6 animate-fade-in; }
+.aq-card { @apply card-premium hover:border-primary/30 transition-all duration-500 overflow-hidden; }
+.aq-card-inner { @apply flex flex-col lg:flex-row; }
+
+/* ─── Icon Section ───────────────────────────── */
+.aq-icon-section { @apply lg:w-24 bg-neutral-bg flex items-center justify-center border-r border-neutral-border transition-colors duration-500; }
+.aq-card:hover .aq-icon-section { @apply bg-primary; }
+.aq-icon-wrap { @apply w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary transition-colors duration-500; }
+.aq-card:hover .aq-icon-wrap { @apply bg-white/20 text-white; }
+.aq-icon { @apply w-7 h-7; }
+
+/* ─── Info Section ───────────────────────────── */
+.aq-info { @apply flex-1 p-8; }
+.aq-info-row { @apply flex flex-col md:flex-row md:items-center justify-between gap-4; }
+.aq-info-left { @apply min-w-0 flex-1; }
+.aq-name-row { @apply flex items-center gap-3 mb-2; }
+.aq-name { @apply text-2xl font-black text-neutral-primary tracking-tight truncate; }
+.aq-pending-badge { @apply px-3 py-1 rounded-full bg-accent/10 text-accent text-[9px] font-black uppercase tracking-widest border border-accent/20; }
+.aq-meta { @apply flex items-center gap-4 text-xs font-bold text-neutral-secondary; }
+.aq-meta-item { @apply flex items-center gap-1.5; }
+.aq-meta-icon { @apply w-4 h-4 opacity-50; }
+.aq-meta-sep { @apply opacity-20; }
+
+/* ─── Actions ────────────────────────────────── */
+.aq-actions { @apply flex items-center gap-3; }
+.aq-btn-approve { @apply btn-primary py-3 px-8 text-xs flex items-center gap-2; }
+.aq-btn-approve-icon { @apply w-4 h-4; }
+.aq-btn-reject { @apply px-6 py-3 rounded-xl border border-rose-100 text-xs font-bold text-rose-600 hover:bg-rose-50 transition-all; }
+
+/* ─── Description ────────────────────────────── */
+.aq-desc-row { @apply mt-6 pt-6 border-t border-neutral-border; }
+.aq-desc-text { @apply text-sm text-neutral-secondary italic leading-relaxed; }
+
+/* ─── Empty State ────────────────────────────── */
+.aq-empty { @apply card-premium p-24 text-center bg-white/50 animate-fade-in flex flex-col items-center; }
+.aq-empty-icon-wrap { @apply w-24 h-24 bg-neutral-bg rounded-full flex items-center justify-center mb-8 relative; }
+.aq-empty-ping { @apply absolute inset-0 bg-primary/5 rounded-full animate-ping; }
+.aq-empty-icon { @apply w-12 h-12 text-primary/40 relative z-10; }
+.aq-empty-title { @apply text-3xl font-black text-neutral-primary mb-4 tracking-tighter; }
+.aq-empty-text { @apply text-neutral-secondary max-w-sm leading-relaxed font-medium; }
+.aq-empty-btn { @apply mt-10 py-3 px-10 text-xs font-bold uppercase tracking-widest text-primary hover:text-primary-hover bg-transparent border border-neutral-border rounded-xl transition-all; }

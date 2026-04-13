@@ -1,91 +1,91 @@
-<div class="flex bg-neutral-bg min-h-screen">
+<div class="gbk-page">
   <app-sidebar role="Admin"></app-sidebar>
 
-  <div class="flex-1 overflow-auto">
-    <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 animate-fade-in">
+  <div class="gbk-content">
+    <div class="gbk-inner">
       
-      <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
+      <div class="gbk-header">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight">Global Bookings</h1>
-          <p class="text-neutral-secondary mt-1">Track and manage all reservations across the platform.</p>
+          <h1 class="gbk-title">Global Bookings</h1>
+          <p class="gbk-subtitle">Track and manage all reservations across the platform.</p>
         </div>
         
-        <div class="flex flex-wrap items-center gap-4">
+        <div class="gbk-filters">
           <!-- Status Filter -->
-          <div class="relative min-w-[160px]">
+          <div class="gbk-select-wrap">
             <select [(ngModel)]="selectedStatus" 
                     (change)="loadBookings()"
-                    class="w-full bg-white border border-neutral-border rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all appearance-none">
+                    class="gbk-select">
               <option value="">All Statuses</option>
               <option value="Confirmed">Confirmed</option>
               <option value="Pending">Pending</option>
               <option value="Cancelled">Cancelled</option>
               <option value="Completed">Completed</option>
             </select>
-            <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+            <div class="gbk-select-chevron">
+              <svg class="gbk-chevron-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
             </div>
           </div>
 
           <!-- Date Filter -->
           <div class="relative">
             <input type="date" [(ngModel)]="filterDate" (change)="loadBookings()" 
-                   class="bg-white border border-neutral-border rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all">
+                   class="gbk-date-input">
           </div>
 
           <button *ngIf="filterDate || selectedStatus" (click)="filterDate=''; selectedStatus=''; loadBookings()"
-                  class="px-4 py-2.5 rounded-xl border border-neutral-border text-neutral-secondary text-sm hover:bg-neutral-bg transition-colors font-bold">
+                  class="gbk-reset-btn">
             Reset
           </button>
         </div>
       </div>
 
-      <div class="card-premium overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse">
+      <div class="gbk-table-card">
+        <div class="gbk-table-scroll">
+          <table class="gbk-table">
             <thead>
-              <tr class="text-xs font-bold text-neutral-secondary uppercase tracking-wider border-b border-neutral-border bg-neutral-bg/30">
-                <th class="px-6 py-4">Booking ID</th>
-                <th class="px-6 py-4">Guest</th>
-                <th class="px-6 py-4">Property</th>
-                <th class="px-6 py-4">Stay Dates</th>
-                <th class="px-6 py-4">Status</th>
-                <th class="px-6 py-4 text-right">Actions</th>
+              <tr class="gbk-thead-row">
+                <th class="gbk-th">Booking ID</th>
+                <th class="gbk-th">Guest</th>
+                <th class="gbk-th">Property</th>
+                <th class="gbk-th">Stay Dates</th>
+                <th class="gbk-th">Status</th>
+                <th class="gbk-th-right">Actions</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-neutral-border">
-              <tr *ngFor="let booking of filteredBookings" class="hover:bg-neutral-bg/20 transition-colors">
-                <td class="px-6 py-4 font-mono text-xs text-neutral-secondary">#{{ booking.bookingId }}</td>
-                <td class="px-6 py-4">
-                  <div class="text-sm font-bold text-neutral-primary">{{ booking.userName }}</div>
-                  <div class="text-xs text-neutral-secondary">{{ booking.userEmail }}</div>
+            <tbody class="gbk-tbody">
+              <tr *ngFor="let booking of filteredBookings" class="gbk-tr">
+                <td class="gbk-td gbk-booking-id">#{{ booking.bookingId }}</td>
+                <td class="gbk-td">
+                  <div class="gbk-guest-name">{{ booking.userName }}</div>
+                  <div class="gbk-guest-email">{{ booking.userEmail }}</div>
                 </td>
-                <td class="px-6 py-4">
-                  <div class="text-sm font-medium text-neutral-primary">{{ booking.hotelName }}</div>
-                  <div class="text-xs text-neutral-secondary">{{ booking.roomType }}</div>
+                <td class="gbk-td">
+                  <div class="gbk-hotel-name">{{ booking.hotelName }}</div>
+                  <div class="gbk-room-type">{{ booking.roomType }}</div>
                 </td>
-                <td class="px-6 py-4">
-                  <div class="text-xs font-medium text-neutral-primary">{{ booking.fromDate | date:'mediumDate' }}</div>
-                  <div class="text-[10px] text-neutral-secondary uppercase tracking-widest">to {{ booking.toDate | date:'mediumDate' }}</div>
+                <td class="gbk-td">
+                  <div class="gbk-date-from">{{ booking.fromDate | date:'mediumDate' }}</div>
+                  <div class="gbk-date-to">to {{ booking.toDate | date:'mediumDate' }}</div>
                 </td>
-                <td class="px-6 py-4">
-                  <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border"
+                <td class="gbk-td">
+                  <span class="gbk-status-badge"
                         [ngClass]="getStatusClass(booking.status)">
                     {{ booking.status }}
                   </span>
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="gbk-td-right">
                   <button *ngIf="booking.status?.toLowerCase() === 'confirmed' || booking.status?.toLowerCase() === 'pending'" 
                           (click)="cancelBooking(booking.bookingId)"
                           [disabled]="cancellingId === booking.bookingId"
-                          class="text-error-text font-bold text-xs hover:underline uppercase tracking-widest disabled:opacity-50">
+                          class="gbk-cancel-btn">
                     {{ cancellingId === booking.bookingId ? 'Wait...' : 'Cancel' }}
                   </button>
                 </td>
               </tr>
               
-              <tr *ngIf="filteredBookings.length === 0 && !isLoading">
-                <td colspan="6" class="px-6 py-20 text-center text-neutral-secondary italic">
+              <tr *ngIf="filteredBookings.length === 0 && !isLoading" class="gbk-empty-row">
+                <td colspan="6">
                   No bookings matching your filters.
                 </td>
               </tr>
@@ -94,14 +94,14 @@
         </div>
 
         <!-- Loading -->
-        <div *ngIf="isLoading" class="p-20 flex justify-center bg-white/50 backdrop-blur-sm">
-          <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+        <div *ngIf="isLoading" class="gbk-loading">
+          <div class="gbk-spinner"></div>
         </div>
       </div>
 
       <!-- Summary -->
-      <div class="mt-6 flex justify-between items-center px-4">
-        <p class="text-sm text-neutral-secondary uppercase tracking-widest font-bold">
+      <div class="gbk-summary">
+        <p class="gbk-summary-text">
           Total: {{ filteredBookings.length }} bookings
         </p>
       </div>

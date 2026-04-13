@@ -1,0 +1,34 @@
+/* ─── Admin Dashboard Layout ─────────────────── */
+.adash-page { @apply flex bg-neutral-bg min-h-screen; }
+.adash-content { @apply flex-1 overflow-auto; }
+.adash-inner { @apply max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 animate-fade-in; }
+
+/* ─── Header ─────────────────────────────────── */
+.adash-header { @apply mb-10; }
+.adash-title { @apply text-3xl font-bold tracking-tight; }
+.adash-subtitle { @apply text-neutral-secondary mt-1; }
+
+/* ─── Loading ────────────────────────────────── */
+.adash-loading { @apply flex items-center justify-center py-20; }
+.adash-spinner { @apply animate-spin rounded-full h-12 w-12 border-b-2 border-primary; }
+
+/* ─── Stats Grid ─────────────────────────────── */
+.adash-stats { @apply grid grid-cols-1 md:grid-cols-3 gap-6 mb-10; }
+.adash-stat-card { @apply card-premium p-6; }
+.adash-stat-row { @apply flex items-center justify-between mb-4; }
+.adash-stat-label { @apply text-sm font-semibold text-neutral-secondary uppercase tracking-wider; }
+.adash-stat-icon-primary { @apply w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary; }
+.adash-stat-icon-accent { @apply w-10 h-10 bg-accent/10 rounded-xl flex items-center justify-center text-accent; }
+.adash-stat-icon-success { @apply w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600; }
+.adash-stat-icon { @apply w-5 h-5; }
+.adash-stat-value { @apply text-4xl font-bold text-neutral-primary; }
+.adash-stat-meta { @apply text-xs text-neutral-secondary mt-2 flex items-center; }
+.adash-stat-growth { @apply text-emerald-600 font-bold mr-1; }
+
+/* ─── Quick Actions ──────────────────────────── */
+.adash-actions-card { @apply card-premium p-8 bg-neutral-bg/30; }
+.adash-actions-title { @apply text-xl font-bold mb-6 flex items-center; }
+.adash-actions-icon { @apply w-6 h-6 mr-3 text-primary; }
+.adash-actions-row { @apply flex flex-wrap gap-4; }
+.adash-btn-secondary-outline { @apply inline-flex items-center px-6 py-2.5 bg-white border border-neutral-border text-neutral-primary font-semibold rounded-xl hover:bg-neutral-bg transition-all shadow-sm; }
+.adash-btn-secondary-icon { @apply w-5 h-5 mr-2 text-neutral-secondary; }
