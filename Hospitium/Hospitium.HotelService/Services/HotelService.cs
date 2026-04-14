@@ -9,6 +9,9 @@ using Hospitium.HotelService.Models;
 using Hospitium.HotelService.Services.Interfaces;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace Hospitium.HotelService.Services
 {
@@ -20,16 +23,19 @@ namespace Hospitium.HotelService.Services
     {
         private readonly HotelDbContext _context;
         private readonly IPublishEndpoint _publish;
+        private readonly IWebHostEnvironment _environment;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HotelService"/> class.
         /// </summary>
         /// <param name="context">The hotel database context.</param>
         /// <param name="publish">The MassTransit publish endpoint for event publishing.</param>
-        public HotelService(HotelDbContext context, IPublishEndpoint publish)
+        /// <param name="environment">The web host environment for file storage operations.</param>
+        public HotelService(HotelDbContext context, IPublishEndpoint publish, IWebHostEnvironment environment)
         {
             _context = context;
             _publish = publish;
+            _environment = environment;
         }
 
         public async Task<HotelResponseDto> CreateHotelAsync(int userId, string email, CreateHotelDto dto)
@@ -324,6 +330,53 @@ namespace Hospitium.HotelService.Services
                 .ToListAsync();
 
             return hotels.Select(MapToHotelResponse).ToList();
+        }
+
+        public async Task<List<HotelImageResponseDto>> UploadHotelImagesAsync(int hotelId, int userId, string role, List<IFormFile> images)
+        {
+            if (images == null || images.Count == 0)
+                throw new InvalidHotelOperationException("No images uploaded.");
+
+            if (images.Count > 10)
+                throw new InvalidHotelOperationException("Maximum limit of 10 images per request.");
+
+            var uploadedImages = new List<HotelImageResponseDto>();
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            long maxFileSize = 5 * 1024 * 1024; // 5 MB
+
+            var uploadsFolder = Path.Combine(_environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"), "images", "hotels");
+            if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+
+            // Check if any images already exist to determine if the first one should be primary
+            var existingImagesCount = await _context.HotelImages.CountAsync(i => i.HotelId == hotelId);
+            bool isFirstUpload = existingImagesCount == 0;
+
+            foreach (var file in images)
+            {
+                if (file.Length == 0) continue;
+
+                if (file.Length > maxFileSize)
+                    throw new InvalidHotelOperationException($"File {file.FileName} exceeds the 5MB limit.");
+
+                var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+                if (!allowedExtensions.Contains(ext))
+                    throw new InvalidHotelOperationException($"File {file.FileName} has an invalid extension.");
+
+                var uniqueFileName = $"{hotelId}_{Guid.NewGuid()}{ext}";
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var imageUrl = $"/images/hotels/{uniqueFileName}";
+                var result = await AddHotelImageAsync(hotelId, userId, role, imageUrl, isFirstUpload);
+                uploadedImages.Add(result);
+                isFirstUpload = false;
+            }
+
+            return uploadedImages;
         }
 
         public async Task<HotelImageResponseDto> AddHotelImageAsync(int hotelId, int userId, string role, string imageUrl, bool isPrimary)

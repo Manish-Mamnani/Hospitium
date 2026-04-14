@@ -5,6 +5,7 @@ using Hospitium.HotelService.Exceptions;
 using Hospitium.HotelService.Models;
 using Hospitium.HotelService.Services;
 using MassTransit;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
@@ -19,6 +20,7 @@ namespace Hospitium.Testing.HotelService
     {
         private HotelDbContext _context = null!;
         private Mock<IPublishEndpoint> _publishMock = null!;
+        private Mock<IWebHostEnvironment> _environmentMock = null!;
         private Hospitium.HotelService.Services.HotelService _hotelService = null!;
 
         private const int ManagerId = 10;
@@ -37,7 +39,9 @@ namespace Hospitium.Testing.HotelService
                 .Setup(p => p.Publish(It.IsAny<object>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            _hotelService = new Hospitium.HotelService.Services.HotelService(_context, _publishMock.Object);
+            _environmentMock = new Mock<IWebHostEnvironment>();
+
+            _hotelService = new Hospitium.HotelService.Services.HotelService(_context, _publishMock.Object, _environmentMock.Object);
         }
 
         [TearDown]

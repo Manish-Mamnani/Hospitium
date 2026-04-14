@@ -1,4 +1,5 @@
 using Hospitium.HotelService.DTOs;
+using Microsoft.AspNetCore.Http;
 
 namespace Hospitium.HotelService.Services.Interfaces
 {
@@ -20,6 +21,7 @@ namespace Hospitium.HotelService.Services.Interfaces
         Task<List<RoomResponseDto>> GetRoomsByHotelIdAsync(int hotelId);
         Task<List<int>> GetMyRoomIdsAsync(int userId);
         Task<HotelImageResponseDto> AddHotelImageAsync(int hotelId, int userId, string role, string imageUrl, bool isPrimary);
+        Task<List<HotelImageResponseDto>> UploadHotelImagesAsync(int hotelId, int userId, string role, List<IFormFile> images);
         Task DeleteHotelImageAsync(int hotelId, int imageId, int userId, string role);
     }
 }
