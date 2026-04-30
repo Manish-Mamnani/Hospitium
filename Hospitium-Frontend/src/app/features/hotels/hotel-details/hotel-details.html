@@ -90,8 +90,12 @@
 
           <div>
             <label class="hd-booking-label">Rooms</label>
-            <input type="number" [(ngModel)]="bookingForm.rooms" name="rooms" min="1" max="100" required 
-                   class="hd-booking-input">
+            <input type="number" [(ngModel)]="bookingForm.rooms" name="rooms" min="1" 
+                   [max]="getSelectedRoomAvailability()" 
+                   required class="hd-booking-input">
+            <p *ngIf="bookingForm.roomId" class="hd-availability-hint">
+              Max available: {{ getSelectedRoomAvailability() }}
+            </p>
           </div>
 
           <!-- Total Price Display -->

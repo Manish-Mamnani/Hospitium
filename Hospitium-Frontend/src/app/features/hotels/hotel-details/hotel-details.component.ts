@@ -111,6 +111,12 @@ export class HotelDetailsComponent implements OnInit {
     return this.bookingForm.rooms * days * room.price;
   }
 
+  getSelectedRoomAvailability(): number {
+    if (!this.bookingForm.roomId) return 100;
+    const room = this.rooms.find(r => r.roomId == this.bookingForm.roomId);
+    return room?.availableCount ?? 100;
+  }
+
   bookRoom() {
     this.errorMessage = '';
 
@@ -137,6 +143,16 @@ export class HotelDetailsComponent implements OnInit {
       return;
     }
 
+    // Client-side availability check — prevent overbooking before hitting the API
+    const selectedRoom = this.rooms.find(r => r.roomId == this.bookingForm.roomId);
+    if (selectedRoom && this.bookingForm.rooms > selectedRoom.availableCount) {
+      this.errorMessage = selectedRoom.availableCount === 0
+        ? `No rooms of type '${selectedRoom.type}' are available for the selected dates.`
+        : `Not enough rooms available. Only ${selectedRoom.availableCount} '${selectedRoom.type}' room(s) left for the selected dates.`;
+      this.toastService.error(this.errorMessage);
+      return;
+    }
+
     const booking = {
       roomId: this.bookingForm.roomId,
       fromDate: this.bookingForm.checkIn,
@@ -150,7 +166,20 @@ export class HotelDetailsComponent implements OnInit {
         this.router.navigate(['/bookings']);
       },
       error: (err) => {
-        const errorMsg = err.error?.message || 'Booking failed';
+        // Handle both JSON and string error response bodies (Ocelot may forward as either)
+        let errorMsg = 'Booking failed. Please try again.';
+        if (err.error) {
+          if (typeof err.error === 'string') {
+            try {
+              const parsed = JSON.parse(err.error);
+              errorMsg = parsed.message || errorMsg;
+            } catch {
+              errorMsg = err.error;
+            }
+          } else if (err.error.message) {
+            errorMsg = err.error.message;
+          }
+        }
         this.errorMessage = errorMsg;
         this.toastService.error(errorMsg);
       }

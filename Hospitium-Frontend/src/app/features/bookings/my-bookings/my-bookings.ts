@@ -3,6 +3,7 @@ import { ApiService } from '../../../core/api.service';
 import { ToastService } from '../../../core/toast.service';
 import { CommonModule } from '@angular/common';
 import { CancellationService } from '../../../core/cancellation.service';
+import { Console } from 'node:console';
 
 @Component({
   selector: 'app-my-bookings',
@@ -16,6 +17,7 @@ export class MyBookingsComponent implements OnInit {
   isLoading = false;
   activeTab = 'active';
   cancellingId: number | null = null;
+  
 
   constructor(
     private apiService: ApiService,
@@ -44,7 +46,7 @@ export class MyBookingsComponent implements OnInit {
       }
     });
   }
-
+  
   async cancelBooking(booking: any) {
     if (this.cancellingId) return;
     

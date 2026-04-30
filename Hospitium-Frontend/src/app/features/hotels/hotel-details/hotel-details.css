@@ -54,6 +54,7 @@
 .hd-booking-error { @apply p-4 bg-error-bg text-error-text rounded-2xl text-xs font-bold border border-error-text/10 flex items-center; }
 .hd-booking-error-icon { @apply w-4 h-4 mr-2; }
 .hd-book-note { @apply text-xs text-neutral-secondary text-center; }
+.hd-availability-hint { @apply text-xs text-primary font-semibold mt-1.5 tracking-wide; }
 
 /* ─── Reviews ────────────────────────────────── */
 .hd-reviews { @apply lg:col-span-2 mt-12 pt-12 border-t border-neutral-border; }
