@@ -39,7 +39,7 @@ namespace Hospitium.BookingService.Services
 
         public async Task<BookingResponseDto> CreateBookingAsync(int userId, string email, CreateBookingDto dto)
         {
-            // 🟡 Check availability and get room details via Hotel Service
+            //  Check availability and get room details via Hotel Service
             var room = await _hotelClient.GetRoomDetailsAsync(dto.RoomId);
             
             if (room == null || room.AvailableCount < dto.NumberOfRooms)

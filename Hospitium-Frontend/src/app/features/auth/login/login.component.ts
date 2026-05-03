@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   isLoading = false;
   showPassword = false;
 
+
   // Touched state — errors only appear after user has interacted with a field
   touched = { email: false, password: false };
 

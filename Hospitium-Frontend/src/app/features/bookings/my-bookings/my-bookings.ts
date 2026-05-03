@@ -29,7 +29,7 @@ export class MyBookingsComponent implements OnInit {
   ngOnInit() {
     this.loadBookings();
   }
-
+  
   loadBookings() {
     this.isLoading = true;
     // GET /bookings/my returns BookingResponseDto which already has hotelName and roomType

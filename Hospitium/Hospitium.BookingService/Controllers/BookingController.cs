@@ -23,7 +23,7 @@ namespace Hospitium.BookingService.Controllers
             _service = service;
         }
 
-        // 🔐 Only authenticated users can book
+        // Only authenticated users can book
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateBooking(CreateBookingDto dto)
