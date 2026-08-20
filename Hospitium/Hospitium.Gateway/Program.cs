@@ -111,7 +111,7 @@ namespace Hospitium.Gateway
             builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
 
             // Add Ocelot
-            builder.Services.AddOcelot();
+            builder.Services.AddOcelot(); 
 
 
             var app = builder.Build();

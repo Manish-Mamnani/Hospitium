@@ -1,6 +1,8 @@
 using System.Text;
 using Hospitium.AuthService.Data;
 using Hospitium.AuthService.Middleware;
+using Hospitium.AuthService.Repositories;
+using Hospitium.AuthService.Repositories.Interfaces;
 using Hospitium.AuthService.Services;
 using Hospitium.AuthService.Services.Interfaces;
 using MassTransit;
@@ -81,6 +83,7 @@ builder.Services.AddMassTransit(x =>
 });
 
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAuthentication(options =>

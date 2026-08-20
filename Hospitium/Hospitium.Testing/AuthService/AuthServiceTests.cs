@@ -48,7 +48,8 @@ namespace Hospitium.Testing.AuthService
                 .Setup(p => p.Publish(It.IsAny<object>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            _authService = new Hospitium.AuthService.Services.AuthService(_context, _jwtService, _publishMock.Object);
+            var userRepository = new Hospitium.AuthService.Repositories.UserRepository(_context);
+            _authService = new Hospitium.AuthService.Services.AuthService(userRepository, _jwtService, _publishMock.Object);
         }
 
         [TearDown]

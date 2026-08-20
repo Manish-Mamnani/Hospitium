@@ -1,11 +1,10 @@
-using Hospitium.AuthService.Data;
 using Hospitium.AuthService.DTOs;
 using Hospitium.AuthService.Exceptions;
 using Hospitium.AuthService.Models;
+using Hospitium.AuthService.Repositories.Interfaces;
 using Hospitium.AuthService.Services.Interfaces;
 using Hospitium.Contracts.Events;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 
 namespace Hospitium.AuthService.Services
 {
@@ -14,19 +13,19 @@ namespace Hospitium.AuthService.Services
     /// </summary>
     public class AuthService : IAuthService
     {
-        private readonly AuthDbContext _context;
+        private readonly IUserRepository _userRepository;
         private readonly JwtService _jwtService;
         private readonly IPublishEndpoint _publish;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthService"/> class.
         /// </summary>
-        /// <param name="context">The database context.</param>
+        /// <param name="userRepository">The user repository for data access.</param>
         /// <param name="jwtService">The JWT service for token generation.</param>
         /// <param name="publish">The MassTransit publish endpoint for event-driven communication.</param>
-        public AuthService(AuthDbContext context, JwtService jwtService, IPublishEndpoint publish)
+        public AuthService(IUserRepository userRepository, JwtService jwtService, IPublishEndpoint publish)
         {
-            _context = context;
+            _userRepository = userRepository;
             _jwtService = jwtService;
             _publish = publish;
         }
@@ -34,7 +33,7 @@ namespace Hospitium.AuthService.Services
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
         {
             var normalizedEmail = dto.Email.Trim().ToLowerInvariant();
-            var existingUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == normalizedEmail);
+            var existingUser = await _userRepository.GetByEmailAsync(normalizedEmail);
 
             if (existingUser != null)
             {
@@ -52,8 +51,8 @@ namespace Hospitium.AuthService.Services
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
             };
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            await _userRepository.AddAsync(user);
+            await _userRepository.SaveChangesAsync();
 
             await _publish.Publish(new UserRegisteredEvent
             {
@@ -68,7 +67,7 @@ namespace Hospitium.AuthService.Services
         public async Task<AuthResponseDto> LoginAsync(LoginDto dto)
         {
             var normalizedEmail = dto.Email.Trim().ToLowerInvariant();
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == normalizedEmail);
+            var user = await _userRepository.GetByEmailAsync(normalizedEmail);
 
             if (user == null)
             {
@@ -109,7 +108,7 @@ namespace Hospitium.AuthService.Services
         public async Task RequestPasswordResetAsync(ForgotPasswordDto dto)
         {
             var normalizedEmail = dto.Email.Trim().ToLowerInvariant();
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == normalizedEmail);
+            var user = await _userRepository.GetByEmailAsync(normalizedEmail);
 
             // Always return success to prevent email enumeration attacks
             if (user == null) return;
@@ -119,7 +118,7 @@ namespace Hospitium.AuthService.Services
 
             user.ResetOtp = otp;
             user.ResetOtpExpiry = DateTime.UtcNow.AddMinutes(10);
-            await _context.SaveChangesAsync();
+            await _userRepository.SaveChangesAsync();
 
             // Publish event so Notification Service sends the OTP email
             await _publish.Publish(new PasswordResetRequestedEvent
@@ -133,7 +132,7 @@ namespace Hospitium.AuthService.Services
         public async Task<bool> VerifyOtpAsync(VerifyOtpDto dto)
         {
             var normalizedEmail = dto.Email.Trim().ToLowerInvariant();
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == normalizedEmail);
+            var user = await _userRepository.GetByEmailAsync(normalizedEmail);
 
             if (user == null || user.ResetOtp == null || user.ResetOtpExpiry == null)
                 return false;
@@ -150,7 +149,7 @@ namespace Hospitium.AuthService.Services
         public async Task ResetPasswordAsync(ResetPasswordDto dto)
         {
             var normalizedEmail = dto.Email.Trim().ToLowerInvariant();
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == normalizedEmail);
+            var user = await _userRepository.GetByEmailAsync(normalizedEmail);
 
             if (user == null)
                 throw new Exception("User not found.");
@@ -163,22 +162,21 @@ namespace Hospitium.AuthService.Services
             user.ResetOtp = null;
             user.ResetOtpExpiry = null;
 
-            await _context.SaveChangesAsync();
+            await _userRepository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<UserDto>> GetAllManagersAsync()
         {
-            return await _context.Users
-                .Where(u => u.Role == "HotelManager")
-                .Select(u => new UserDto
-                {
-                    UserId = u.UserId,
-                    FullName = u.FullName,
-                    Email = u.Email,
-                    Role = u.Role,
-                    CreatedAt = u.CreatedAt
-                })
-                .ToListAsync();
+            var managers = await _userRepository.GetAllByRoleAsync("HotelManager");
+
+            return managers.Select(u => new UserDto
+            {
+                UserId = u.UserId,
+                FullName = u.FullName,
+                Email = u.Email,
+                Role = u.Role,
+                CreatedAt = u.CreatedAt
+            });
         }
     }
 }
